@@ -37,7 +37,7 @@ struct PersistanceController{
         item.type = 0
         item.rarity = 0
         item.previewImage = UIImage(named: "colosseo.png")!.pngData()
-        item.p3Ddata = URL(fileURLWithPath: "smartTrip/assets/3Dmodels/colosseo/colosseo.scn")
+        item.p3Ddata = Bundle.main.url(forResource: "colosseo", withExtension: "usdz")
         
         let item2 = CollectableItem(context: viewContext)
         item2.id = UUID()
