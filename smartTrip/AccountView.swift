@@ -19,11 +19,16 @@ struct AccountView: View {
     
             ZStack{
                 VStack(alignment: .center){
+                    
+//                  PARTE 1
+//                  IMMAGINE
                     Image("PicProva")
                         .resizable()
                         .frame(width: 200, height: 200)
                         .clipShape(Circle())
                     
+                    
+//                  PARTE 2
                     Form{
                         Section{
                             VStack{
@@ -34,6 +39,7 @@ struct AccountView: View {
                                 if toogle1 {
                                     
                                 }
+                                
 //                              IMPOSTAZIONE 2 DA DEFINIRE
                                 Toggle("Do something2", isOn: $toogle2)
                                 
