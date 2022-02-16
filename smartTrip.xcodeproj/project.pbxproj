@@ -18,6 +18,14 @@
 		174E600727B7ABA400846E78 /* smartTripTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174E600627B7ABA400846E78 /* smartTripTests.swift */; };
 		174E601127B7ABA400846E78 /* smartTripUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174E601027B7ABA400846E78 /* smartTripUITests.swift */; };
 		174E601327B7ABA400846E78 /* smartTripUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174E601227B7ABA400846E78 /* smartTripUITestsLaunchTests.swift */; };
+		A9C21B2327BCEA5E00C8EA48 /* 10064_colosseum_diffuse.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A9C21B2027BCEA5E00C8EA48 /* 10064_colosseum_diffuse.jpg */; };
+		A9C21B2427BCEA5E00C8EA48 /* 10064_colosseum_v1_Iteration0.obj in Resources */ = {isa = PBXBuildFile; fileRef = A9C21B2127BCEA5E00C8EA48 /* 10064_colosseum_v1_Iteration0.obj */; };
+		A9C21B2727BCEBA100C8EA48 /* colosseo.scn in Resources */ = {isa = PBXBuildFile; fileRef = A9C21B2627BCEBA100C8EA48 /* colosseo.scn */; };
+		A9C21B2927BCF5A500C8EA48 /* colosseo.usdz in Resources */ = {isa = PBXBuildFile; fileRef = A9C21B2827BCF5A500C8EA48 /* colosseo.usdz */; };
+		A9D4D90327BBBC2D0055AFBC /* SmartTripModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A9D4D90127BBBC2D0055AFBC /* SmartTripModel.xcdatamodeld */; };
+		A9D4D90527BBF3930055AFBC /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D4D90427BBF3930055AFBC /* TestView.swift */; };
+		A9D4D90727BBF9DE0055AFBC /* PersistanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D4D90627BBF9DE0055AFBC /* PersistanceController.swift */; };
+		A9D4D90B27BC08180055AFBC /* colosseo.png in Resources */ = {isa = PBXBuildFile; fileRef = A9D4D90A27BC08180055AFBC /* colosseo.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +60,14 @@
 		174E600C27B7ABA400846E78 /* smartTripUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = smartTripUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		174E601027B7ABA400846E78 /* smartTripUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = smartTripUITests.swift; sourceTree = "<group>"; };
 		174E601227B7ABA400846E78 /* smartTripUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = smartTripUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		A9C21B2027BCEA5E00C8EA48 /* 10064_colosseum_diffuse.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 10064_colosseum_diffuse.jpg; sourceTree = "<group>"; };
+		A9C21B2127BCEA5E00C8EA48 /* 10064_colosseum_v1_Iteration0.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 10064_colosseum_v1_Iteration0.obj; sourceTree = "<group>"; };
+		A9C21B2627BCEBA100C8EA48 /* colosseo.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; name = colosseo.scn; path = smartTrip/assets/3Dmodels/colosseo/colosseo.scn; sourceTree = SOURCE_ROOT; };
+		A9C21B2827BCF5A500C8EA48 /* colosseo.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = colosseo.usdz; sourceTree = "<group>"; };
+		A9D4D90227BBBC2D0055AFBC /* SmartTripModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SmartTripModel.xcdatamodel; sourceTree = "<group>"; };
+		A9D4D90427BBF3930055AFBC /* TestView.swift */ = {isa = PBXFileReference; indentWidth = 1; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; tabWidth = 1; };
+		A9D4D90627BBF9DE0055AFBC /* PersistanceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistanceController.swift; sourceTree = "<group>"; };
+		A9D4D90A27BC08180055AFBC /* colosseo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = colosseo.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +118,8 @@
 		174E5FF427B7ABA300846E78 /* smartTrip */ = {
 			isa = PBXGroup;
 			children = (
+				A9D4D90827BC07F60055AFBC /* assets */,
+				A9D4D90427BBF3930055AFBC /* TestView.swift */,
 				174E5FF527B7ABA300846E78 /* smartTripApp.swift */,
 				174E5FF727B7ABA300846E78 /* ContentView.swift */,
 				174BAF8027B7AC6F00E34E55 /* DiscoverView.swift */,
@@ -110,6 +128,8 @@
 				174BAF8627B7AC9D00E34E55 /* DetailsView.swift */,
 				174E5FF927B7ABA400846E78 /* Assets.xcassets */,
 				174E5FFB27B7ABA400846E78 /* Preview Content */,
+				A9D4D90127BBBC2D0055AFBC /* SmartTripModel.xcdatamodeld */,
+				A9D4D90627BBF9DE0055AFBC /* PersistanceController.swift */,
 			);
 			path = smartTrip;
 			sourceTree = "<group>";
@@ -137,6 +157,42 @@
 				174E601227B7ABA400846E78 /* smartTripUITestsLaunchTests.swift */,
 			);
 			path = smartTripUITests;
+			sourceTree = "<group>";
+		};
+		A9C21B1E27BCEA0600C8EA48 /* 3Dmodels */ = {
+			isa = PBXGroup;
+			children = (
+				A9C21B1F27BCEA1300C8EA48 /* colosseo */,
+			);
+			path = 3Dmodels;
+			sourceTree = "<group>";
+		};
+		A9C21B1F27BCEA1300C8EA48 /* colosseo */ = {
+			isa = PBXGroup;
+			children = (
+				A9C21B2827BCF5A500C8EA48 /* colosseo.usdz */,
+				A9C21B2027BCEA5E00C8EA48 /* 10064_colosseum_diffuse.jpg */,
+				A9C21B2127BCEA5E00C8EA48 /* 10064_colosseum_v1_Iteration0.obj */,
+				A9C21B2627BCEBA100C8EA48 /* colosseo.scn */,
+			);
+			path = colosseo;
+			sourceTree = "<group>";
+		};
+		A9D4D90827BC07F60055AFBC /* assets */ = {
+			isa = PBXGroup;
+			children = (
+				A9C21B1E27BCEA0600C8EA48 /* 3Dmodels */,
+				A9D4D90927BC08040055AFBC /* images */,
+			);
+			path = assets;
+			sourceTree = "<group>";
+		};
+		A9D4D90927BC08040055AFBC /* images */ = {
+			isa = PBXGroup;
+			children = (
+				A9D4D90A27BC08180055AFBC /* colosseo.png */,
+			);
+			path = images;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -245,6 +301,11 @@
 			files = (
 				174E5FFD27B7ABA400846E78 /* Preview Assets.xcassets in Resources */,
 				174E5FFA27B7ABA400846E78 /* Assets.xcassets in Resources */,
+				A9D4D90B27BC08180055AFBC /* colosseo.png in Resources */,
+				A9C21B2927BCF5A500C8EA48 /* colosseo.usdz in Resources */,
+				A9C21B2427BCEA5E00C8EA48 /* 10064_colosseum_v1_Iteration0.obj in Resources */,
+				A9C21B2327BCEA5E00C8EA48 /* 10064_colosseum_diffuse.jpg in Resources */,
+				A9C21B2727BCEBA100C8EA48 /* colosseo.scn in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -271,10 +332,13 @@
 			files = (
 				174BAF8327B7AC8200E34E55 /* AccountView.swift in Sources */,
 				174BAF8527B7AC9000E34E55 /* CollectionView.swift in Sources */,
+				A9D4D90327BBBC2D0055AFBC /* SmartTripModel.xcdatamodeld in Sources */,
 				174E5FF827B7ABA300846E78 /* ContentView.swift in Sources */,
+				A9D4D90527BBF3930055AFBC /* TestView.swift in Sources */,
 				174E5FF627B7ABA300846E78 /* smartTripApp.swift in Sources */,
 				174BAF8127B7AC7000E34E55 /* DiscoverView.swift in Sources */,
 				174BAF8727B7AC9D00E34E55 /* DetailsView.swift in Sources */,
+				A9D4D90727BBF9DE0055AFBC /* PersistanceController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -435,7 +499,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"smartTrip/Preview Content\"";
-				DEVELOPMENT_TEAM = HL4ALNTRLD;
+				DEVELOPMENT_TEAM = MQT646MU2N;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -448,7 +512,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = it.unisa.applefoundationprogram.12.1.smartTrip;
+				PRODUCT_BUNDLE_IDENTIFIER = it.unisa.applefoundationprogram.12.1.smartTrip.antonio;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -464,7 +528,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"smartTrip/Preview Content\"";
-				DEVELOPMENT_TEAM = HL4ALNTRLD;
+				DEVELOPMENT_TEAM = MQT646MU2N;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -477,7 +541,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = it.unisa.applefoundationprogram.12.1.smartTrip;
+				PRODUCT_BUNDLE_IDENTIFIER = it.unisa.applefoundationprogram.12.1.smartTrip.antonio;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -601,6 +665,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		A9D4D90127BBBC2D0055AFBC /* SmartTripModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				A9D4D90227BBBC2D0055AFBC /* SmartTripModel.xcdatamodel */,
+			);
+			currentVersion = A9D4D90227BBBC2D0055AFBC /* SmartTripModel.xcdatamodel */;
+			path = SmartTripModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 174E5FEA27B7ABA300846E78 /* Project object */;
 }

@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct smartTripApp: App {
+    let persistanceController = PersistanceController.shared
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView() //TODO: Decommentare in produzione
+            //TestView().environment(\.managedObjectContext, PersistanceController.preview.container.viewContext)
         }
     }
 }

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="19574" systemVersion="21D49" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="AbstractChallenge" representedClassName="AbstractChallenge" isAbstract="YES" syncable="YES" codeGenerationType="class">
+        <attribute name="desc" attributeType="String"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="name" attributeType="String"/>
+        <relationship name="completedChallenge" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CompletedChallenge" inverseName="challenge" inverseEntity="CompletedChallenge"/>
+    </entity>
+    <entity name="CollectableItem" representedClassName="CollectableItem" syncable="YES" codeGenerationType="class">
+        <attribute name="desc" attributeType="String"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="latitude" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="longitude" attributeType="Float" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="name" attributeType="String"/>
+        <attribute name="p3Ddata" optional="YES" attributeType="URI"/>
+        <attribute name="previewImage" optional="YES" attributeType="Binary"/>
+        <attribute name="rarity" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="type" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="collectedItem" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CollectedItem" inverseName="item" inverseEntity="CollectedItem"/>
+    </entity>
+    <entity name="CollectedItem" representedClassName="CollectedItem" syncable="YES" codeGenerationType="class">
+        <attribute name="dateCollected" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <relationship name="item" maxCount="1" deletionRule="Deny" destinationEntity="CollectableItem" inverseName="collectedItem" inverseEntity="CollectableItem"/>
+    </entity>
+    <entity name="CompletedChallenge" representedClassName="CompletedChallenge" syncable="YES" codeGenerationType="class">
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <relationship name="challenge" maxCount="1" deletionRule="Deny" destinationEntity="AbstractChallenge" inverseName="completedChallenge" inverseEntity="AbstractChallenge"/>
+    </entity>
+    <entity name="QuizChallenge" representedClassName="QuizChallenge" parentEntity="AbstractChallenge" syncable="YES" codeGenerationType="class">
+        <attribute name="question" attributeType="String"/>
+        <attribute name="timeLimit" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <userInfo>
+            <entry key="type" value="quiz"/>
+        </userInfo>
+    </entity>
+    <entity name="TripChallenge" representedClassName="TripChallenge" parentEntity="AbstractChallenge" syncable="YES" codeGenerationType="class">
+        <attribute name="goalLatitude" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="goalLongitude" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="startLatitude" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="startLongitude" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="timeLimit" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <userInfo>
+            <entry key="type" value="trip"/>
+        </userInfo>
+    </entity>
+    <elements>
+        <element name="AbstractChallenge" positionX="6.62890625" positionY="-157.1640625" width="128" height="103"/>
+        <element name="CollectableItem" positionX="-350.12109375" positionY="-152.50390625" width="133" height="179"/>
+        <element name="CollectedItem" positionX="-167.3515625" positionY="-149.8515625" width="128" height="88"/>
+        <element name="CompletedChallenge" positionX="165.19140625" positionY="-143.55078125" width="128" height="73"/>
+        <element name="QuizChallenge" positionX="-127.48046875" positionY="57.3671875" width="169.08203125" height="73"/>
+        <element name="TripChallenge" positionX="96.56640625" positionY="10.484375" width="128" height="118"/>
+    </elements>
+</model>
