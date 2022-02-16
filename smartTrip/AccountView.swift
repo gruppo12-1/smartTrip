@@ -8,8 +8,12 @@
 import SwiftUI
 
 struct AccountView: View {
+    
+    
+    @State private var toogle1 = false
+    @State private var toogle2 = false
+    
     var body: some View {
-        
         
         NavigationView {
     
@@ -23,22 +27,20 @@ struct AccountView: View {
                     Form{
                         Section{
                             VStack{
-                                HStack{
-                                    Button{} label: {
-                                        Label("settings",systemImage: "gear")
-                                    }
-                                    .padding()
-                                    .buttonStyle(.bordered)
-                                    
-                                    Spacer(minLength: 0)
-                                    
-                                    Button{} label: {
-                                        Label("share",systemImage: "square.and.arrow.up")
-                                    }
-                                    .padding()
-                                    .buttonStyle(.bordered)
+
+//                              IMPOSTAZIONE 1 DA DEFINIRE
+                                Toggle("Do something1", isOn: $toogle1)
+                                
+                                if toogle1 {
                                     
                                 }
+//                              IMPOSTAZIONE 2 DA DEFINIRE
+                                Toggle("Do something2", isOn: $toogle2)
+                                
+                                if toogle2 {
+                                    
+                                }
+                                
                             }
                         }
                         
@@ -58,11 +60,20 @@ struct AccountView: View {
             }
             .navigationTitle("Account Setting")
             .navigationBarItems(leading: Button(action:{
-
+//                BOTTONE INDIETRO (ALTO A SINISTRA) DELLA NAVIGATION BAR
+//                DA IMPLEMENTARE
                 
             }) {
-                Text("Cancel")
+                Image(systemName: "chevron.backward")
+                Text("Back")
+            }, trailing: Button(action:{
+//                BOTTONE DI CONDIVISIONE (ALTO A DESTRA) DELLA NAVIGATION BAR
+//                DA IMPLEMENTARE
+                
+            }) {
+                Label("",systemImage: "square.and.arrow.up")
             })
+            
         }
         
     }
