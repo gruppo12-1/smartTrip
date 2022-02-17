@@ -96,7 +96,7 @@ struct HeaderView: View{
                             Image(systemName: "arkit")
                                 .resizable()
                                 .frame(width: 60, height: 70)
-                        }).sheet(isPresented: $showingARView, content:{
+                        }).fullScreenCover(isPresented: $showingARView, content:{
                             ARTestView()
                         })
                     Text("AR")

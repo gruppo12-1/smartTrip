@@ -9,15 +9,14 @@ import SwiftUI
 import ARKit
 
 struct ARTestView: View {
-    //@Environment(\.) var a
-    
+    @Environment(\.presentationMode) private var presentationMode
     @State var pressedReset: Bool = false
     
     var body: some View {
         ZStack{
             VStack{
                 HStack{
-                    Button(action: {print("BACK")}, label: {Text("BACK")})
+                    Button(action: {presentationMode.wrappedValue.dismiss()}, label: {Text("BACK")})
                         .padding(15.0)
                         .buttonStyle(.bordered)
                     Spacer()
