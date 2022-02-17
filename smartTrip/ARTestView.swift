@@ -20,7 +20,7 @@ struct ARTestView: View {
                         .padding(15.0)
                         .buttonStyle(.bordered)
                     Spacer()
-                    Button(action: {pressedReset = true}, label: {Text("RESET")})
+                    Button(action: {pressedReset.toggle()}, label: {Text("RESET")})
                         .padding(15.0)
                         .buttonStyle(.bordered)
                 }
@@ -57,7 +57,7 @@ struct ARSCNViewContainer: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: ARSCNView, context: Context) {
-        if pressedReset {
+        if pressedReset != context.coordinator.lastPressedReset {
             print("RESET")
             view.scene.rootNode.enumerateChildNodes(){
                 node, stop in
@@ -69,11 +69,13 @@ struct ARSCNViewContainer: UIViewRepresentable {
                     }
                 }
             }
+            context.coordinator.lastPressedReset.toggle()
         }
     }
     
     final class Coordinator: NSObject,ARSCNViewDelegate{
         let control: ARSCNViewContainer
+        var lastPressedReset: Bool = false
         
         init(_ control: ARSCNViewContainer){
             self.control = control

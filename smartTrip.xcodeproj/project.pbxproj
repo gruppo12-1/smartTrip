@@ -27,6 +27,8 @@
 		A9D4D90727BBF9DE0055AFBC /* PersistanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D4D90627BBF9DE0055AFBC /* PersistanceController.swift */; };
 		A9D4D90B27BC08180055AFBC /* colosseo.png in Resources */ = {isa = PBXBuildFile; fileRef = A9D4D90A27BC08180055AFBC /* colosseo.png */; };
 		A9E7B06C27BD46A2008A6781 /* ARTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E7B06B27BD46A2008A6781 /* ARTestView.swift */; };
+		A9F9FFE327BEEFDD00A45781 /* eiffel.png in Resources */ = {isa = PBXBuildFile; fileRef = A9F9FFE127BEEFDC00A45781 /* eiffel.png */; };
+		A9F9FFE427BEEFDD00A45781 /* big-ben.png in Resources */ = {isa = PBXBuildFile; fileRef = A9F9FFE227BEEFDD00A45781 /* big-ben.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +73,8 @@
 		A9D4D90A27BC08180055AFBC /* colosseo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = colosseo.png; sourceTree = "<group>"; };
 		A9E7B06B27BD46A2008A6781 /* ARTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARTestView.swift; sourceTree = "<group>"; };
 		A9E7B06D27BD4E60008A6781 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		A9F9FFE127BEEFDC00A45781 /* eiffel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = eiffel.png; sourceTree = "<group>"; };
+		A9F9FFE227BEEFDD00A45781 /* big-ben.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "big-ben.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -195,6 +199,8 @@
 		A9D4D90927BC08040055AFBC /* images */ = {
 			isa = PBXGroup;
 			children = (
+				A9F9FFE227BEEFDD00A45781 /* big-ben.png */,
+				A9F9FFE127BEEFDC00A45781 /* eiffel.png */,
 				A9D4D90A27BC08180055AFBC /* colosseo.png */,
 			);
 			path = images;
@@ -304,10 +310,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A9F9FFE327BEEFDD00A45781 /* eiffel.png in Resources */,
 				174E5FFD27B7ABA400846E78 /* Preview Assets.xcassets in Resources */,
 				174E5FFA27B7ABA400846E78 /* Assets.xcassets in Resources */,
 				A9D4D90B27BC08180055AFBC /* colosseo.png in Resources */,
 				A9C21B2927BCF5A500C8EA48 /* colosseo.usdz in Resources */,
+				A9F9FFE427BEEFDD00A45781 /* big-ben.png in Resources */,
 				A9C21B2427BCEA5E00C8EA48 /* 10064_colosseum_v1_Iteration0.obj in Resources */,
 				A9C21B2327BCEA5E00C8EA48 /* 10064_colosseum_diffuse.jpg in Resources */,
 				A9C21B2727BCEBA100C8EA48 /* colosseo.scn in Resources */,
