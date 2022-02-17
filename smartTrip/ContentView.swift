@@ -29,7 +29,7 @@ struct MapView: View {
             VStack{
                 Map(coordinateRegion: $region)
                 HStack{
-                    NavigationLink(destination: CollectionView(), label: {Text("Inventario").padding(10)})
+                    NavigationLink(destination: CollectionView( item: Item(title: "lock",image:"", blackImage:"", desc:"", isUnlocked: false)), label: {Text("Inventario").padding(10)})
                     Spacer()
                     NavigationLink(destination: AccountView(), label: {Text("Profilo").padding(10)})
                 }
