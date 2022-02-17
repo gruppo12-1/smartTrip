@@ -10,48 +10,42 @@ import SwiftUI
 struct Item: Identifiable{
     let id = UUID()
     let title: String
+    let image: String
+    let blackImage: String
+    let desc: String
     var isUnlocked: Bool
 }
 
 struct CollectionView: View {
     
     let items = [
-        Item(title: "Duomo di Milano",isUnlocked: true),
-        Item(title: "Torre di Pisa",isUnlocked: true),
-        Item(title: "Mole Antonelliana", isUnlocked: true),
-        Item(title: "Unisa", isUnlocked: true),
-        Item(title: "Colosseo",isUnlocked: true),
-        Item(title: "Santa Maria del Fiore",isUnlocked: true),
-        Item(title: "Paestum",isUnlocked: true),
-        Item(title: "Pompei",isUnlocked: true),
-        Item(title: "Saline",isUnlocked: true),
-        Item(title: "Cantoni di Palermo",isUnlocked: true),
-        Item(title: "Pantheon",isUnlocked: true),
-        Item(title: "Paestum",isUnlocked: true),
-        Item(title: "Pompei",isUnlocked: true),
-        Item(title: "Saline",isUnlocked: true),
-        Item(title: "Cantoni di Palermo",isUnlocked: true),
-        Item(title: "Pantheon",isUnlocked: false)
+        Item(title: "Torre Eiffel",image:"pic1", blackImage:"",desc:"La Torre Eiffel é una torre di ferro situata sugli Champ de Mars che prende il nome dal suo ingegnere Gustave Eiffel. Eretta nel 1889 come entrata dell' Esposizione Universale del 1889; é diventata l'icona della Francia e uno dei monumenti più conociuti al mondo. Con più di 7 milioni di visitatori l'anno, é il monumento più visitato al mondo. La Torre Eiffel é iscritta nei monumenti storici dopo il 24 giugno 1964 e iscritta nel patrimonio mondiale dell'UNESCO dopo il 1991.", isUnlocked: true),
+        Item(title: "Big Ben",image:"pic2", blackImage:"", desc:"", isUnlocked: true),
+        Item(title: "Colosseo",image:"colosseo", blackImage:"", desc:"",isUnlocked: true),
+        Item(title: "lock",image:"", blackImage:"", desc:"", isUnlocked: false),
+        Item(title: "lock",image:"", blackImage:"", desc:"", isUnlocked: false),
+        Item(title: "lock",image:"", blackImage:"", desc:"", isUnlocked: false),
+        Item(title: "lock",image:"", blackImage:"", desc:"", isUnlocked: false),
+        Item(title: "lock",image:"", blackImage:"", desc:"", isUnlocked: false),
+        Item(title: "lock",image:"", blackImage:"", desc:"", isUnlocked: false),
+        Item(title: "lock",image:"", blackImage:"", desc:"", isUnlocked: false),
+        Item(title: "lock",image:"", blackImage:"", desc:"", isUnlocked: false),
     ]
     
     var body: some View {
         let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())] // 3 colonne
         NavigationView {
             VStack{
-                headerView()
+                HeaderView(item: items[0])
                 ScrollView{
                     LazyVGrid(columns: columns){
                         ForEach(items){ item in
-                            if(item.isUnlocked){
-                                // sbloccato e clickabile
-                                Button(action:{}){
-                                    ItemView(item: item)
-                                }
-                                .buttonStyle(ItemButtonStyle(cornerRadius: 20))
-                            }else{
-                                // è solo visibile, ma non è clickabile in quanto non sbloccato
+                            Button(action:{
+                                // Show tapped image in circle
+                            }){
                                 ItemView(item: item)
                             }
+                            .buttonStyle(ItemButtonStyle(cornerRadius: 20))
                         }
                     }.padding(.all)
                 }
@@ -77,22 +71,45 @@ struct ItemButtonStyle: ButtonStyle{
     }
 }
 
-struct headerView: View{
+struct HeaderView: View{
+    @State var showingDetailsView = false
+    
+    var item : Item
+    init(item: Item){
+        self.item = item
+    }
     var body: some View{
         VStack{
-            Image("immagine")
+                Image(item.image)
                 .resizable()
-                .frame(width: 200, height: 200)
+                .frame(width: 170, height: 170)
                 .clipShape(Circle())
                 .overlay(Circle().stroke())
-            HStack(spacing: 185){
-                Image(systemName: "arkit")
-                    .resizable()
-                    .frame(width: 60, height: 70)
                 
-                Image(systemName: "info.circle")
-                    .resizable()
-                    .frame(width: 60, height: 60)
+            HStack(spacing: 200){
+                VStack(spacing:2){
+                    Button(action: {
+                            // Do something with AR Kit
+                        }, label: {
+                            Image(systemName: "arkit")
+                                .resizable()
+                                .frame(width: 60, height: 70)
+                        })
+                    Text("AR")
+                }
+                VStack(spacing:2){
+                Button(action: {
+                        // Show Info
+                    self.showingDetailsView = true
+                    }, label: {
+                        Image(systemName: "info.circle")
+                            .resizable()
+                            .frame(width: 60, height: 60)
+                    }).sheet(isPresented: $showingDetailsView, content:{
+                        DetailsView(item: item)
+                    })
+                    Text("Info")
+                }
             }
         }
         .frame(height:280)
@@ -106,14 +123,21 @@ struct ItemView: View {
     var body: some View{
         GeometryReader{ reader in
             VStack(spacing: 5){
-                // inserire qui le cose da mostrare nei quadrati
-//                Image(item.image)
-//                    .resizable()
-//                    .scaledToFit()
-//                    .foregroundColor(item.imgColor)
-//                    .frame(width: 50)
-             Text(item.title).font(.system(size: 20, design: .rounded))
+                if(item.isUnlocked){
+                Image(item.image)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width:85)
+                Text(item.title)
                     .foregroundColor(Color.black.opacity(0.9))
+                }else{
+                    Image(item.blackImage)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width:85)
+                    Text("?")
+                        .foregroundColor(Color.black.opacity(0.9))
+                }
             }
             .frame(width:reader.size.width, height: reader.size.height)
             .background(Color.white)
@@ -127,5 +151,6 @@ struct ItemView: View {
 struct CollectionView_Previews: PreviewProvider {
     static var previews: some View {
         CollectionView()
+.previewInterfaceOrientation(.portrait)
     }
 }
