@@ -16,7 +16,7 @@ struct ContentView: View {
 
 
 struct MapView: View {
-     
+    @State private var willMoveToInventory: Bool = false
     @State private var region = MKCoordinateRegion(
         center: CLLocationCoordinate2D(latitude: 40.70024528747822,
                                        longitude: 14.707543253794043),
@@ -25,7 +25,18 @@ struct MapView: View {
     )
     
     var body: some View {
-        Map(coordinateRegion: $region)
+        NavigationView{
+            VStack{
+                Map(coordinateRegion: $region)
+                HStack{
+                    NavigationLink(destination: CollectionView(), label: {Text("Inventario").padding(10)})
+                    Spacer()
+                    NavigationLink(destination: AccountView(), label: {Text("Profilo").padding(10)})
+                }
+            }.navigationBarHidden(true)
+        }
+        
+        //.navigationBarHidden(true)
     }
 }
 

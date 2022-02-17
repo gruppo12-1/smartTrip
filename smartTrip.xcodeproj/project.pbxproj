@@ -26,6 +26,7 @@
 		A9D4D90527BBF3930055AFBC /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D4D90427BBF3930055AFBC /* TestView.swift */; };
 		A9D4D90727BBF9DE0055AFBC /* PersistanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D4D90627BBF9DE0055AFBC /* PersistanceController.swift */; };
 		A9D4D90B27BC08180055AFBC /* colosseo.png in Resources */ = {isa = PBXBuildFile; fileRef = A9D4D90A27BC08180055AFBC /* colosseo.png */; };
+		A9E7B06C27BD46A2008A6781 /* ARTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E7B06B27BD46A2008A6781 /* ARTestView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +69,8 @@
 		A9D4D90427BBF3930055AFBC /* TestView.swift */ = {isa = PBXFileReference; indentWidth = 1; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; tabWidth = 1; };
 		A9D4D90627BBF9DE0055AFBC /* PersistanceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistanceController.swift; sourceTree = "<group>"; };
 		A9D4D90A27BC08180055AFBC /* colosseo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = colosseo.png; sourceTree = "<group>"; };
+		A9E7B06B27BD46A2008A6781 /* ARTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARTestView.swift; sourceTree = "<group>"; };
+		A9E7B06D27BD4E60008A6781 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,7 +121,9 @@
 		174E5FF427B7ABA300846E78 /* smartTrip */ = {
 			isa = PBXGroup;
 			children = (
+				A9E7B06D27BD4E60008A6781 /* Info.plist */,
 				A9D4D90827BC07F60055AFBC /* assets */,
+				A9E7B06B27BD46A2008A6781 /* ARTestView.swift */,
 				A9D4D90427BBF3930055AFBC /* TestView.swift */,
 				174E5FF527B7ABA300846E78 /* smartTripApp.swift */,
 				174E5FF727B7ABA300846E78 /* ContentView.swift */,
@@ -331,6 +336,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				174BAF8327B7AC8200E34E55 /* AccountView.swift in Sources */,
+				A9E7B06C27BD46A2008A6781 /* ARTestView.swift in Sources */,
 				174BAF8527B7AC9000E34E55 /* CollectionView.swift in Sources */,
 				A9D4D90327BBBC2D0055AFBC /* SmartTripModel.xcdatamodeld in Sources */,
 				174E5FF827B7ABA300846E78 /* ContentView.swift in Sources */,
@@ -502,6 +508,8 @@
 				DEVELOPMENT_TEAM = MQT646MU2N;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = smartTrip/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "We need camera for AR features";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -531,6 +539,8 @@
 				DEVELOPMENT_TEAM = MQT646MU2N;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = smartTrip/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "We need camera for AR features";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

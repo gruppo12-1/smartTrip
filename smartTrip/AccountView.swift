@@ -14,8 +14,6 @@ struct AccountView: View {
     @State private var toogle2 = false
     
     var body: some View {
-        
-        NavigationView {
     
             ZStack{
                 VStack(alignment: .center){
@@ -26,7 +24,6 @@ struct AccountView: View {
                         .resizable()
                         .frame(width: 200, height: 200)
                         .clipShape(Circle())
-                    
                     
 //                  PARTE 2
                     Form{
@@ -62,26 +59,12 @@ struct AccountView: View {
                     }
                                         
                 }
-                
-            }
             .navigationTitle("Account Setting")
-            .navigationBarItems(leading: Button(action:{
-//                BOTTONE INDIETRO (ALTO A SINISTRA) DELLA NAVIGATION BAR
-//                DA IMPLEMENTARE
-                
-            }) {
-                Image(systemName: "chevron.backward")
-                Text("Back")
-            }, trailing: Button(action:{
+            .navigationBarItems(trailing: Button(action:{
 //                BOTTONE DI CONDIVISIONE (ALTO A DESTRA) DELLA NAVIGATION BAR
 //                DA IMPLEMENTARE
-                
-            }) {
-                Label("",systemImage: "square.and.arrow.up")
-            })
-            
+            },label: {Label("",systemImage: "square.and.arrow.up")}))
         }
-        
     }
 }
 

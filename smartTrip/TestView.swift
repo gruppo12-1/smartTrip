@@ -30,7 +30,8 @@ struct TestView: View {
     .frame(height: 150.0)
    }
    //try! SceneView(scene: SCNScene(url: Bundle.main.url(forResource: "colosseo", withExtension: "usdz")!), options: [.autoenablesDefaultLighting,.allowsCameraControl])
-   
+   Button("GO",action: {})
+    
   }
  }
 }
