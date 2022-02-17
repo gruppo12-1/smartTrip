@@ -36,7 +36,6 @@ struct CollectionView: View {
     
     var body: some View {
         let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())] // 3 colonne
-        NavigationView {
             VStack{
                 HeaderView(item: item)
                 ScrollView{
@@ -56,7 +55,6 @@ struct CollectionView: View {
                 .navigationTitle("My Collection")
                 .navigationBarTitleDisplayMode(.inline)
             }
-        }
     }
 }
 
