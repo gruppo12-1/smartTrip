@@ -52,7 +52,7 @@ struct CollectionView: View {
                         }
                     }.padding(.all)
                 }
-                .background(Color.white)
+//                .background(Color.white)
                 .navigationTitle("My Collection")
                 .navigationBarTitleDisplayMode(.inline)
             }
@@ -77,6 +77,7 @@ struct ItemButtonStyle: ButtonStyle{
 struct HeaderView: View{
     
     @State var showingDetailsView = false
+    @State var showingARView = false
     
     var item : Item
     init(item: Item){
@@ -94,10 +95,13 @@ struct HeaderView: View{
                 VStack(spacing:2){
                     Button(action: {
                             // Do something with AR Kit
+                        self.showingARView = true
                         }, label: {
                             Image(systemName: "arkit")
                                 .resizable()
                                 .frame(width: 60, height: 70)
+                        }).fullScreenCover(isPresented: $showingARView, content:{
+                            ARTestView()
                         })
                     Text("AR")
                 }
@@ -118,7 +122,7 @@ struct HeaderView: View{
         }
         .frame(height:280)
         .frame(maxWidth: .infinity)
-        .background(Color.white)
+//        .background(Color.white)
     }
 }
 

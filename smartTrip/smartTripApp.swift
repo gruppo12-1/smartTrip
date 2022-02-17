@@ -14,6 +14,7 @@ struct smartTripApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView() //TODO: Decommentare in produzione
+            //ARTestView()
             //TestView().environment(\.managedObjectContext, PersistanceController.preview.container.viewContext)
         }
     }
