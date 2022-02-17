@@ -73,6 +73,7 @@ struct ItemButtonStyle: ButtonStyle{
 
 struct HeaderView: View{
     @State var showingDetailsView = false
+    @State var showingARView = false
     
     var item : Item
     init(item: Item){
@@ -90,10 +91,13 @@ struct HeaderView: View{
                 VStack(spacing:2){
                     Button(action: {
                             // Do something with AR Kit
+                        self.showingARView = true
                         }, label: {
                             Image(systemName: "arkit")
                                 .resizable()
                                 .frame(width: 60, height: 70)
+                        }).sheet(isPresented: $showingARView, content:{
+                            ARTestView()
                         })
                     Text("AR")
                 }
