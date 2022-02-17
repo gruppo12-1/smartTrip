@@ -20,7 +20,7 @@ struct AccountView: View {
                     
 //                  PARTE 1
 //                  IMMAGINE
-                    Image("Immagine")
+                    Image("PicProva")
                         .resizable()
                         .frame(width: 200, height: 200)
                         .clipShape(Circle())
