@@ -49,7 +49,7 @@ struct CollectionView: View {
                         }
                     }.padding(.all)
                 }
-                .background(Color.white)
+//                .background(Color.white)
                 .navigationTitle("My Collection")
                 .navigationBarTitleDisplayMode(.inline)
             }
@@ -118,7 +118,7 @@ struct HeaderView: View{
         }
         .frame(height:280)
         .frame(maxWidth: .infinity)
-        .background(Color.white)
+//        .background(Color.white)
     }
 }
 
