@@ -18,10 +18,12 @@ struct Item: Identifiable{
 
 struct CollectionView: View {
     
+    @State var item : Item
+    
     let items = [
-        Item(title: "Torre Eiffel",image:"pic1", blackImage:"",desc:"La Torre Eiffel é una torre di ferro situata sugli Champ de Mars che prende il nome dal suo ingegnere Gustave Eiffel. Eretta nel 1889 come entrata dell' Esposizione Universale del 1889; é diventata l'icona della Francia e uno dei monumenti più conociuti al mondo. Con più di 7 milioni di visitatori l'anno, é il monumento più visitato al mondo. La Torre Eiffel é iscritta nei monumenti storici dopo il 24 giugno 1964 e iscritta nel patrimonio mondiale dell'UNESCO dopo il 1991.", isUnlocked: true),
-        Item(title: "Big Ben",image:"pic2", blackImage:"", desc:"", isUnlocked: true),
-        Item(title: "Colosseo",image:"colosseo", blackImage:"", desc:"",isUnlocked: true),
+        Item(title: "Torre Eiffel",image:"pic1", blackImage:"",desc:" La Torre Eiffel é una torre di ferro situata sugli Champ de Mars che prende il nome dal suo ingegnere Gustave Eiffel. Eretta nel 1889 come entrata dell' Esposizione Universale del 1889; é diventata l'icona della Francia e uno dei monumenti più conociuti al mondo. Con più di 7 milioni di visitatori l'anno, é il monumento più visitato al mondo. La Torre Eiffel é iscritta nei monumenti storici dopo il 24 giugno 1964 e iscritta nel patrimonio mondiale dell'UNESCO dopo il 1991.", isUnlocked: true),
+        Item(title: "Big Ben",image:"pic2", blackImage:"", desc:"L'edificio delle Houses of Parliament e la Elisabeth Tower, comunemente denominata Big Ben, sono tra i monumenti più rappresentativi di Londra. Tecnicamente, Big Ben è il nome assegnato alla massiccia campana, del peso di oltre 13 tonnellate (13.760 kg), che si trova all'interno della torre dell'orologio. La torre dell'orologio offre uno spettacolo straordinario di notte quando i quattro quadranti sono illuminati.", isUnlocked: true),
+        Item(title: "Colosseo",image:"colosseo", blackImage:"", desc:"L’Anfiteatro Flavio, più comunemente noto con il nome di Colosseo, si innalza nel cuore archeologico della città di Roma e accoglie quotidianamente un gran numero di visitatori attratti dal fascino della sua storia e della sua complessa architettura. L’edificio, detto Colosseo per via di una colossale statua che sorgeva nelle vicinanze, venne edificato nel I secolo d.C. per volere degli imperatori della dinastia flavia, ed ha accolto, fino alla fine dell’età antica, spettacoli di grande richiamo popolare, quali le cacce e i giochi gladiatori. L’edificio era, e rimane ancora oggi, uno spettacolo in se stesso. Si tratta infatti del più grande anfiteatro del mondo, in grado di offrire sorprendenti apparati scenografici, nonché servizi per gli spettatori.",isUnlocked: true),
         Item(title: "lock",image:"", blackImage:"", desc:"", isUnlocked: false),
         Item(title: "lock",image:"", blackImage:"", desc:"", isUnlocked: false),
         Item(title: "lock",image:"", blackImage:"", desc:"", isUnlocked: false),
@@ -36,14 +38,15 @@ struct CollectionView: View {
         let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())] // 3 colonne
         NavigationView {
             VStack{
-                HeaderView(item: items[0])
+                HeaderView(item: item)
                 ScrollView{
                     LazyVGrid(columns: columns){
-                        ForEach(items){ item in
+                        ForEach(items){ citem in
                             Button(action:{
                                 // Show tapped image in circle
+                                item = citem
                             }){
-                                ItemView(item: item)
+                                ItemView(item: citem)
                             }
                             .buttonStyle(ItemButtonStyle(cornerRadius: 20))
                         }
@@ -72,6 +75,7 @@ struct ItemButtonStyle: ButtonStyle{
 }
 
 struct HeaderView: View{
+    
     @State var showingDetailsView = false
     
     var item : Item
@@ -150,7 +154,7 @@ struct ItemView: View {
 
 struct CollectionView_Previews: PreviewProvider {
     static var previews: some View {
-        CollectionView()
-.previewInterfaceOrientation(.portrait)
+        CollectionView(item: Item(title: "lock",image:"", blackImage:"", desc:"", isUnlocked: false))
+            .previewInterfaceOrientation(.portrait)
     }
 }
