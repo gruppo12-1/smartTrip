@@ -42,6 +42,6 @@ struct MapView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView().environment(\.managedObjectContext, PersistanceController.preview.container.viewContext)
     }
 }
