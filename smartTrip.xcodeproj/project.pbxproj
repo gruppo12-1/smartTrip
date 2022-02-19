@@ -29,6 +29,7 @@
 		A9E7B06C27BD46A2008A6781 /* ARTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E7B06B27BD46A2008A6781 /* ARTestView.swift */; };
 		A9F9FFE327BEEFDD00A45781 /* eiffel.png in Resources */ = {isa = PBXBuildFile; fileRef = A9F9FFE127BEEFDC00A45781 /* eiffel.png */; };
 		A9F9FFE427BEEFDD00A45781 /* big-ben.png in Resources */ = {isa = PBXBuildFile; fileRef = A9F9FFE227BEEFDD00A45781 /* big-ben.png */; };
+		E2A8979D27C0F03A00BCF177 /* BottomSheet in Frameworks */ = {isa = PBXBuildFile; productRef = E2A8979C27C0F03A00BCF177 /* BottomSheet */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,6 +83,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E2A8979D27C0F03A00BCF177 /* BottomSheet in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -222,6 +224,9 @@
 			dependencies = (
 			);
 			name = smartTrip;
+			packageProductDependencies = (
+				E2A8979C27C0F03A00BCF177 /* BottomSheet */,
+			);
 			productName = smartTrip;
 			productReference = 174E5FF227B7ABA300846E78 /* smartTrip.app */;
 			productType = "com.apple.product-type.application";
@@ -294,6 +299,9 @@
 				Base,
 			);
 			mainGroup = 174E5FE927B7ABA300846E78;
+			packageReferences = (
+				E2A8979B27C0F03A00BCF177 /* XCRemoteSwiftPackageReference "BottomSheet" */,
+			);
 			productRefGroup = 174E5FF327B7ABA300846E78 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -513,7 +521,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"smartTrip/Preview Content\"";
-				DEVELOPMENT_TEAM = XPAGCYZNV9;
+				DEVELOPMENT_TEAM = HL4ALNTRLD;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = smartTrip/Info.plist;
@@ -528,7 +536,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = it.unisa.applefoundationprogram.12.1;
+				PRODUCT_BUNDLE_IDENTIFIER = it.unisa.applefoundationprogram.12.1.salvatore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -544,7 +552,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"smartTrip/Preview Content\"";
-				DEVELOPMENT_TEAM = XPAGCYZNV9;
+				DEVELOPMENT_TEAM = HL4ALNTRLD;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = smartTrip/Info.plist;
@@ -559,7 +567,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = it.unisa.applefoundationprogram.12.1;
+				PRODUCT_BUNDLE_IDENTIFIER = it.unisa.applefoundationprogram.12.1.salvatore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -683,6 +691,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		E2A8979B27C0F03A00BCF177 /* XCRemoteSwiftPackageReference "BottomSheet" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/LucasMucGH/BottomSheet";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		E2A8979C27C0F03A00BCF177 /* BottomSheet */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E2A8979B27C0F03A00BCF177 /* XCRemoteSwiftPackageReference "BottomSheet" */;
+			productName = BottomSheet;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		A9D4D90127BBBC2D0055AFBC /* SmartTripModel.xcdatamodeld */ = {

@@ -1,8 +1,8 @@
 //
-//  CollectoinView.swift
+//  CollectionView.swift
 //  smartTrip
 //
-//  Created by Grazia Ferrara on 19/02/22.
+//  Created by Salvatore Apicella on 12/02/22.
 //
 
 import SwiftUI
@@ -29,6 +29,7 @@ struct CollectionView: View {
                         }
                     }.padding(.all)
                 }
+//                .background(Color.white)
                 .navigationTitle("My Collection")
                 .navigationBarTitleDisplayMode(.inline)
             }
@@ -36,19 +37,16 @@ struct CollectionView: View {
 }
 
 struct ItemButtonStyle: ButtonStyle{
-    @Environment(\.colorScheme) var colorScheme
     let cornerRadius: CGFloat
     func makeBody(configuration: Configuration) -> some View{
         ZStack{
             configuration.label
-            if configuration.isPressed && colorScheme == .dark{
-                Color.white.opacity(0.2)
-            }else if configuration.isPressed{
+            if configuration.isPressed {
                 Color.black.opacity(0.2)
             }
         }
         .clipShape(RoundedRectangle(cornerRadius: 30))
-        .shadow(color: colorScheme == .dark ? Color.white : Color.black, radius: 2)
+        .shadow(color: Color.black, radius: 2)
     }
 }
 
