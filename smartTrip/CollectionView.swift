@@ -1,10 +1,11 @@
 //
-//  CollectionView.swift
+//  CollectoinView.swift
 //  smartTrip
 //
-//  Created by Salvatore Apicella on 12/02/22.
+//  Created by Grazia Ferrara on 19/02/22.
 //
 
+import Foundation
 import SwiftUI
 
 struct CollectionView: View {
@@ -29,7 +30,6 @@ struct CollectionView: View {
                         }
                     }.padding(.all)
                 }
-//                .background(Color.white)
                 .navigationTitle("My Collection")
                 .navigationBarTitleDisplayMode(.inline)
             }
@@ -37,16 +37,19 @@ struct CollectionView: View {
 }
 
 struct ItemButtonStyle: ButtonStyle{
+    @Environment(\.colorScheme) var colorScheme
     let cornerRadius: CGFloat
     func makeBody(configuration: Configuration) -> some View{
         ZStack{
             configuration.label
-            if configuration.isPressed {
+            if configuration.isPressed && colorScheme == .dark{
+                Color.white.opacity(0.2)
+            }else if configuration.isPressed{
                 Color.black.opacity(0.2)
             }
         }
         .clipShape(RoundedRectangle(cornerRadius: 30))
-        .shadow(color: Color.black, radius: 2)
+        .shadow(color: colorScheme == .dark ? Color.white : Color.black, radius: 2)
     }
 }
 
@@ -117,120 +120,125 @@ struct HeaderView: View{
     
     var item : Item
     init(item: Item){
-        self.item = item
-    }
-    var body: some View{
-        VStack{
-                Image(item.image)
-                .resizable()
-                .frame(width: 170, height: 170)
-                .clipShape(Circle())
-                .overlay(Circle().stroke())
-                
-            HStack(spacing: 200){
-                VStack(spacing:2){
-                    Button(action: {
-                            // Do something with AR Kit
-                        self.showingARView = true
-                        }, label: {
-                            Image(systemName: "arkit")
-                                .resizable()
-                                .frame(width: 60, height: 70)
-                        }).fullScreenCover(isPresented: $showingARView, content:{
-                            ARTestView()
-                        })
-                    Text("AR")
-                }
-                VStack(spacing:2){
-                Button(action: {
-                        // Show Info
-                    self.showingDetailsView = true
-                    }, label: {
-                        Image(systemName: "info.circle")
-                            .resizable()
-                            .frame(width: 60, height: 60)
-                    }).sheet(isPresented: $showingDetailsView, content:{
-                        DetailsView(item: item)
-                    })
-                    Text("Info")
-                }
-            }
-        }
-        .frame(height:280)
-        .frame(maxWidth: .infinity)
-//        .background(Color.white)
-    }
-}*/
-struct ItemView: View {
-    let item: CollectableItem
-    let collected: Bool
-    
-    init(item: CollectableItem){
-        self.item = item
-       collected = (item.collectedItem != nil)
-    }
-    
-    var body: some View{
-        GeometryReader{ reader in
-            VStack(spacing: 5){
-                if collected {
-                    Image(uiImage: UIImage(data: item.previewImage!)!)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width:85)
-                    Text(item.name!)
-                    .foregroundColor(Color.black.opacity(0.9))
-                }else{
-                    Image("")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width:85)
-                    Text("?")
-                        .foregroundColor(Color.black.opacity(0.9))
-                }
-            }
-            .frame(width:reader.size.width, height: reader.size.height)
-            .background(Color.white)
-        }
-        .frame(height: 125)
-        .clipShape(RoundedRectangle(cornerRadius: 30))
-        .shadow(color: Color.black, radius: 2)
-    }
-}
-/* OLD
-struct ItemView: View {
-    let item: Item
-    var body: some View{
-        GeometryReader{ reader in
-            VStack(spacing: 5){
-                if(item.isUnlocked){
-                Image(item.image)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width:85)
-                Text(item.title)
-                    .foregroundColor(Color.black.opacity(0.9))
-                }else{
-                    Image(item.blackImage)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width:85)
-                    Text("?")
-                        .foregroundColor(Color.black.opacity(0.9))
-                }
-            }
-            .frame(width:reader.size.width, height: reader.size.height)
-            .background(Color.white)
-        }
-        .frame(height: 125)
-        .clipShape(RoundedRectangle(cornerRadius: 30))
-        .shadow(color: Color.black, radius: 2)
-    }
-}
-*/
-struct CollectionView_Previews: PreviewProvider {
-    static var previews: some View {
-        CollectionView().environment(\.managedObjectContext, PersistanceController.preview.container.viewContext)
-            .previewInterfaceOrientation(.portrait)
-    }
-}
+         self.item = item
+     }
+     var body: some View{
+         VStack{
+                 Image(item.image)
+                 .resizable()
+                 .frame(width: 170, height: 170)
+                 .clipShape(Circle())
+                 .overlay(Circle().stroke())
+                 
+             HStack(spacing: 200){
+                 VStack(spacing:2){
+                     Button(action: {
+                             // Do something with AR Kit
+                         self.showingARView = true
+                         }, label: {
+                             Image(systemName: "arkit")
+                                 .resizable()
+                                 .frame(width: 60, height: 70)
+                         }).fullScreenCover(isPresented: $showingARView, content:{
+                             ARTestView()
+                         })
+                     Text("AR")
+                 }
+                 VStack(spacing:2){
+                 Button(action: {
+                         // Show Info
+                     self.showingDetailsView = true
+                     }, label: {
+                         Image(systemName: "info.circle")
+                             .resizable()
+                             .frame(width: 60, height: 60)
+                     }).sheet(isPresented: $showingDetailsView, content:{
+                         DetailsView(item: item)
+                     })
+                     Text("Info")
+                 }
+             }
+         }
+         .frame(height:280)
+         .frame(maxWidth: .infinity)
+     }
+ }*/
+ struct ItemView: View {
+     let item: CollectableItem
+     let collected: Bool
+     
+     init(item: CollectableItem){
+         self.item = item
+        collected = (item.collectedItem != nil)
+     }
+     
+     var body: some View{
+         GeometryReader{ reader in
+             VStack(spacing: 5){
+                 if collected {
+                     Image(uiImage: UIImage(data: item.previewImage!)!)
+                     .resizable()
+                     .scaledToFit()
+                     .frame(width:85)
+                     Text(item.name!)
+                     .foregroundColor(Color.black.opacity(0.9))
+                 }else{
+                     Image("")
+                         .resizable()
+                         .scaledToFit()
+                         .frame(width:85)
+                     Text("?")
+                         .foregroundColor(Color.black.opacity(0.9))
+                 }
+             }
+             .frame(width:reader.size.width, height: reader.size.height)
+             .background(Color.white)
+         }
+         .frame(height: 125)
+         .clipShape(RoundedRectangle(cornerRadius: 30))
+         .shadow(color: Color.black, radius: 2)
+     }
+ }
+ /* OLD
+ struct ItemView: View {
+     @Environment(\.colorScheme) var colorScheme
+  
+     let item: Item
+     var body: some View{
+         GeometryReader{ reader in
+             VStack(spacing: 5){
+                 if(item.isUnlocked){
+                 Image(item.image)
+                     .resizable()
+                     .scaledToFit()
+                     .frame(width:85)
+                     Text(item.title)
+                         .foregroundColor(colorScheme == .dark ? Color.white.opacity(0.9) : Color.black.opacity(0.9))
+                 }else{
+                     Image(item.blackImage)
+                         .resizable()
+                         .scaledToFit()
+                         .frame(width:85)
+                     Text("?")
+                         .foregroundColor(colorScheme == .dark ? Color.white.opacity(0.9) : Color.black.opacity(0.9))
+                 }
+             }
+             .frame(width:reader.size.width, height: reader.size.height)
+             .background(colorScheme == .dark ? Color.black : Color.white)
+         }
+         .frame(height: 125)
+         .clipShape(RoundedRectangle(cornerRadius: 30))
+         .shadow(color: Color(UIColor.systemBackground), radius: 2)
+     }
+ }
+ */
+ struct CollectionView_Previews: PreviewProvider {
+     static var previews: some View {
+         CollectionView()
+             .preferredColorScheme(.dark)
+             .environment(\.managedObjectContext, PersistanceController.preview.container.viewContext)
+             .previewInterfaceOrientation(.portrait)
+                         
+                 }
+             }
+
