@@ -27,7 +27,7 @@ struct MapView: View {
                         viewModel.checkIfLocationManagerIsEnabled()
                     }
                 HStack{
-                    NavigationLink(destination: CollectionView( item: Item(title: "lock",image:"", blackImage:"", desc:"", isUnlocked: false)), label: {Text("Inventario").padding(10)})
+                    NavigationLink(destination: CollectionView(), label: {Text("Inventario").padding(10)})
                     Spacer()
                     NavigationLink(destination: AccountView(), label: {Text("Profilo").padding(10)})
                 }
@@ -80,6 +80,6 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()        
+        ContentView().environment(\.managedObjectContext, PersistanceController.preview.container.viewContext)
     }
 }

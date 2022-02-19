@@ -20,7 +20,7 @@ struct ARTestView: View {
                         .padding(15.0)
                         .buttonStyle(.bordered)
                     Spacer()
-                    Button(action: {pressedReset = true}, label: {Text("RESET")})
+                    Button(action: {pressedReset.toggle()}, label: {Text("RESET")})
                         .padding(15.0)
                         .buttonStyle(.bordered)
                 }
@@ -36,7 +36,6 @@ struct ARTestView: View {
 struct ARSCNViewContainer: UIViewRepresentable {
     let view = ARSCNView(frame: .zero)
     @Binding var pressedReset: Bool
-    
     func makeCoordinator() -> Coordinator {
         return Coordinator(self)
     }
@@ -51,35 +50,42 @@ struct ARSCNViewContainer: UIViewRepresentable {
         let config = ARWorldTrackingConfiguration()
         config.planeDetection = .horizontal //informarsi su planeDetection! probabilmente indesiderata o da gestire a parte
         view.debugOptions = [.showFeaturePoints,.showWorldOrigin]
-        view.session.run(ARWorldTrackingConfiguration())
+        view.session.run(config)
         
         return view
     }
     
     func updateUIView(_ uiView: ARSCNView, context: Context) {
-        if pressedReset {
+        if pressedReset != context.coordinator.lastPressedReset { //reset
             print("RESET")
             view.scene.rootNode.enumerateChildNodes(){
                 node, stop in
                 print(node)
                 if let name = node.name {
-                    print(name)
-                    if name == "boxanchor" || name == "box" {
-                        node.removeFromParentNode()
+                    if name == "box" {
+                        print("rimuovo \(name)")
+                        node.parent!.removeFromParentNode() //cancello il nodo associato all'anchor (il padre di node)
                     }
                 }
             }
+            context.coordinator.lastPressedReset.toggle()
+            context.coordinator.objectPlaced = false
+            context.coordinator.showPlanes(true)
         }
     }
     
     final class Coordinator: NSObject,ARSCNViewDelegate{
         let control: ARSCNViewContainer
+        var lastPressedReset: Bool = false
+        var objectPlaced: Bool = false
+        private let planesOpacity: Double = 0.25
         
         init(_ control: ARSCNViewContainer){
             self.control = control
         }
         
         @objc func tapHandler(sender: UITapGestureRecognizer) {
+            guard objectPlaced == false else {return}
             let view = control.view
             let location = sender.location(in: view)
             print(location)
@@ -93,13 +99,47 @@ struct ARSCNViewContainer: UIViewRepresentable {
         
         func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
 
-            guard let anchor = anchor as? ARAnchor else { return } //prima era planeanchor!!
-            print("SONO QUI")
-            let boxNode = SCNNode(geometry: SCNBox(width: 0.1, height: 0.1, length: 0.1, chamferRadius: 0))
-            boxNode.name = "box"
-            
-            //boxNode.simdPosition = SIMD3(planeAnchor.center.x, 0, planeAnchor.center.z)
-            node.addChildNode(boxNode)
+            if let anchorPlane = anchor as? ARPlaneAnchor {
+                print("NEW PLANE FOUND")
+                guard let meshGeometry = ARSCNPlaneGeometry(device: control.view.device!) else {fatalError()}
+                meshGeometry.update(from: anchorPlane.geometry)
+                let material = SCNMaterial()
+                material.diffuse.contents = Color.green
+                meshGeometry.firstMaterial = material
+                let meshNode = SCNNode(geometry: meshGeometry)
+                meshNode.opacity = planesOpacity
+                meshNode.name = "plane"
+                node.addChildNode(meshNode)
+            } //prima era planeanchor!!
+            if anchor.name == "boxanchor" {
+                print("posiziono modello")
+                let boxNode = SCNNode(geometry: SCNBox(width: 0.1, height: 0.1, length: 0.1, chamferRadius: 0))
+                boxNode.name = "box"
+                objectPlaced = true
+                //boxNode.simdPosition = SIMD3(planeAnchor.center.x, 0, planeAnchor.center.z)
+                node.addChildNode(boxNode)
+                showPlanes(false)
+            }
+        }
+        
+        func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
+                guard let planeAnchor = anchor as? ARPlaneAnchor, let plane = node.childNodes.first else { return }
+                if let geometry = plane.geometry as? ARSCNPlaneGeometry{
+                    geometry.update(from: planeAnchor.geometry)
+                }
+            }
+        
+        func showPlanes(_ cond: Bool){
+            control.view.scene.rootNode.enumerateChildNodes({
+                node, stop in
+                if node.name == "plane" {
+                    if cond {
+                        node.opacity = planesOpacity
+                    } else {
+                        node.opacity = 0.0
+                    }
+                }
+            })
         }
         /*
         func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
