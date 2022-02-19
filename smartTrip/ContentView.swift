@@ -4,12 +4,10 @@
 //
 //  Created by Salvatore Apicella on 12/02/22.
 //
-
 import SwiftUI
 import MapKit
 import AVFAudio
 import BottomSheet
-
 struct ContentView: View {
     
     @State var bottomSheetPosition: BottomSheetPosition = .bottom
@@ -17,29 +15,21 @@ struct ContentView: View {
     var body: some View {
         
         NavigationView{
-            
-                
-                MapView()//.ignoresSafeArea()
-                    .bottomSheet(bottomSheetPosition: $bottomSheetPosition,options:[],headerContent:{
-                        // Quello che si vede nell header
-                        BottomBar()
-                        
-                    }) {
-                        //Quello che si vede appena aperto il menu
-                        BodyContent()
-                    }
-                
-                
-            .navigationTitle("")
-            .navigationBarHidden(true)
-            
+            MapView()//.ignoresSafeArea()
+                .bottomSheet(bottomSheetPosition: $bottomSheetPosition,options:[],headerContent:{
+                    // Quello che si vede nell header
+                    BottomBar()
+                }) {
+                    //Quello che si vede appena aperto il menu
+                    BodyContent()
+                }
+                .navigationTitle("")
+                .navigationBarHidden(true)
         }
         
     }
     
 }
-
-
 struct BodyContent: View {
     
     var body: some View {
@@ -48,7 +38,6 @@ struct BodyContent: View {
     }
     
 }
-
 struct BottomBar: View{
     
     //    @State var showSheet: Bool = false
@@ -62,9 +51,6 @@ struct BottomBar: View{
     }
     
 }
-
-
-
 struct MapView: View {
     @StateObject private var viewModel = MapViewModel()
     @State private var willMoveToInventory: Bool = false
@@ -76,8 +62,6 @@ struct MapView: View {
             }
     }
 }
-
-
 final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     
     @Published var region = MKCoordinateRegion(
@@ -99,7 +83,6 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
         guard let locationManager = locationManager else { return }
         
         switch locationManager.authorizationStatus {
-            
         case .notDetermined:
             locationManager.requestWhenInUseAuthorization()
         case .restricted:
@@ -119,9 +102,8 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
         checkLocationAuthorization()
     }
 }
-
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView().environment(\.managedObjectContext, PersistanceController.preview.container.viewContext)
+        ContentView().environment(\.managedObjectContext, PersistanceController.preview.container.viewContext).previewInterfaceOrientation(.portrait)
     }
 }
