@@ -8,6 +8,8 @@
 import SwiftUI
 import CoreData
 
+
+
 struct DetailsView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
@@ -22,61 +24,121 @@ struct DetailsView: View {
     var body: some View {
         NavigationView {
             
-                VStack(alignment: .center, spacing: 16){
-                    if(unlocked){
-                        Image(uiImage: UIImage(data: item.previewImage!)!)
-                            .resizable()
-                            .frame(width: 170, height: 170, alignment: .center)
-                            .clipShape(Circle())
-                            .overlay(Circle().stroke())
-                            .padding()
-                        VStack(alignment: .leading){
+            GeometryReader { geo in
+                let hz = geo.frame(in: .global).height
+                let vt = geo.frame(in: .global).width
+                ZStack {
+                    
+                    if hz > vt {
+                        
+                        
+                        VStack(alignment: .center, content: {
                             
-                            VStack(alignment: .leading){
-                                Text("Nome")
-                                    .font(.headline)
-                                    .foregroundColor(Color.blue)
-                                    .fontWeight(.medium)
-                                Text(item.name!)
-                                    .font(.title2)
-                                    .fontWeight(.semibold)
+                            if(unlocked){
+                                Image(uiImage: UIImage(data: item.previewImage!)!)
+                                    .resizable()
+                                    .frame(width: 170, height: 170, alignment: .center)
+                                    .clipShape(Circle())
+                                    .overlay(Circle().stroke())
+                                    .padding()
+                            }else{
+                                Image("")
+                                    .resizable()
+                                    .frame(width: 170, height: 170, alignment: .center)
+                                    .clipShape(Circle())
+                                    .overlay(Circle().stroke())
+                                    .padding()
                             }
-                            .padding(.bottom)
-                            
                             VStack(alignment: .leading){
-                                Text("Descrizione")
-                                    .font(.headline)
-                                    .foregroundColor(Color.blue)
-                                    .fontWeight(.medium)
-                                ScrollView{
-                                    Text(item.desc!)
-                                        .font(.body)
+                                if(unlocked){
+                                    Text("Nome")
+                                        .font(.headline)
+                                        .foregroundColor(Color.blue)
+                                        .fontWeight(.medium)
+                                    Text(item.name!)
+                                        .font(.title2)
+                                        .fontWeight(.semibold)
+                                    Text("Descrizione")
+                                        .font(.headline)
+                                        .foregroundColor(Color.blue)
+                                        .fontWeight(.medium)
+                                        .padding(.top)
+                                    ScrollView{
+                                        Text(item.desc!)
+                                            .font(.body)
+                                    }
+                                    .padding(.top, -10.0)
+                                    
+                                }else{
+                                    Text("?")
+                                        .font(.title)
+                                        .fontWeight(.semibold)
+                                    Text("Non hai ancora sbloccato questo contenuto.")
+                                        .font(.title2)
+                                        .foregroundColor(Color.blue)
+                                        .fontWeight(.semibold)
                                 }
-                                .padding(.top, -10.0)
-                                
                             }
+                            .padding(.horizontal, 20.0)
+                        })
                             
-                        }
-                    }else{
-                        Image("")
-                            .resizable()
-                            .frame(width: 170, height: 170, alignment: .center)
-                            .clipShape(Circle())
-                            .overlay(Circle().stroke())
-                            .padding()
-                        VStack(alignment: .leading){
-                            Text("?")
-                                .font(.title)
-                                .fontWeight(.semibold)
-                            Text("Non hai ancora sbloccato questo contenuto.")
-                                .font(.title2)
-                                .foregroundColor(Color.blue)
-                                .fontWeight(.semibold)
-                        }
+                            
+                    } else {
+                        
+                        
+                        HStack(alignment: .center, content: {
+                            if(unlocked){
+                                Image(uiImage: UIImage(data: item.previewImage!)!)
+                                    .resizable()
+                                    .frame(width: 170, height: 170, alignment: .center)
+                                    .clipShape(Circle())
+                                    .overlay(Circle().stroke())
+                                    .padding()
+                            }else{
+                                Image("")
+                                    .resizable()
+                                    .frame(width: 170, height: 170, alignment: .center)
+                                    .clipShape(Circle())
+                                    .overlay(Circle().stroke())
+                                    .padding()
+                            }
+                            VStack(alignment: .leading){
+                                if(unlocked){
+                                    Text("Nome")
+                                        .font(.headline)
+                                        .foregroundColor(Color.blue)
+                                        .fontWeight(.medium)
+                                    Text(item.name!)
+                                        .font(.title2)
+                                        .fontWeight(.semibold)
+                                    Text("Descrizione")
+                                        .font(.headline)
+                                        .foregroundColor(Color.blue)
+                                        .fontWeight(.medium)
+                                        .padding(.top)
+                                    ScrollView{
+                                        Text(item.desc!)
+                                            .font(.body)
+                                    }
+                                    .padding(.top, -10.0)
+                                    
+                                }else{
+                                    Text("?")
+                                        .font(.title)
+                                        .fontWeight(.semibold)
+                                    Text("Non hai ancora sbloccato questo contenuto.")
+                                        .font(.title2)
+                                        .foregroundColor(Color.blue)
+                                        .fontWeight(.semibold)
+                                }
+                            }
+                            .padding(.horizontal, 20.0)
+                            
+                        })
                     }
                 }
-                .frame(maxWidth: .infinity, alignment: .center)
-                .padding()
+            }
+            
             
             .navigationTitle("Info")
             .toolbar {
@@ -87,9 +149,15 @@ struct DetailsView: View {
                 }
             }
         }
-        
+        .navigationViewStyle(.stack)
     }
+    
+    
+    
 }
+
+
+
 
 struct DetailsView_Previews: PreviewProvider {
     static var item = { () -> CollectableItem in
@@ -103,5 +171,6 @@ struct DetailsView_Previews: PreviewProvider {
     static var previews: some View {
         
         DetailsView(item: item)
+            .previewInterfaceOrientation(.portraitUpsideDown)
     }
 }
