@@ -109,60 +109,12 @@ struct HeaderView: View{
         }
         .frame(height:280)
         .frame(maxWidth: .infinity)
-//        .background(Color.white)
     }
 }
-/* OLD
-struct HeaderView: View{
-    @State var showingDetailsView = false
-    @State var showingARView = false
-    
-    var item : Item
-    init(item: Item){
-        self.item = item
-    }
-    var body: some View{
-        VStack{
-                Image(item.image)
-                .resizable()
-                .frame(width: 170, height: 170)
-                .clipShape(Circle())
-                .overlay(Circle().stroke())
-                
-            HStack(spacing: 200){
-                VStack(spacing:2){
-                    Button(action: {
-                            // Do something with AR Kit
-                        self.showingARView = true
-                        }, label: {
-                            Image(systemName: "arkit")
-                                .resizable()
-                                .frame(width: 60, height: 70)
-                        }).fullScreenCover(isPresented: $showingARView, content:{
-                            ARTestView()
-                        })
-                    Text("AR")
-                }
-                VStack(spacing:2){
-                Button(action: {
-                        // Show Info
-                    self.showingDetailsView = true
-                    }, label: {
-                        Image(systemName: "info.circle")
-                            .resizable()
-                            .frame(width: 60, height: 60)
-                    }).sheet(isPresented: $showingDetailsView, content:{
-                        DetailsView(item: item)
-                    })
-                    Text("Info")
-                }
-            }
-        }
-        .frame(height:280)
-        .frame(maxWidth: .infinity)
-    }
-}*/
+
 struct ItemView: View {
+    
+    @Environment(\.colorScheme) var colorScheme
     let item: CollectableItem
     let collected: Bool
     
@@ -180,46 +132,14 @@ struct ItemView: View {
                     .scaledToFit()
                     .frame(width:85)
                     Text(item.name!)
-                    .foregroundColor(Color.black.opacity(0.9))
+                    .foregroundColor(colorScheme == .dark ? Color.white.opacity(0.9) : Color.black.opacity(0.9))
                 }else{
                     Image("")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width:85)
-                    Text("?")
-                        .foregroundColor(Color.black.opacity(0.9))
-                }
-            }
-            .frame(width:reader.size.width, height: reader.size.height)
-            .background(Color.white)
-        }
-        .frame(height: 125)
-        .clipShape(RoundedRectangle(cornerRadius: 30))
-        .shadow(color: Color.black, radius: 2)
-    }
-}
-/* OLD
-struct ItemView: View {
-    @Environment(\.colorScheme) var colorScheme
- 
-    let item: Item
-    var body: some View{
-        GeometryReader{ reader in
-            VStack(spacing: 5){
-                if(item.isUnlocked){
-                Image(item.image)
                     .resizable()
                     .scaledToFit()
                     .frame(width:85)
-                    Text(item.title)
-                        .foregroundColor(colorScheme == .dark ? Color.white.opacity(0.9) : Color.black.opacity(0.9))
-                }else{
-                    Image(item.blackImage)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width:85)
                     Text("?")
-                        .foregroundColor(colorScheme == .dark ? Color.white.opacity(0.9) : Color.black.opacity(0.9))
+                    .foregroundColor(colorScheme == .dark ? Color.white.opacity(0.9) : Color.black.opacity(0.9))
                 }
             }
             .frame(width:reader.size.width, height: reader.size.height)
@@ -230,10 +150,12 @@ struct ItemView: View {
         .shadow(color: Color(UIColor.systemBackground), radius: 2)
     }
 }
-*/
+
 struct CollectionView_Previews: PreviewProvider {
     static var previews: some View {
-        CollectionView().environment(\.managedObjectContext, PersistanceController.preview.container.viewContext)
+        CollectionView()
+            .preferredColorScheme(.dark)
+            .environment(\.managedObjectContext, PersistanceController.preview.container.viewContext)
             .previewInterfaceOrientation(.portrait)
             
     }
