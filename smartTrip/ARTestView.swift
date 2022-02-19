@@ -7,10 +7,12 @@
 
 import SwiftUI
 import ARKit
+import CoreData
 
 struct ARTestView: View {
     @Environment(\.presentationMode) private var presentationMode
     @State var pressedReset: Bool = false
+    let p3DModel: URL
     
     var body: some View {
         ZStack{
@@ -26,7 +28,7 @@ struct ARTestView: View {
                 }
                 Spacer()
             }.zIndex(2)
-            ARSCNViewContainer(pressedReset: $pressedReset)
+            ARSCNViewContainer(pressedReset: $pressedReset,p3DModel: p3DModel)
                 .edgesIgnoringSafeArea(.all)
                 .zIndex(1)
         }
@@ -36,6 +38,8 @@ struct ARTestView: View {
 struct ARSCNViewContainer: UIViewRepresentable {
     let view = ARSCNView(frame: .zero)
     @Binding var pressedReset: Bool
+    let p3DModel: URL
+    
     func makeCoordinator() -> Coordinator {
         return Coordinator(self)
     }
@@ -49,7 +53,7 @@ struct ARSCNViewContainer: UIViewRepresentable {
         
         let config = ARWorldTrackingConfiguration()
         config.planeDetection = .horizontal //informarsi su planeDetection! probabilmente indesiderata o da gestire a parte
-        view.debugOptions = [.showFeaturePoints,.showWorldOrigin]
+        view.debugOptions = [.showFeaturePoints] //.showWorldOrigin
         view.session.run(config)
         
         return view
@@ -114,11 +118,14 @@ struct ARSCNViewContainer: UIViewRepresentable {
             } //prima era planeanchor!!
             if anchor.name == "boxanchor" {
                 print("posiziono modello")
-                let boxNode = SCNNode(geometry: SCNBox(width: 0.1, height: 0.1, length: 0.1, chamferRadius: 0))
-                boxNode.name = "box"
+                //let boxNode = SCNNode(geometry: SCNBox(width: 0.1, height: 0.1, length: 0.1, chamferRadius: 0))
+                let scene = try! SCNScene(url: control.p3DModel)
+                //boxNode.name = "box"
                 objectPlaced = true
                 //boxNode.simdPosition = SIMD3(planeAnchor.center.x, 0, planeAnchor.center.z)
-                node.addChildNode(boxNode)
+                //node.addChildNode(boxNode)
+                scene.rootNode.name="box"
+                node.addChildNode(scene.rootNode)
                 showPlanes(false)
             }
         }
@@ -195,8 +202,16 @@ struct ARSCNViewContainer: UIViewRepresentable {
 }
 
 struct ARTestView_Previews: PreviewProvider {
+    static var item = { () -> CollectableItem in
+        let context = PersistanceController.preview.container.viewContext
+        let req = NSFetchRequest<CollectableItem>(entityName: "CollectableItem")
+        req.predicate = NSPredicate(format:"name LIKE %@","Colosseo")
+        let res = try! context.fetch(req)
+        return res.first!
+    }()
+
     static var previews: some View {
-        ARTestView()
+        ARTestView(p3DModel: item.p3Ddata!)
 .previewInterfaceOrientation(.portrait)
     }
 }

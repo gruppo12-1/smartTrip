@@ -55,15 +55,17 @@ struct HeaderView: View{
     @State var showingARView = false
     
     var item: CollectableItem?
-    let isSelectedItemNull: Bool
+    var isSelectedItemNull: Binding<Bool>
+    var hasSelectedItemModel: Binding<Bool>
     
     init(item: CollectableItem?){
         self.item = item
-        self.isSelectedItemNull = (item == nil)
+        self.isSelectedItemNull = Binding(get:{item == nil},set: {_ in})
+        self.hasSelectedItemModel = Binding(get:{item?.p3Ddata == nil},set: {_ in})
     }
     var body: some View{
         VStack{
-            if !isSelectedItemNull {
+            if !isSelectedItemNull.wrappedValue {
                 Image(uiImage: UIImage(data: item!.previewImage!)!)
                 .resizable()
                 .frame(width: 170, height: 170)
@@ -86,8 +88,8 @@ struct HeaderView: View{
                                 .resizable()
                                 .frame(width: 60, height: 70)
                         }).fullScreenCover(isPresented: $showingARView, content:{
-                            ARTestView()
-                        }).disabled(isSelectedItemNull)
+                            ARTestView(p3DModel: item!.p3Ddata!)
+                        }).disabled(isSelectedItemNull.wrappedValue || hasSelectedItemModel.wrappedValue)
                     Text("AR")
                 }
                 VStack(spacing:2){
@@ -100,7 +102,7 @@ struct HeaderView: View{
                             .frame(width: 60, height: 60)
                     }).sheet(isPresented: $showingDetailsView, content:{
                         DetailsView(item: item!)
-                    }).disabled(isSelectedItemNull)
+                    }).disabled(isSelectedItemNull.wrappedValue)
                     Text("Info")
                 }
             }
