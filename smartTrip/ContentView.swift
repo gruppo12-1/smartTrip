@@ -14,6 +14,10 @@ struct ContentView: View {
     
     @State var bottomSheetPosition: BottomSheetPosition = .bottom
     
+    public enum BottomSheetPosition: CGFloat, CaseIterable {
+        case top = 0.4, middle = 0.3999, bottom = 0.125, hidden = 0
+    }
+    
     var body: some View {
         NavigationView{
             MapView().ignoresSafeArea()
@@ -21,10 +25,7 @@ struct ContentView: View {
                     bottomSheetPosition: $bottomSheetPosition,
                     options: [
                         .dragIndicatorColor(Color.red),
-                        .cornerRadius(25)
-                            
-                        
-                        
+                        .cornerRadius(25),
                              ],
                     headerContent:{BottomBar()})
             {BodyContent()}
