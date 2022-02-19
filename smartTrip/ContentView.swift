@@ -9,6 +9,15 @@ import MapKit
 import AVFAudio
 import BottomSheet
 
+// Questa funzione richiede i risultati dell'interrogazione al database e restituisce un array di strutture UndiscoveredPlace  appositamente creare per contenere le informazioni necessarie a generare una annotazione sulla mappa
+func mapMarker(fetchedCollectableItem: FetchedResults<CollectableItem>)->[UndiscoveredPlace]{
+    var locationArray = [UndiscoveredPlace]()
+    for elemento in fetchedCollectableItem {
+            locationArray.append(UndiscoveredPlace(id: elemento.id ?? UUID(), lat: Double(elemento.latitude), long: Double(elemento.longitude)))
+    }
+    return locationArray
+}
+
 
 struct ContentView: View {
     
@@ -17,6 +26,8 @@ struct ContentView: View {
     public enum BottomSheetPosition: CGFloat, CaseIterable {
         case top = 0.4, middle = 0.3999, bottom = 0.17, hidden = 0
     }
+    
+    @FetchRequest<CollectableItem>(entity: CollectableItem.entity(), sortDescriptors: []) var collectableItem : FetchedResults<CollectableItem> //Interrogo il database per recuperare i collezionabil
     
     
     var body: some View {
@@ -27,7 +38,7 @@ struct ContentView: View {
                 let vt = geo.frame(in: .global).width
                 ZStack {
                 
-                    MapView().ignoresSafeArea()
+                    MapView(annotations: mapMarker(fetchedCollectableItem: collectableItem)).ignoresSafeArea()
                     
                     if hz < vt {
                         
@@ -98,12 +109,32 @@ struct BottomBar: View{
     }
     
 }
+
+// Struttura realizzata ad hoc per contenere i risultati dell'interrogazione al database
+struct UndiscoveredPlace: Identifiable{
+    
+    let id: UUID
+    let location: CLLocationCoordinate2D
+    
+    init(id: UUID , lat: Double , long:Double ){
+        self.id = id
+        self.location = CLLocationCoordinate2D(latitude:lat,longitude:long)
+    }
+    
+}
+
 struct MapView: View {
     @StateObject private var viewModel = MapViewModel()
     @State private var willMoveToInventory: Bool = false
     
+    var annotations: [UndiscoveredPlace]
+    
     var body: some View {
-        Map(coordinateRegion: $viewModel.region, showsUserLocation: true)
+        Map(coordinateRegion: $viewModel.region, showsUserLocation: true, annotationItems: annotations){
+            place in MapAnnotation(coordinate: place.location){
+                 Image(systemName: "questionmark")  //Mostro un punto interrogativo
+            }
+        }
             .onAppear{
                 viewModel.checkIfLocationManagerIsEnabled()
             }
