@@ -29,6 +29,7 @@ struct CollectionView: View {
                         }
                     }.padding(.all)
                 }
+//                .background(Color.white)
                 .navigationTitle("My Collection")
                 .navigationBarTitleDisplayMode(.inline)
             }
@@ -36,19 +37,16 @@ struct CollectionView: View {
 }
 
 struct ItemButtonStyle: ButtonStyle{
-    @Environment(\.colorScheme) var colorScheme
     let cornerRadius: CGFloat
     func makeBody(configuration: Configuration) -> some View{
         ZStack{
             configuration.label
-            if configuration.isPressed && colorScheme == .dark{
-                Color.white.opacity(0.2)
-            }else if configuration.isPressed{
+            if configuration.isPressed {
                 Color.black.opacity(0.2)
             }
         }
         .clipShape(RoundedRectangle(cornerRadius: 30))
-        .shadow(color: colorScheme == .dark ? Color.white : Color.black, radius: 2)
+        .shadow(color: Color.black, radius: 2)
     }
 }
 
@@ -160,6 +158,7 @@ struct HeaderView: View{
         }
         .frame(height:280)
         .frame(maxWidth: .infinity)
+//        .background(Color.white)
     }
 }*/
 struct ItemView: View {
@@ -200,8 +199,6 @@ struct ItemView: View {
 }
 /* OLD
 struct ItemView: View {
-    @Environment(\.colorScheme) var colorScheme
- 
     let item: Item
     var body: some View{
         GeometryReader{ reader in
@@ -211,23 +208,23 @@ struct ItemView: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width:85)
-                    Text(item.title)
-                        .foregroundColor(colorScheme == .dark ? Color.white.opacity(0.9) : Color.black.opacity(0.9))
+                Text(item.title)
+                    .foregroundColor(Color.black.opacity(0.9))
                 }else{
                     Image(item.blackImage)
                         .resizable()
                         .scaledToFit()
                         .frame(width:85)
                     Text("?")
-                        .foregroundColor(colorScheme == .dark ? Color.white.opacity(0.9) : Color.black.opacity(0.9))
+                        .foregroundColor(Color.black.opacity(0.9))
                 }
             }
             .frame(width:reader.size.width, height: reader.size.height)
-            .background(colorScheme == .dark ? Color.black : Color.white)
+            .background(Color.white)
         }
         .frame(height: 125)
         .clipShape(RoundedRectangle(cornerRadius: 30))
-        .shadow(color: Color(UIColor.systemBackground), radius: 2)
+        .shadow(color: Color.black, radius: 2)
     }
 }
 */
@@ -235,6 +232,5 @@ struct CollectionView_Previews: PreviewProvider {
     static var previews: some View {
         CollectionView().environment(\.managedObjectContext, PersistanceController.preview.container.viewContext)
             .previewInterfaceOrientation(.portrait)
-            
     }
 }

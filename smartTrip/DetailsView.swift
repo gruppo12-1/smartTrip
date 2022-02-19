@@ -21,7 +21,7 @@ struct DetailsView: View {
     
     var body: some View {
         NavigationView {
-            ScrollView{
+            
                 VStack(alignment: .center, spacing: 16){
                     if(unlocked){
                         Image(uiImage: UIImage(data: item.previewImage!)!)
@@ -30,19 +30,33 @@ struct DetailsView: View {
                             .clipShape(Circle())
                             .overlay(Circle().stroke())
                             .padding()
-                        Text("Nome")
-                            .font(.title2)
-                            .foregroundColor(Color.blue)
-                            .fontWeight(.semibold)
-                        Text(item.name!)
-                            .font(.title)
-                            .fontWeight(.semibold)
-                        Text("Descrizione")
-                            .font(.title2)
-                            .foregroundColor(Color.blue)
-                            .fontWeight(.semibold)
-                        Text(item.desc!)
-                            .font(.subheadline)
+                        VStack(alignment: .leading){
+                            
+                            VStack(alignment: .leading){
+                                Text("Nome")
+                                    .font(.headline)
+                                    .foregroundColor(Color.blue)
+                                    .fontWeight(.medium)
+                                Text(item.name!)
+                                    .font(.title2)
+                                    .fontWeight(.semibold)
+                            }
+                            .padding(.bottom)
+                            
+                            VStack(alignment: .leading){
+                                Text("Descrizione")
+                                    .font(.headline)
+                                    .foregroundColor(Color.blue)
+                                    .fontWeight(.medium)
+                                ScrollView{
+                                    Text(item.desc!)
+                                        .font(.body)
+                                }
+                                .padding(.top, -10.0)
+                                
+                            }
+                            
+                        }
                     }else{
                         Image("")
                             .resizable()
@@ -50,18 +64,20 @@ struct DetailsView: View {
                             .clipShape(Circle())
                             .overlay(Circle().stroke())
                             .padding()
-                        Text("?")
-                            .font(.title)
-                            .fontWeight(.semibold)
-                        Text("Non hai ancora sbloccato questo contenuto.")
-                            .font(.title2)
-                            .foregroundColor(Color.blue)
-                            .fontWeight(.semibold)
+                        VStack(alignment: .leading){
+                            Text("?")
+                                .font(.title)
+                                .fontWeight(.semibold)
+                            Text("Non hai ancora sbloccato questo contenuto.")
+                                .font(.title2)
+                                .foregroundColor(Color.blue)
+                                .fontWeight(.semibold)
+                        }
                     }
                 }
                 .frame(maxWidth: .infinity, alignment: .center)
                 .padding()
-            }
+            
             .navigationTitle("Info")
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
