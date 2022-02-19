@@ -17,16 +17,19 @@ struct ContentView: View {
     var body: some View {
         NavigationView{
             MapView().ignoresSafeArea()
-                .bottomSheet(bottomSheetPosition: $bottomSheetPosition,options:[],headerContent:{
-                    // Quello che si vede nell header
-                    BottomBar()
-                }) {
-                    //Quello che si vede appena aperto il menu
-                    BodyContent()
-                }
-        
-                .navigationTitle("")
-                .navigationBarHidden(true)
+                .bottomSheet(
+                    bottomSheetPosition: $bottomSheetPosition,
+                    options: [
+                        .dragIndicatorColor(Color.red),
+                        .cornerRadius(25)
+                            
+                        
+                        
+                             ],
+                    headerContent:{BottomBar()})
+            {BodyContent()}
+            .navigationTitle("")
+            .navigationBarHidden(true)
         }.navigationViewStyle(.stack)
             .statusBar(hidden: true)
         
@@ -43,7 +46,7 @@ struct BodyContent: View {
 }
 struct BottomBar: View{
     
-        @State var showSheet: Bool = false
+    @State var showSheet: Bool = false
     
     var body: some View{
         HStack{
