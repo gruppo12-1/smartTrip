@@ -8,62 +8,48 @@
 import SwiftUI
 import MapKit
 import AVFAudio
+import BottomSheet
 
 struct ContentView: View {
-    @State var showSheet: Bool = false
     
-    var drag: some Gesture{
-        
-        DragGesture()
-        .onEnded{ _ in
-            showSheet.toggle()
-        }
-        .onChanged{_ in
-            
-            showSheet.toggle()
-            
-        }
-            
-        
-        
-    }
-    
-    
+    @State var bottomSheetPosition: BottomSheetPosition = .bottom
     var body: some View {
-        VStack{
             MapView()
-            Divider()
-            BottomBar().gesture(drag).halfSheet(showSheet: $showSheet){
-                Text("Prova").ignoresSafeArea()
-            } onEnd:{
-            print("Dismissed")
-            }.onTapGesture {
-                print("Tappato")
+            .bottomSheet(bottomSheetPosition: $bottomSheetPosition,options:[],headerContent:{
+                // Quello che si vede nell header
+                BottomBar()
+                
+            }) {
+                //Quello che si vede appena aperto il menu
+                    BodyContent()
             }
-        }
+        
     }
+}
+
+struct BodyContent: View {
+    
+        var body: some View {
+             Text("Contenuto del body")
+        }
+    
 }
 
 struct BottomBar: View{
    
-    @State var showSheet: Bool = false
+//    @State var showSheet: Bool = false
     
     var body: some View{
+        
         HStack{
-            Button("Bottone 1"){
-               print("You Clicked me")
-            }
-            
+            NavigationLink(destination: CollectionView(), label: {Text("Inventario").padding(10)})
             Spacer()
-           
-            Button("Bottone 1"){
-               print("You Clicked me")
-            }
-           
+            NavigationLink(destination: AccountView(), label: {Text("Profilo").padding(10)})
         }.padding()
+    }
         
 }
-}
+
 
 
 struct MapView: View {
@@ -77,11 +63,6 @@ struct MapView: View {
                     .onAppear{
                         viewModel.checkIfLocationManagerIsEnabled()
                     }
-                HStack{
-                    NavigationLink(destination: CollectionView(), label: {Text("Inventario").padding(10)})
-                    Spacer()
-                    NavigationLink(destination: AccountView(), label: {Text("Profilo").padding(10)})
-                }
             }.navigationBarHidden(true)
         }
     }
@@ -128,6 +109,9 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
         checkLocationAuthorization()
     }
 }
+
+
+/*
 
 // Estensione di view per avere la modalità
 extension View{
@@ -184,12 +168,6 @@ struct HalfSheetHelper<SheetView: View>: UIViewControllerRepresentable{
     
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView().environment(\.managedObjectContext, PersistanceController.preview.container.viewContext)
-    }
-}
-
 class CustomHostingController<Content: View>: UIHostingController<Content>{
     
     override func viewDidLoad() {
@@ -205,5 +183,13 @@ class CustomHostingController<Content: View>: UIHostingController<Content>{
 //
             presentationController.prefersGrabberVisible = true
         }
+    }
+}
+ 
+ */
+
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView().environment(\.managedObjectContext, PersistanceController.preview.container.viewContext)
     }
 }
