@@ -15,20 +15,52 @@ struct ContentView: View {
     @State var bottomSheetPosition: BottomSheetPosition = .bottom
     
     public enum BottomSheetPosition: CGFloat, CaseIterable {
-        case top = 0.4, middle = 0.3999, bottom = 0.125, hidden = 0
+        case top = 0.4, middle = 0.3999, bottom = 0.17, hidden = 0
     }
+    
     
     var body: some View {
         NavigationView{
-            MapView().ignoresSafeArea()
-                .bottomSheet(
-                    bottomSheetPosition: $bottomSheetPosition,
-                    options: [
-                        .dragIndicatorColor(Color.red),
-                        .cornerRadius(25),
-                             ],
-                    headerContent:{BottomBar()})
-            {BodyContent()}
+            
+            GeometryReader { geo in
+                let hz = geo.frame(in: .global).height
+                let vt = geo.frame(in: .global).width
+                ZStack {
+                
+                    MapView().ignoresSafeArea()
+                    
+                    if hz < vt {
+                        
+                        
+                        HStack(alignment: .center, content: {
+                                Rectangle().opacity(0)
+                                    .bottomSheet(
+                                        bottomSheetPosition: $bottomSheetPosition,
+                                        options: [
+                                            .dragIndicatorColor(Color.red),
+                                            .cornerRadius(25),
+                                        ],
+                                        headerContent:{BottomBar()})
+                                {BodyContent()}
+                                Rectangle().opacity(0)
+                        })
+                    } else {
+                        
+                        
+                        HStack(alignment: .center, content: {
+                                Rectangle().opacity(0)
+                                    .bottomSheet(
+                                        bottomSheetPosition: $bottomSheetPosition,
+                                        options: [
+                                            .dragIndicatorColor(Color.red),
+                                            .cornerRadius(25),
+                                        ],
+                                        headerContent:{BottomBar()})
+                                {BodyContent()}
+                        })
+                    }
+                }
+            }
             .navigationTitle("")
             .navigationBarHidden(true)
         }.navigationViewStyle(.stack)
@@ -37,6 +69,10 @@ struct ContentView: View {
     }
     
 }
+
+
+
+
 struct BodyContent: View {
     
     var body: some View {
@@ -45,6 +81,10 @@ struct BodyContent: View {
     }
     
 }
+
+
+
+
 struct BottomBar: View{
     
     @State var showSheet: Bool = false
@@ -112,6 +152,6 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView().previewDevice("iPhone 11").environment(\.managedObjectContext, PersistanceController.preview.container.viewContext).previewInterfaceOrientation(.portrait)
+        ContentView().previewDevice("iPhone 11").environment(\.managedObjectContext, PersistanceController.preview.container.viewContext).previewInterfaceOrientation(.landscapeRight)
     }
 }
