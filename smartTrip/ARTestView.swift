@@ -90,6 +90,7 @@ struct ARSCNViewContainer: UIViewRepresentable {
             let location = sender.location(in: view)
             print(location)
             guard let hitTestResult = view.hitTest(location, types: [.estimatedHorizontalPlane]).first
+                    
                         else { return }
             print(hitTestResult)
             let anchor = ARAnchor(name: "boxanchor", transform: hitTestResult.worldTransform) //crea un anchor associata all'hitResult
