@@ -8,14 +8,15 @@ import SwiftUI
 import MapKit
 import AVFAudio
 import BottomSheet
+
+
 struct ContentView: View {
     
     @State var bottomSheetPosition: BottomSheetPosition = .bottom
     
     var body: some View {
-        
         NavigationView{
-            MapView()//.ignoresSafeArea()
+            MapView().ignoresSafeArea()
                 .bottomSheet(bottomSheetPosition: $bottomSheetPosition,options:[],headerContent:{
                     // Quello che si vede nell header
                     BottomBar()
@@ -23,9 +24,11 @@ struct ContentView: View {
                     //Quello che si vede appena aperto il menu
                     BodyContent()
                 }
+        
                 .navigationTitle("")
                 .navigationBarHidden(true)
-        }
+        }.navigationViewStyle(.stack)
+            .statusBar(hidden: true)
         
     }
     
@@ -40,7 +43,7 @@ struct BodyContent: View {
 }
 struct BottomBar: View{
     
-    //    @State var showSheet: Bool = false
+        @State var showSheet: Bool = false
     
     var body: some View{
         HStack{
@@ -102,8 +105,9 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
         checkLocationAuthorization()
     }
 }
+
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView().environment(\.managedObjectContext, PersistanceController.preview.container.viewContext).previewInterfaceOrientation(.portrait)
+        ContentView().previewDevice("iPhone 11").environment(\.managedObjectContext, PersistanceController.preview.container.viewContext).previewInterfaceOrientation(.portrait)
     }
 }
