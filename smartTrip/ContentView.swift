@@ -128,6 +128,7 @@ struct MapView: View {
     @Environment(\.colorScheme) var colorScheme
     @StateObject private var viewModel = MapViewModel()
     @State private var willMoveToInventory: Bool = false
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     var annotations: [UndiscoveredPlace]
     
@@ -146,6 +147,9 @@ struct MapView: View {
         }
             .onAppear{
                 viewModel.checkIfLocationManagerIsEnabled()
+            }
+            .onReceive(timer){ _ in
+                viewModel.checkLocation(locations: annotations)
             }
     }
 }
@@ -195,6 +199,13 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         print(locations)
+    }
+    
+    func checkLocation(locations: [UndiscoveredPlace]){
+        if locationManager?.authorizationStatus == .authorizedAlways || locationManager?.authorizationStatus == .authorizedWhenInUse{
+            print("ok")
+            // implementare il confronto della posizione dell'utente con quella dei markers
+        }
     }
     
 }
