@@ -22,7 +22,7 @@ struct DetailsView: View {
     }
     
     var body: some View {
-        NavigationView {
+      
             
             GeometryReader { geo in
                 let hz = geo.frame(in: .global).height
@@ -42,14 +42,11 @@ struct DetailsView: View {
                                     .overlay(Circle().stroke())
                                     .padding()
                             }else{
-                                Image("")
-                                    .resizable()
-                                    .frame(width: 170, height: 170, alignment: .center)
-                                    .clipShape(Circle())
-                                    .overlay(Circle().stroke())
-                                    .padding()
+                                
                             }
+                            
                             VStack(alignment: .leading){
+                                
                                 if(unlocked){
                                     Text("Nome")
                                         .font(.headline)
@@ -70,13 +67,12 @@ struct DetailsView: View {
                                     .padding(.top, -10.0)
                                     
                                 }else{
-                                    Text("?")
-                                        .font(.title)
-                                        .fontWeight(.semibold)
-                                    Text("Non hai ancora sbloccato questo contenuto.")
+                                    
+                                    Text("Non hai ancora sbloccato questo contenuto.\n\nTorna sulla mappa e cerca l'obiettivo più vicino a te! 💪")
                                         .font(.title2)
                                         .foregroundColor(Color.blue)
                                         .fontWeight(.semibold)
+                                        .padding(.top)
                                 }
                             }
                             .padding(.horizontal, 20.0)
@@ -141,14 +137,7 @@ struct DetailsView: View {
             
             
             .navigationTitle("Info")
-            .toolbar {
-                ToolbarItem(placement: .confirmationAction) {
-                    Button("Close") {
-                        presentationMode.wrappedValue.dismiss()
-                    }
-                }
-            }
-        }
+        
         .navigationViewStyle(.stack)
     }
     
@@ -171,6 +160,6 @@ struct DetailsView_Previews: PreviewProvider {
     static var previews: some View {
         
         DetailsView(item: item)
-            .previewInterfaceOrientation(.portraitUpsideDown)
+            .previewInterfaceOrientation(.portrait)
     }
 }

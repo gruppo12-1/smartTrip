@@ -10,27 +10,23 @@ import ARKit
 import CoreData
 
 struct ARTestView: View {
-    @Environment(\.presentationMode) private var presentationMode
+    @Environment(\.colorScheme) var colorScheme
     @State var pressedReset: Bool = false
     let p3DModel: URL
     
     var body: some View {
         ZStack{
-            VStack{
-                HStack{
-                    Button(action: {presentationMode.wrappedValue.dismiss()}, label: {Text("BACK")})
-                        .padding(15.0)
-                        .buttonStyle(.bordered)
-                    Spacer()
-                    Button(action: {pressedReset.toggle()}, label: {Text("RESET")})
-                        .padding(15.0)
-                        .buttonStyle(.bordered)
-                }
-                Spacer()
-            }.zIndex(2)
             ARSCNViewContainer(pressedReset: $pressedReset,p3DModel: p3DModel)
-                .edgesIgnoringSafeArea(.all)
+                .edgesIgnoringSafeArea(.bottom)
+                .edgesIgnoringSafeArea(.horizontal)
                 .zIndex(1)
+        }
+        .navigationTitle("Vista AR")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar{
+            ToolbarItem(placement: .navigationBarTrailing, content: {
+                Button(action: {pressedReset.toggle()}, label: {Text("Reset")})
+            })
         }
     }
 }

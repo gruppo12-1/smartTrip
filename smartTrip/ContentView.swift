@@ -72,10 +72,10 @@ struct ContentView: View {
                     }
                 }
             }
-            .navigationTitle("")
+            .navigationTitle("Map")
             .navigationBarHidden(true)
         }.navigationViewStyle(.stack)
-            .statusBar(hidden: true)
+//            .statusBar(hidden: true)
         
     }
     
@@ -124,6 +124,7 @@ struct UndiscoveredPlace: Identifiable{
 }
 
 struct MapView: View {
+    @Environment(\.colorScheme) var colorScheme
     @StateObject private var viewModel = MapViewModel()
     @State private var willMoveToInventory: Bool = false
     
@@ -132,7 +133,14 @@ struct MapView: View {
     var body: some View {
         Map(coordinateRegion: $viewModel.region, showsUserLocation: true, annotationItems: annotations){
             place in MapAnnotation(coordinate: place.location){
-                 Image(systemName: "questionmark")  //Mostro un punto interrogativo
+                Image(systemName: "questionmark")
+                    .resizable()
+                    .frame(width: 20, height: 30, alignment: .center)
+                    .foregroundColor(Color.blue)
+                    .frame(width: 50, height: 50)
+                    .background(colorScheme == .dark ? Color.init(white: 0.1) : Color.init(white: 0.9))
+                    .clipShape(Circle())
+                    .overlay(Circle().stroke())
             }
         }
             .onAppear{
