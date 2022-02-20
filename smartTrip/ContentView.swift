@@ -147,7 +147,7 @@ struct MapView: View {
             place in MapAnnotation(coordinate: place.location){
                 Image(systemName: "questionmark.circle")
                     .resizable()
-                    .frame(width: 20, height: 30, alignment: .center)
+                    .frame(width: 30, height: 30, alignment: .center)
                     .foregroundColor(Color.blue)
                     .frame(width: 50, height: 50)
                     .background(colorScheme == .dark ? Color.init(white: 0.1) : Color.init(white: 0.9))
@@ -278,8 +278,16 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
     
     func isNearTheItem(location1: CLLocationCoordinate2D, location2: CLLocationCoordinate2D) -> Bool{
         // cambiare epsilon in base alla precisione che si desidera
-        let epsilon : CGFloat = 2.0
+        /*
+        let epsilon : CGFloat = 0.1
         return (fabs(location1.latitude - location2.latitude) <= epsilon && fabs(location1.longitude - location2.longitude) <= epsilon)
+         */
+        let distance = 50.0
+        let tmp = MKMapPoint(location1)
+        if ( tmp.distance(to: MKMapPoint(location2)) < distance) {
+            return true
+        }
+        return false
     }
 
     
