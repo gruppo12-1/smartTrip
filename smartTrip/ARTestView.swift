@@ -17,8 +17,7 @@ struct ARTestView: View {
     var body: some View {
         ZStack{
             ARSCNViewContainer(pressedReset: $pressedReset,p3DModel: p3DModel)
-                .edgesIgnoringSafeArea(.bottom)
-                .edgesIgnoringSafeArea(.horizontal)
+                .ignoresSafeArea()
                 .zIndex(1)
         }
         .navigationTitle("Vista AR")
