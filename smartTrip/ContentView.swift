@@ -11,7 +11,7 @@ import AVFAudio
 import BottomSheet
 import CoreData
 
-// Questa funzione richiede i risultati dell'interrogazione al database e restituisce un array di strutture UndiscoveredPlace  appositamente creare per contenere le informazioni necessarie a generare una annotazione sulla mappa
+// Questa funzione richiede i risultati dell'interrogazione al database e restituisce un array di strutture UndiscoveredPlace  appositamente creare per contenere le informazioni necessarie a generare una annotazione sulla mappa e contenenti l'item recuperato dal database
 
 func mapMarker()->[UndiscoveredPlace]{
     let context = PersistanceController.preview.container.viewContext
@@ -131,13 +131,15 @@ struct MapView: View {
     @StateObject private var viewModel = MapViewModel()
     @State private var willMoveToInventory: Bool = false
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    @State private var showingSheet : Bool = false
     
-    var annotations: [UndiscoveredPlace]
+    @State var annotations: [UndiscoveredPlace]
     let context : NSManagedObjectContext
+    @State var placeDiscovered : UndiscoveredPlace?
     
     init(annotations:[UndiscoveredPlace] , context: NSManagedObjectContext){
         self.context = context
-        self.annotations = annotations
+        _annotations = State(initialValue: annotations)
     }
     
     var body: some View {
@@ -157,8 +159,38 @@ struct MapView: View {
                 viewModel.checkIfLocationManagerIsEnabled()
             }
             .onReceive(timer){ _ in
-                viewModel.checkLocation(locations: annotations , context: context)
+                let returned  = viewModel.checkLocation(locations: annotations , context: context)
+                    if returned > -1 {
+                      placeDiscovered = annotations.remove(at: returned)
+                      showingSheet.toggle()
+                    print("Ho Raccolto un oggetto")
+                    
+                }
             }
+            .sheet(isPresented: $showingSheet){
+                SheetView(elementoScoperto: placeDiscovered!)
+            }
+    }
+}
+
+//SheetView che viene visualizzata all'atto dello sblocco
+
+struct SheetView: View{
+    
+    let element : UndiscoveredPlace
+    
+    init(elementoScoperto: UndiscoveredPlace){
+        self.element = elementoScoperto
+    }
+    
+    var body : some View{
+        VStack{
+        Text("Hai sbloccato un nuovo item!!!")
+//            Image(uiImage: UIImage(data: element.item.previewImage!)!).frame(width: 30, height: 30, alignment: .center)
+            Text("\(element.item.name ?? "Ogetto senza nome")")
+        }
+        
+        
     }
 }
 
@@ -206,28 +238,35 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print(locations)
+//        print(locations)
     }
     
-    func checkLocation(locations: [UndiscoveredPlace] , context: NSManagedObjectContext){
+    func checkLocation(locations: [UndiscoveredPlace] , context: NSManagedObjectContext)-> Int{
         if locationManager?.authorizationStatus == .authorizedAlways || locationManager?.authorizationStatus == .authorizedWhenInUse{
+            var i = 0
             for location in locations {
                 if(self.isNearTheItem(location1: self.locationManager!.location!.coordinate, location2: location.location)){ // Tende a crashare se non si hanno i permessi
                     // Sono vicino all'oggetto, devo sbloccarlo
+                    print("Sto girando qui")
                     let collectedItem = CollectedItem(context: context)
                     collectedItem.id = location.id
                     collectedItem.dateCollected = Date.now
-                    collectedItem.item = queryForId(locationId:location.id , context: context)//                    print("Provo a salvare \(collectedItem.id)") // Questa cosa è errata è solo una prova IMPORTANTEEEEE
+                    collectedItem.item = queryForId(locationId:location.id , context: context)
                     do {
                         try context.save()
                         print("Collectable item saved")
                     } catch {
                         print(error.localizedDescription)
                     }
+                 return i
                 }
+                i = i+1
             }
         }
+        return -1
     }
+    
+ 
     
     func queryForId( locationId: UUID, context: NSManagedObjectContext)-> CollectableItem?{
         let req = NSFetchRequest<CollectableItem>(entityName: "CollectableItem") //Richiedo items al database
