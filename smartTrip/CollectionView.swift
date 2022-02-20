@@ -37,6 +37,7 @@ struct CollectionView: View {
 }
 
 struct ItemButtonStyle: ButtonStyle{
+    @Environment(\.colorScheme) var colorScheme
     let cornerRadius: CGFloat
     func makeBody(configuration: Configuration) -> some View{
         ZStack{
@@ -46,7 +47,7 @@ struct ItemButtonStyle: ButtonStyle{
             }
         }
         .clipShape(RoundedRectangle(cornerRadius: 30))
-        .shadow(color: Color.black, radius: 2)
+        .shadow(color: colorScheme == .dark ? Color.white : Color.black, radius: 2)
     }
 }
 
