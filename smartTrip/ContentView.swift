@@ -14,9 +14,17 @@ import BottomSheet
 func mapMarker(fetchedCollectableItem: FetchedResults<CollectableItem>)->[UndiscoveredPlace]{
     var locationArray = [UndiscoveredPlace]()
     for elemento in fetchedCollectableItem {
-            locationArray.append(UndiscoveredPlace(id: elemento.id ?? UUID(), lat: Double(elemento.latitude), long: Double(elemento.longitude)))
+            locationArray.append(UndiscoveredPlace(id: elemento.id ?? UUID(), lat: Double(elemento.latitude), long: Double(elemento.longitude))) // Nota l'UUID NON DEVE ESSERE OPZIONALE DA RIVEDERE FONDAMENTALE
     }
     return locationArray
+}
+
+func itemListMaker(fetchedCollectableItem:FetchedResults<CollectableItem>)->[CollectableItem]{
+    var elementArray = [CollectableItem]()
+    for elemento in fetchedCollectableItem {
+        elementArray.append(elemento)
+    }
+    return elementArray
 }
 
 
@@ -39,7 +47,7 @@ struct ContentView: View {
                 let vt = geo.frame(in: .global).width
                 ZStack {
                 
-                    MapView(annotations: mapMarker(fetchedCollectableItem: collectableItem)).ignoresSafeArea()
+                    MapView(annotations: mapMarker(fetchedCollectableItem: collectableItem),itemList:itemListMaker(fetchedCollectableItem: collectableItem)).ignoresSafeArea()
                     
                     if hz < vt {
                         
@@ -122,6 +130,7 @@ struct MapView: View {
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     var annotations: [UndiscoveredPlace]
+    var itemList:    [CollectableItem]
     
     var body: some View {
         Map(coordinateRegion: $viewModel.region, showsUserLocation: true, annotationItems: annotations){
@@ -140,12 +149,14 @@ struct MapView: View {
                 viewModel.checkIfLocationManagerIsEnabled()
             }
             .onReceive(timer){ _ in
-                viewModel.checkLocation(locations: annotations)
+                viewModel.checkLocation(locations: annotations, itemList: itemList)
             }
     }
 }
 
 final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
+    
+    @Environment(\.managedObjectContext) private var viewContext
     
     @Published var region = MKCoordinateRegion(
         center: CLLocationCoordinate2D(latitude: 40.70024528747822,longitude: 14.707543253794043),span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
@@ -192,15 +203,34 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
         print(locations)
     }
     
-    func checkLocation(locations: [UndiscoveredPlace]){
+    func checkLocation(locations: [UndiscoveredPlace] , itemList: [CollectableItem]){
         if locationManager?.authorizationStatus == .authorizedAlways || locationManager?.authorizationStatus == .authorizedWhenInUse{
-            print("ok")
-            ForEach(locations){ location in
-                if(self.isNearTheItem(location1: self.locationManager!.location!.coordinate, location2: location.location)){
-                    // implementare il confronto della posizione dell'utente con quella dei markers
+//            print("ok")
+            for location in locations {
+                if(self.isNearTheItem(location1: self.locationManager!.location!.coordinate, location2: location.location)){ // Tende a crashare se non si hanno i permessi
+                    // Sono vicino all'oggetto, devo sbloccarlo
+                    let collectedItem = CollectedItem(context: viewContext)
+                    collectedItem.id = location.id
+                    collectedItem.dateCollected = Date.now
+                    collectedItem.item = searchElement(id: location.id,itemList: itemList)
+//                    print("Provo a salvare \(collectedItem.id)") // Questa cosa è errata è solo una prova IMPORTANTEEEEE
+                    do {
+                        try viewContext.save()
+                        print("Collectable item saved")
+                    } catch {
+                        print(error.localizedDescription)
+                    }
                 }
             }
         }
+    }
+    
+    //Nota ho implementato una ricerca lineare
+    func searchElement(id: UUID, itemList:[CollectableItem])->CollectableItem?{
+        for item in itemList{
+            if (item.id == id) {return item}
+        }
+        return nil
     }
     
     func isNearTheItem(location1: CLLocationCoordinate2D, location2: CLLocationCoordinate2D) -> Bool{
@@ -208,8 +238,11 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
         let epsilon : CGFloat = 2.0
         return (fabs(location1.latitude - location2.latitude) <= epsilon && fabs(location1.longitude - location2.longitude) <= epsilon)
     }
+
     
 }
+
+    
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
