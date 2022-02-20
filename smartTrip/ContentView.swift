@@ -9,26 +9,27 @@ import MapKit
 import CoreLocation
 import AVFAudio
 import BottomSheet
+import CoreData
 
 // Questa funzione richiede i risultati dell'interrogazione al database e restituisce un array di strutture UndiscoveredPlace  appositamente creare per contenere le informazioni necessarie a generare una annotazione sulla mappa
-func mapMarker(fetchedCollectableItem: FetchedResults<CollectableItem>)->[UndiscoveredPlace]{
+
+func mapMarker()->[UndiscoveredPlace]{
+    let context = PersistanceController.preview.container.viewContext
+    let req = NSFetchRequest<CollectableItem>(entityName: "CollectableItem") //Richiedo items al database
+    let res = try! context.fetch(req)
+    
     var locationArray = [UndiscoveredPlace]()
-    for elemento in fetchedCollectableItem {
-            locationArray.append(UndiscoveredPlace(id: elemento.id ?? UUID(), lat: Double(elemento.latitude), long: Double(elemento.longitude))) // Nota l'UUID NON DEVE ESSERE OPZIONALE DA RIVEDERE FONDAMENTALE
+    
+    for elemento in res {
+        locationArray.append(UndiscoveredPlace(item: elemento))
     }
     return locationArray
 }
 
-func itemListMaker(fetchedCollectableItem:FetchedResults<CollectableItem>)->[CollectableItem]{
-    var elementArray = [CollectableItem]()
-    for elemento in fetchedCollectableItem {
-        elementArray.append(elemento)
-    }
-    return elementArray
-}
-
 
 struct ContentView: View {
+    
+    @Environment(\.managedObjectContext) private var viewContext
     
     @State var bottomSheetPosition: BottomSheetPosition = .bottom
     
@@ -47,7 +48,7 @@ struct ContentView: View {
                 let vt = geo.frame(in: .global).width
                 ZStack {
                 
-                    MapView(annotations: mapMarker(fetchedCollectableItem: collectableItem),itemList:itemListMaker(fetchedCollectableItem: collectableItem)).ignoresSafeArea()
+                    MapView(annotations: mapMarker() , context: viewContext).ignoresSafeArea()
                     
                     if hz < vt {
                         
@@ -113,12 +114,14 @@ struct BottomBar: View{
 // Struttura realizzata ad hoc per contenere i risultati dell'interrogazione al database
 struct UndiscoveredPlace: Identifiable{
     
-    let id: UUID
+    let id : UUID
     let location: CLLocationCoordinate2D
+    let item: CollectableItem
     
-    init(id: UUID , lat: Double , long:Double ){
-        self.id = id
-        self.location = CLLocationCoordinate2D(latitude:lat,longitude:long)
+    init(item: CollectableItem ){
+        self.id = item.id ?? UUID()
+        self.location = CLLocationCoordinate2D(latitude:Double(item.latitude),longitude:Double(item.longitude))
+        self.item = item
     }
     
 }
@@ -130,7 +133,12 @@ struct MapView: View {
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     var annotations: [UndiscoveredPlace]
-    var itemList:    [CollectableItem]
+    let context : NSManagedObjectContext
+    
+    init(annotations:[UndiscoveredPlace] , context: NSManagedObjectContext){
+        self.context = context
+        self.annotations = annotations
+    }
     
     var body: some View {
         Map(coordinateRegion: $viewModel.region, showsUserLocation: true, annotationItems: annotations){
@@ -149,14 +157,12 @@ struct MapView: View {
                 viewModel.checkIfLocationManagerIsEnabled()
             }
             .onReceive(timer){ _ in
-                viewModel.checkLocation(locations: annotations, itemList: itemList)
+                viewModel.checkLocation(locations: annotations , context: context)
             }
     }
 }
 
 final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
-    
-    @Environment(\.managedObjectContext) private var viewContext
     
     @Published var region = MKCoordinateRegion(
         center: CLLocationCoordinate2D(latitude: 40.70024528747822,longitude: 14.707543253794043),span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
@@ -203,19 +209,17 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
         print(locations)
     }
     
-    func checkLocation(locations: [UndiscoveredPlace] , itemList: [CollectableItem]){
+    func checkLocation(locations: [UndiscoveredPlace] , context: NSManagedObjectContext){
         if locationManager?.authorizationStatus == .authorizedAlways || locationManager?.authorizationStatus == .authorizedWhenInUse{
-//            print("ok")
             for location in locations {
                 if(self.isNearTheItem(location1: self.locationManager!.location!.coordinate, location2: location.location)){ // Tende a crashare se non si hanno i permessi
                     // Sono vicino all'oggetto, devo sbloccarlo
-                    let collectedItem = CollectedItem(context: viewContext)
+                    let collectedItem = CollectedItem(context: context)
                     collectedItem.id = location.id
                     collectedItem.dateCollected = Date.now
-                    collectedItem.item = searchElement(id: location.id,itemList: itemList)
-//                    print("Provo a salvare \(collectedItem.id)") // Questa cosa è errata è solo una prova IMPORTANTEEEEE
+                    collectedItem.item = queryForId(locationId:location.id , context: context)//                    print("Provo a salvare \(collectedItem.id)") // Questa cosa è errata è solo una prova IMPORTANTEEEEE
                     do {
-                        try viewContext.save()
+                        try context.save()
                         print("Collectable item saved")
                     } catch {
                         print(error.localizedDescription)
@@ -225,12 +229,12 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
         }
     }
     
-    //Nota ho implementato una ricerca lineare
-    func searchElement(id: UUID, itemList:[CollectableItem])->CollectableItem?{
-        for item in itemList{
-            if (item.id == id) {return item}
-        }
-        return nil
+    func queryForId( locationId: UUID, context: NSManagedObjectContext)-> CollectableItem?{
+        let req = NSFetchRequest<CollectableItem>(entityName: "CollectableItem") //Richiedo items al database
+        req.predicate = NSPredicate(format: "id == %@", locationId as CVarArg)
+        let res = try! context.fetch(req)
+        return res.first
+        
     }
     
     func isNearTheItem(location1: CLLocationCoordinate2D, location2: CLLocationCoordinate2D) -> Bool{
