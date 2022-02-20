@@ -9,34 +9,81 @@ import MapKit
 import AVFAudio
 import BottomSheet
 
+// Questa funzione richiede i risultati dell'interrogazione al database e restituisce un array di strutture UndiscoveredPlace  appositamente creare per contenere le informazioni necessarie a generare una annotazione sulla mappa
+func mapMarker(fetchedCollectableItem: FetchedResults<CollectableItem>)->[UndiscoveredPlace]{
+    var locationArray = [UndiscoveredPlace]()
+    for elemento in fetchedCollectableItem {
+            locationArray.append(UndiscoveredPlace(id: elemento.id ?? UUID(), lat: Double(elemento.latitude), long: Double(elemento.longitude)))
+    }
+    return locationArray
+}
+
 
 struct ContentView: View {
     
     @State var bottomSheetPosition: BottomSheetPosition = .bottom
     
     public enum BottomSheetPosition: CGFloat, CaseIterable {
-        case top = 0.4, middle = 0.3999, bottom = 0.125, hidden = 0
+        case top = 0.4, middle = 0.3999, bottom = 0.17, hidden = 0
     }
+    
+    @FetchRequest<CollectableItem>(entity: CollectableItem.entity(), sortDescriptors: []) var collectableItem : FetchedResults<CollectableItem> //Interrogo il database per recuperare i collezionabil
+    
     
     var body: some View {
         NavigationView{
-            MapView().ignoresSafeArea()
-                .bottomSheet(
-                    bottomSheetPosition: $bottomSheetPosition,
-                    options: [
-                        .dragIndicatorColor(Color.red),
-                        .cornerRadius(25),
-                             ],
-                    headerContent:{BottomBar()})
-            {BodyContent()}
-            .navigationTitle("")
+            
+            GeometryReader { geo in
+                let hz = geo.frame(in: .global).height
+                let vt = geo.frame(in: .global).width
+                ZStack {
+                
+                    MapView(annotations: mapMarker(fetchedCollectableItem: collectableItem)).ignoresSafeArea()
+                    
+                    if hz < vt {
+                        
+                        
+                        HStack(alignment: .center, content: {
+                                Rectangle().opacity(0)
+                                    .bottomSheet(
+                                        bottomSheetPosition: $bottomSheetPosition,
+                                        options: [
+                                            .dragIndicatorColor(Color.red),
+                                            .cornerRadius(25),
+                                        ],
+                                        headerContent:{BottomBar()})
+                                {BodyContent()}
+                                Rectangle().opacity(0)
+                        })
+                    } else {
+                        
+                        
+                        HStack(alignment: .center, content: {
+                                Rectangle().opacity(0)
+                                    .bottomSheet(
+                                        bottomSheetPosition: $bottomSheetPosition,
+                                        options: [
+                                            .dragIndicatorColor(Color.red),
+                                            .cornerRadius(25),
+                                        ],
+                                        headerContent:{BottomBar()})
+                                {BodyContent()}
+                        })
+                    }
+                }
+            }
+            .navigationTitle("Map")
             .navigationBarHidden(true)
         }.navigationViewStyle(.stack)
-            .statusBar(hidden: true)
+//            .statusBar(hidden: true)
         
     }
     
 }
+
+
+
+
 struct BodyContent: View {
     
     var body: some View {
@@ -45,6 +92,10 @@ struct BodyContent: View {
     }
     
 }
+
+
+
+
 struct BottomBar: View{
     
     @State var showSheet: Bool = false
@@ -58,12 +109,40 @@ struct BottomBar: View{
     }
     
 }
+
+// Struttura realizzata ad hoc per contenere i risultati dell'interrogazione al database
+struct UndiscoveredPlace: Identifiable{
+    
+    let id: UUID
+    let location: CLLocationCoordinate2D
+    
+    init(id: UUID , lat: Double , long:Double ){
+        self.id = id
+        self.location = CLLocationCoordinate2D(latitude:lat,longitude:long)
+    }
+    
+}
+
 struct MapView: View {
+    @Environment(\.colorScheme) var colorScheme
     @StateObject private var viewModel = MapViewModel()
     @State private var willMoveToInventory: Bool = false
     
+    var annotations: [UndiscoveredPlace]
+    
     var body: some View {
-        Map(coordinateRegion: $viewModel.region, showsUserLocation: true)
+        Map(coordinateRegion: $viewModel.region, showsUserLocation: true, annotationItems: annotations){
+            place in MapAnnotation(coordinate: place.location){
+                Image(systemName: "questionmark")
+                    .resizable()
+                    .frame(width: 20, height: 30, alignment: .center)
+                    .foregroundColor(Color.blue)
+                    .frame(width: 50, height: 50)
+                    .background(colorScheme == .dark ? Color.init(white: 0.1) : Color.init(white: 0.9))
+                    .clipShape(Circle())
+                    .overlay(Circle().stroke())
+            }
+        }
             .onAppear{
                 viewModel.checkIfLocationManagerIsEnabled()
             }
