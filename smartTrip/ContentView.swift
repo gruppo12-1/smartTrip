@@ -82,20 +82,11 @@ struct ContentView: View {
     
 }
 
-
-
-
 struct BodyContent: View {
-    
     var body: some View {
         Text("Contenuto del body")
-        
     }
-    
 }
-
-
-
 
 struct BottomBar: View{
     
@@ -204,8 +195,18 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
     func checkLocation(locations: [UndiscoveredPlace]){
         if locationManager?.authorizationStatus == .authorizedAlways || locationManager?.authorizationStatus == .authorizedWhenInUse{
             print("ok")
-            // implementare il confronto della posizione dell'utente con quella dei markers
+            ForEach(locations){ location in
+                if(self.isNearTheItem(location1: self.locationManager!.location!.coordinate, location2: location.location)){
+                    // implementare il confronto della posizione dell'utente con quella dei markers
+                }
+            }
         }
+    }
+    
+    func isNearTheItem(location1: CLLocationCoordinate2D, location2: CLLocationCoordinate2D) -> Bool{
+        // cambiare epsilon in base alla precisione che si desidera
+        let epsilon : CGFloat = 2.0
+        return (fabs(location1.latitude - location2.latitude) <= epsilon && fabs(location1.longitude - location2.longitude) <= epsilon)
     }
     
 }
