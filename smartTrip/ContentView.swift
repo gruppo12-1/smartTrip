@@ -6,6 +6,7 @@
 //
 import SwiftUI
 import MapKit
+import CoreLocation
 import AVFAudio
 import BottomSheet
 
@@ -133,7 +134,7 @@ struct MapView: View {
     var body: some View {
         Map(coordinateRegion: $viewModel.region, showsUserLocation: true, annotationItems: annotations){
             place in MapAnnotation(coordinate: place.location){
-                Image(systemName: "questionmark")
+                Image(systemName: "questionmark.circle")
                     .resizable()
                     .frame(width: 20, height: 30, alignment: .center)
                     .foregroundColor(Color.blue)
@@ -148,6 +149,7 @@ struct MapView: View {
             }
     }
 }
+
 final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     
     @Published var region = MKCoordinateRegion(
@@ -160,6 +162,8 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
             locationManager = CLLocationManager()
             locationManager!.delegate = self
             locationManager!.desiredAccuracy = kCLLocationAccuracyBest
+            locationManager!.allowsBackgroundLocationUpdates = true
+            locationManager!.showsBackgroundLocationIndicator = true
         }else{
             // alert to turn on location manager
         }
@@ -179,6 +183,7 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
             print("You have denied this app location. Go into settings to change it")
         case .authorizedAlways,  .authorizedWhenInUse:
             region = MKCoordinateRegion(center: locationManager.location?.coordinate ?? CLLocationCoordinate2D(latitude: 40.70024528747822,longitude: 14.707543253794043), span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
+            locationManager.startUpdatingLocation()
         @unknown default:
             break
         }
@@ -187,6 +192,11 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         checkLocationAuthorization()
     }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print(locations)
+    }
+    
 }
 
 struct ContentView_Previews: PreviewProvider {
