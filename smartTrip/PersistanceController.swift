@@ -69,6 +69,65 @@ struct PersistanceController{
         item3.rarity = 0
         item3.previewImage = UIImage(named: "big-ben.png")!.pngData()
         
+        //Item di prova da eliminare
+        let item4 = CollectableItem(context: context)
+        item4.id = UUID()
+        item4.name = "Big Ben nel giardino di Teodoro"
+        item4.desc = "Test di unlock"
+        item4.latitude = 40.730732
+        item4.longitude = 14.693297
+        item4.type = 0
+        item4.rarity = 0
+        item4.previewImage = UIImage(named: "big-ben.png")!.pngData()
+        
+        // Item di prova per il test a cava
+        
+        let item5 = CollectableItem(context: context)
+        item5.id = UUID()
+        item5.name = "San Francesco"
+        item5.desc = "Test di unlock"
+        item5.latitude = 40.69630646643192
+        item5.longitude = 14.710099141708417
+        item5.type = 0
+        item5.rarity = 0
+        item5.previewImage = UIImage(named: "big-ben.png")!.pngData()
+        
+        let item6 = CollectableItem(context: context)
+        item6.id = UUID()
+        item6.name = "Duomo"
+        item6.desc = "Test di unlock"
+        item6.latitude = 40.70022710777279
+        item6.longitude = 14.707599322971044
+        item6.type = 0
+        item6.rarity = 0
+        item6.previewImage = UIImage(named: "big-ben.png")!.pngData()
+        
+        let item7 = CollectableItem(context: context)
+        item7.id = UUID()
+        item7.name = "Parco Betoween"
+        item7.desc = "Test di unlock"
+        item7.latitude = 40.70608323761493
+        item7.longitude = 14.703447263501785
+        item7.type = 0
+        item7.rarity = 0
+        item7.previewImage = UIImage(named: "big-ben.png")!.pngData()
+        
+        let item8 = CollectableItem(context: context)
+        item8.id = UUID()
+        item8.name = "Mediateca Marte"
+        item8.desc = "Test di unlock"
+        item8.latitude = 40.69843531868067
+        item8.longitude = 14.709213682278818
+        item8.type = 0
+        item8.rarity = 0
+        item8.previewImage = UIImage(named: "big-ben.png")!.pngData()
+        
+        
+        
+        
+        
+        // Altre cose
+        
         let collected1 = CollectedItem(context: context)
         collected1.id = UUID()
         collected1.dateCollected = Date()
