@@ -33,7 +33,7 @@ struct ContentView: View {
     
     @StateObject private var viewModel = MapViewModel()
     
-    @State var bottomSheetPosition: BottomSheetPosition = .bottom
+    @State var bottomSheetPosition: BottomSheetPosition = .top
     
     public enum BottomSheetPosition: CGFloat, CaseIterable {
         case top = 0.4, middle = 0.3999, bottom = 0.17, hidden = 0
@@ -101,7 +101,7 @@ func createView(element: UndiscoveredPlace , viewModel: MapViewModel) -> some Vi
         .resizable()
         .aspectRatio(contentMode: .fit)
         .frame(width: 100, height: 100, alignment:  .center)
-        Text("Distance \(Double(( MKMapPoint(viewModel.locationManager!.location!.coordinate ).distance(to: MKMapPoint(element.location)))/1000), specifier: "%.2f") Km")
+        //Text("Distance \(Double(( MKMapPoint(viewModel.locationManager!.location!.coordinate ).distance(to: MKMapPoint(element.location)))/1000), specifier: "%.2f") Km")
     }
 }
 
@@ -118,17 +118,15 @@ struct BodyContent: View {
         self.viewModel = viewModel
     }
     
-    
+ 
     var body: some View {
+        
         ScrollView(Axis.Set.horizontal, showsIndicators: true){
-            HStack{
-                
-                ForEach(0 ..< annotations.endIndex){
-                    createView(element: annotations[$0], viewModel: viewModel)
+           
+            LazyHStack{
+                ForEach(annotations , id: \.self){ element in
+                    createView(element: element, viewModel: viewModel)
                 }
-                
-                
-//                Image("questionmark").frame(width: 30.0, height: 30.0, alignment: .center)
 
             }
         }
@@ -150,7 +148,16 @@ struct BottomBar: View{
 }
 
 // Struttura realizzata ad hoc per contenere i risultati dell'interrogazione al database
-struct UndiscoveredPlace: Identifiable {
+struct UndiscoveredPlace: Identifiable , Hashable {
+    
+    static func == (lhs: UndiscoveredPlace, rhs: UndiscoveredPlace) -> Bool {
+        return lhs.id == rhs.id
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    
     
     let id : UUID
     let location: CLLocationCoordinate2D
@@ -206,13 +213,13 @@ struct MapView: View {
                     if returned > -1 {
                       placeDiscovered = annotations.remove(at: returned)
                       showingSheet.toggle()
-                    print("Ho Raccolto un oggetto")
+                        print("Ho Raccolto un oggetto \(placeDiscovered?.item.name)")
                     
                 }
-            }
+            }/*
             .sheet(isPresented: $showingSheet){
-                SheetView(elementoScoperto: placeDiscovered!)
-            }
+                SheetView(elementoScoperto: placeDiscovered.unsafelyUnwrapped.item)
+            }*/
             
     }
 }
@@ -221,9 +228,9 @@ struct MapView: View {
 
 struct SheetView: View{
     
-    let element : UndiscoveredPlace
+    let element : CollectableItem?
     
-    init(elementoScoperto: UndiscoveredPlace){
+    init(elementoScoperto: CollectableItem){
         self.element = elementoScoperto
     }
     
@@ -231,7 +238,7 @@ struct SheetView: View{
         VStack{
         Text("Hai sbloccato un nuovo item!!!")
 //            Image(uiImage: UIImage(data: element.item.previewImage!)!).frame(width: 30, height: 30, alignment: .center)
-            Text("\(element.item.name ?? "Ogetto senza nome")")
+            Text("\(element!.name ?? "Ogetto senza nome")")
         }
         
         
