@@ -33,7 +33,7 @@ struct ContentView: View {
     
     @StateObject private var viewModel = MapViewModel()
     
-    @State var bottomSheetPosition: BottomSheetPosition = .top
+    @State var bottomSheetPosition: BottomSheetPosition = .bottom
     
     public enum BottomSheetPosition: CGFloat, CaseIterable {
         case top = 0.4, middle = 0.3999, bottom = 0.17, hidden = 0
@@ -101,7 +101,10 @@ func createView(element: UndiscoveredPlace , viewModel: MapViewModel) -> some Vi
         .resizable()
         .aspectRatio(contentMode: .fit)
         .frame(width: 100, height: 100, alignment:  .center)
-        //Text("Distance \(Double(( MKMapPoint(viewModel.locationManager!.location!.coordinate ).distance(to: MKMapPoint(element.location)))/1000), specifier: "%.2f") Km")
+        Text("Distance \(Double(( MKMapPoint(viewModel.locationManager!.location!.coordinate ).distance(to: MKMapPoint(element.location)))/1000), specifier: "%.2f") Km")
+        /*
+         La riga sopra funziona soltanto se viene eseguita mentre la view non è caricata
+         */
     }
 }
 
@@ -123,8 +126,8 @@ struct BodyContent: View {
         
         ScrollView(Axis.Set.horizontal, showsIndicators: true){
            
-            LazyHStack{
-                ForEach(annotations , id: \.self){ element in
+            HStack{
+                ForEach(annotations , id: \.id){ element in
                     createView(element: element, viewModel: viewModel)
                 }
 
@@ -216,10 +219,10 @@ struct MapView: View {
                         print("Ho Raccolto un oggetto \(placeDiscovered?.item.name)")
                     
                 }
-            }/*
+            }
             .sheet(isPresented: $showingSheet){
                 SheetView(elementoScoperto: placeDiscovered.unsafelyUnwrapped.item)
-            }*/
+            }
             
     }
 }
