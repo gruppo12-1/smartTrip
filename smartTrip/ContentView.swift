@@ -33,7 +33,7 @@ struct ContentView: View {
     
     @StateObject private var viewModel = MapViewModel()
     
-    @State var bottomSheetPosition: BottomSheetPosition = .bottom
+    @State private  var bottomSheetPosition: BottomSheetPosition = .bottom
     
     public enum BottomSheetPosition: CGFloat, CaseIterable {
         case top = 0.4, middle = 0.3999, bottom = 0.17, hidden = 0
@@ -41,7 +41,7 @@ struct ContentView: View {
     
     @FetchRequest<CollectableItem>(entity: CollectableItem.entity(), sortDescriptors: []) var collectableItem : FetchedResults<CollectableItem> //Interrogo il database per recuperare i collezionabil
     
-    @State var annotations = mapMarker()
+    @State private var annotations = mapMarker()
     
     var body: some View {
         NavigationView{
@@ -101,9 +101,9 @@ func createView(element: UndiscoveredPlace , viewModel: MapViewModel) -> some Vi
         .resizable()
         .aspectRatio(contentMode: .fit)
         .frame(width: 100, height: 100, alignment:  .center)
-        Text("Distance \(Double(( MKMapPoint(viewModel.locationManager!.location!.coordinate ).distance(to: MKMapPoint(element.location)))/1000), specifier: "%.2f") Km")
+        Text("Distance \(Double(( MKMapPoint(viewModel.locationManager?.location!.coordinate ?? CLLocationCoordinate2D.init(latitude: 0, longitude: 0) ).distance(to: MKMapPoint(element.location)))/1000), specifier: "%.2f") Km")
         /*
-         La riga sopra funziona soltanto se viene eseguita mentre la view non è caricata
+         La riga sopra sembra funzionare ma è da tenere d'occhio, in teoria non uscità mai la CLLocation(0,0) perchè l'elemento viene computato ma poi eliminato dalla view immediatamente
          */
     }
 }
@@ -128,7 +128,9 @@ struct BodyContent: View {
            
             HStack{
                 ForEach(annotations , id: \.id){ element in
-                    createView(element: element, viewModel: viewModel)
+                    createView(element: element, viewModel: viewModel).onTapGesture {
+                        print("Hanno toccato \(element.item.name ?? "Errore nel tocco")") //Funzionaaaaa associa il tocco ad ogni elemento
+                    }
                 }
 
             }
@@ -186,6 +188,7 @@ struct MapView: View {
     @Binding var annotations: [UndiscoveredPlace]
     
     let context : NSManagedObjectContext
+    
     @State var placeDiscovered : UndiscoveredPlace?
     
     init(annotations:Binding<[UndiscoveredPlace]> , context: NSManagedObjectContext , mapViewModel: MapViewModel){
@@ -207,7 +210,7 @@ struct MapView: View {
                     //.clipShape(Circle())
                     //.overlay(Circle().stroke())
             }
-        }
+    }
             .onAppear{
                 viewModel.checkIfLocationManagerIsEnabled()
             }
@@ -216,13 +219,15 @@ struct MapView: View {
                     if returned > -1 {
                       placeDiscovered = annotations.remove(at: returned)
                       showingSheet.toggle()
-                        print("Ho Raccolto un oggetto \(placeDiscovered?.item.name)")
+
+//                        print("Ho Raccolto un oggetto \(placeDiscovered?.item.name)")
+                    }
                     
-                }
             }
-            .sheet(isPresented: $showingSheet){
-                SheetView(elementoScoperto: placeDiscovered.unsafelyUnwrapped.item)
+            .alert(isPresented: $showingSheet) {
+                Alert(title: Text("\(placeDiscovered!.item.name  ?? "Unknown item")"), message: Text("Clicca sul tuo inventario per ottenere maggiori informazioni"), dismissButton: Alert.Button.default(Text("Ok")))
             }
+            
             
     }
 }
