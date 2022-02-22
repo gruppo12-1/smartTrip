@@ -135,6 +135,7 @@ struct BodyContent: View {
                 ForEach(annotations , id: \.id){ element in
                     createView(element: element, viewModel: viewModel).onTapGesture {
                         print("Hanno toccato \(element.item.name ?? "Errore nel tocco")") //Funzionaaaaa associa il tocco ad ogni elemento
+                       
                     }
                 }
 
@@ -228,6 +229,7 @@ struct MapView: View {
                     //.background(colorScheme == .dark ? Color.init(white: 0.1) : Color.init(white: 0.9))
                     //.clipShape(Circle())
                     //.overlay(Circle().stroke())
+                    
             }
     }
             .onAppear{
@@ -246,6 +248,7 @@ struct MapView: View {
             .alert(isPresented: $showingSheet) {
                 Alert(title: Text("\(placeDiscovered!.item.name  ?? "Unknown item")"), message: Text("Clicca sul tuo inventario per ottenere maggiori informazioni"), dismissButton: Alert.Button.default(Text("Ok")))
             }
+            
             
             
     }
