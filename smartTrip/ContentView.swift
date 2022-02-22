@@ -222,13 +222,6 @@ struct MapView: View {
             place in MapAnnotation(coordinate: place.location){
                 AnnotationView()
                     .shadow(radius: 10)
-//                    .resizable()
-//                    .frame(width: 30, height: 30, alignment: .center)
-//                    .foregroundColor(Color.blue)
-//                    .frame(width: 50, height: 50)
-                    //.background(colorScheme == .dark ? Color.init(white: 0.1) : Color.init(white: 0.9))
-                    //.clipShape(Circle())
-                    //.overlay(Circle().stroke())
             }
     }
             .onAppear{
