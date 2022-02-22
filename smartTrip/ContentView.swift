@@ -221,6 +221,7 @@ struct MapView: View {
         Map(coordinateRegion: $viewModel.region, showsUserLocation: true, annotationItems: annotations){
             place in MapAnnotation(coordinate: place.location){
                 AnnotationView()
+                    .shadow(radius: 10)
 //                    .resizable()
 //                    .frame(width: 30, height: 30, alignment: .center)
 //                    .foregroundColor(Color.blue)
