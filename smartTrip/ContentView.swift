@@ -149,9 +149,9 @@ struct BottomBar: View{
     
     var body: some View{
         HStack{
-            NavigationLink(destination: CollectionView(), label: {Text("Inventario").padding(10)})
+            NavigationLink(destination: CollectionView(), label: {Text("Collection").padding(10)})
             Spacer()
-            NavigationLink(destination: AccountView(), label: {Text("Profilo").padding(10)})
+            NavigationLink(destination: AccountView(), label: {Text("Settings").padding(10)})
         }
     }
     

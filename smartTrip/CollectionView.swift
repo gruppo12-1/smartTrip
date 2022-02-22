@@ -152,7 +152,7 @@ struct HeaderView: View{
                             }
                             
                         } )
-                        Text("Vista AR")
+                        Text("AR View")
                     }
                 }else{
                     VStack{
@@ -165,7 +165,7 @@ struct HeaderView: View{
                                 .frame(width: 40, height: 45)
                         })
                             .disabled(true)
-                        Text("Vista AR")
+                        Text("AR View")
                     }
                 }
                 
