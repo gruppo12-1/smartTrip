@@ -102,18 +102,22 @@ struct ContentView: View {
 func createView(element: UndiscoveredPlace , viewModel: MapViewModel) -> some View {
     return VStack{
         Text("\(element.item.name ?? "Senza nome")")
-        Image("questionmark")
+            .font(.title3)
+            .scaledToFit()
+        Image(systemName: "questionmark")
         .resizable()
         .aspectRatio(contentMode: .fit)
-        .frame(width: 100, height: 100, alignment:  .center)
-        Text("Distance \(Double(( MKMapPoint(viewModel.locationManager?.location!.coordinate ?? CLLocationCoordinate2D.init(latitude: 0, longitude: 0) ).distance(to: MKMapPoint(element.location)))/1000), specifier: "%.2f") Km")
+        .frame(width: 70, height: 70, alignment:  .center)
+        Text("\(Double(( MKMapPoint(viewModel.locationManager?.location!.coordinate ?? CLLocationCoordinate2D.init(latitude: 0, longitude: 0) ).distance(to: MKMapPoint(element.location)))/1000), specifier: "%.2f") Km")
         /*
          La riga sopra sembra funzionare ma è da tenere d'occhio, in teoria non uscità mai la CLLocation(0,0) perchè l'elemento viene computato ma poi eliminato dalla view immediatamente
          */
-    }
+    }.foregroundColor(Color.blue)
 }
 
 struct BodyContent: View {
+    
+    @Environment(\.colorScheme) var colorScheme
     
     @ObservedObject var viewModel : MapViewModel
     
@@ -131,13 +135,21 @@ struct BodyContent: View {
         
         ScrollView(Axis.Set.horizontal, showsIndicators: true){
            
-            HStack{
+            HStack (spacing: 10){
                 ForEach(annotations , id: \.id){ element in
-                    createView(element: element, viewModel: viewModel).onTapGesture {
-                        print("Hanno toccato \(element.item.name ?? "Errore nel tocco")") //Funzionaaaaa associa il tocco ad ogni elemento
+                    GeometryReader{ geometry in
+                            createView(element: element, viewModel: viewModel).onTapGesture {
+                                print("Hanno toccato \(element.item.name ?? "Errore nel tocco")") //Funzionaaaaa associa il tocco ad ogni elemento
+                            }
+                            .frame(width:geometry.size.width, height: geometry.size.height)
+                            .background(Color.blue.opacity(0.2))
+                            .clipShape(RoundedRectangle(cornerRadius: 20))
+                            .overlay(RoundedRectangle(cornerRadius: 20).stroke(Color.blue).shadow(radius: 40))
+                            .rotation3DEffect(Angle(degrees: (Double(geometry.frame(in: .global).minX)) / -10), axis: (x:20.0, y:50.0, z:20.0))
                     }
+                    .frame(width: 150, height: 160)
+                    .padding(20)
                 }
-
             }
         }.padding(20)
     }
@@ -209,6 +221,10 @@ struct MapView: View {
     let context : NSManagedObjectContext
     
     @State var placeDiscovered : UndiscoveredPlace?
+
+    @State private var selectedPlace: UndiscoveredPlace?
+    
+    @State private var didTap: Bool = false
     
     init(annotations:Binding<[UndiscoveredPlace]> , context: NSManagedObjectContext , mapViewModel: MapViewModel){
         self.context = context
@@ -222,7 +238,12 @@ struct MapView: View {
             place in MapAnnotation(coordinate: place.location){
                 AnnotationView()
                     .shadow(radius: 10)
+                    .onTapGesture {
+                        selectedPlace = place
+                        didTap.toggle()
+                    }
             }
+            
     }
             .onAppear{
                 viewModel.checkIfLocationManagerIsEnabled()
@@ -232,15 +253,15 @@ struct MapView: View {
                     if returned > -1 {
                       placeDiscovered = annotations.remove(at: returned)
                       showingSheet.toggle()
-
 //                        print("Ho Raccolto un oggetto \(placeDiscovered?.item.name)")
                     }
                     
             }
             .alert(isPresented: $showingSheet) {
                 Alert(title: Text("\(placeDiscovered!.item.name  ?? "Unknown item")"), message: Text("Clicca sul tuo inventario per ottenere maggiori informazioni"), dismissButton: Alert.Button.default(Text("Ok")))
+                    
             }
-            
+        
             
     }
 }
@@ -267,7 +288,13 @@ struct SheetView: View{
 }
 
 
-
+struct Location: Identifiable, Codable, Equatable {
+    let id: UUID
+    var name: String
+    var description: String
+    let latitude: Double
+    let longitude: Double
+}
 
 final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     

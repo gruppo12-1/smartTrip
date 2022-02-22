@@ -30,6 +30,8 @@ struct AnnotationView: View {
                 .padding(.bottom,40)
         }
     }
+    
+    
 }
 
 struct AnnotationView_Previews: PreviewProvider {
