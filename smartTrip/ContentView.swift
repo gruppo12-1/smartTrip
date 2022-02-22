@@ -41,7 +41,7 @@ struct ContentView: View {
     }
     
     public enum BottomSheetPositionH: CGFloat, CaseIterable {
-        case toph = 0.7, middleh = 0.67, bottomh = 0.27, hiddenh = 0
+        case toph = 0.8, middleh = 0.7999, bottomh = 0.27, hiddenh = 0
     }
     
     @FetchRequest<CollectableItem>(entity: CollectableItem.entity(), sortDescriptors: []) var collectableItem : FetchedResults<CollectableItem> //Interrogo il database per recuperare i collezionabil
