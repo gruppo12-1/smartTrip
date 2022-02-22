@@ -34,9 +34,14 @@ struct ContentView: View {
     @StateObject private var viewModel = MapViewModel()
     
     @State private  var bottomSheetPosition: BottomSheetPosition = .bottom
+    @State private  var bottomSheetPositionH: BottomSheetPositionH = .bottomh
     
     public enum BottomSheetPosition: CGFloat, CaseIterable {
-        case top = 0.4, middle = 0.3999, bottom = 0.17, hidden = 0
+        case top = 0.4, middle = 0.3999, bottom = 0.14, hidden = 0
+    }
+    
+    public enum BottomSheetPositionH: CGFloat, CaseIterable {
+        case toph = 0.9, middleh = 0.88, bottomh = 0.22, hiddenh = 0
     }
     
     @FetchRequest<CollectableItem>(entity: CollectableItem.entity(), sortDescriptors: []) var collectableItem : FetchedResults<CollectableItem> //Interrogo il database per recuperare i collezionabil
@@ -59,7 +64,7 @@ struct ContentView: View {
                         HStack(alignment: .center, content: {
                                 Rectangle().opacity(0)
                                     .bottomSheet(
-                                        bottomSheetPosition: $bottomSheetPosition,
+                                        bottomSheetPosition: $bottomSheetPositionH,
                                         options: [
                                             .dragIndicatorColor(Color.red),
                                             .cornerRadius(25),
