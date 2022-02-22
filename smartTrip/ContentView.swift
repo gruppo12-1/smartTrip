@@ -31,7 +31,9 @@ struct ContentView: View {
     
     @Environment(\.managedObjectContext) private var viewContext
     
-    @State var bottomSheetPosition: BottomSheetPosition = .bottom
+    @StateObject private var viewModel = MapViewModel()
+    
+    @State private  var bottomSheetPosition: BottomSheetPosition = .bottom
     
     public enum BottomSheetPosition: CGFloat, CaseIterable {
         case top = 0.4, middle = 0.3999, bottom = 0.17, hidden = 0
@@ -39,6 +41,7 @@ struct ContentView: View {
     
     @FetchRequest<CollectableItem>(entity: CollectableItem.entity(), sortDescriptors: []) var collectableItem : FetchedResults<CollectableItem> //Interrogo il database per recuperare i collezionabil
     
+    @State private var annotations = mapMarker()
     
     var body: some View {
         NavigationView{
@@ -48,7 +51,7 @@ struct ContentView: View {
                 let vt = geo.frame(in: .global).width
                 ZStack {
                 
-                    MapView(annotations: mapMarker() , context: viewContext).ignoresSafeArea()
+                    MapView(annotations: $annotations , context: viewContext, mapViewModel: viewModel).ignoresSafeArea()
                     
                     if hz < vt {
                         
@@ -62,7 +65,7 @@ struct ContentView: View {
                                             .cornerRadius(25),
                                         ],
                                         headerContent:{BottomBar()})
-                                {BodyContent()}
+                            {BodyContent(annotations: $annotations, viewModel: viewModel)}
                                 Rectangle().opacity(0)
                         })
                     } else {
@@ -77,7 +80,7 @@ struct ContentView: View {
                                             .cornerRadius(25),
                                         ],
                                         headerContent:{BottomBar()})
-                                {BodyContent()}
+                            {BodyContent(annotations: $annotations, viewModel: viewModel)}
                         })
                     }
                 }
@@ -91,9 +94,47 @@ struct ContentView: View {
     
 }
 
+func createView(element: UndiscoveredPlace , viewModel: MapViewModel) -> some View {
+    return VStack{
+        Text("\(element.item.name ?? "Senza nome")")
+        Image("questionmark")
+        .resizable()
+        .aspectRatio(contentMode: .fit)
+        .frame(width: 100, height: 100, alignment:  .center)
+        Text("Distance \(Double(( MKMapPoint(viewModel.locationManager?.location!.coordinate ?? CLLocationCoordinate2D.init(latitude: 0, longitude: 0) ).distance(to: MKMapPoint(element.location)))/1000), specifier: "%.2f") Km")
+        /*
+         La riga sopra sembra funzionare ma è da tenere d'occhio, in teoria non uscità mai la CLLocation(0,0) perchè l'elemento viene computato ma poi eliminato dalla view immediatamente
+         */
+    }
+}
+
 struct BodyContent: View {
+    
+    @ObservedObject var viewModel : MapViewModel
+    
+    @Binding var annotations : [UndiscoveredPlace]
+    
+    
+    init(annotations: Binding<[UndiscoveredPlace]>, viewModel : MapViewModel){
+        
+        self._annotations = annotations
+        self.viewModel = viewModel
+    }
+    
+ 
     var body: some View {
-        Text("Contenuto del body")
+        
+        ScrollView(Axis.Set.horizontal, showsIndicators: true){
+           
+            HStack{
+                ForEach(annotations , id: \.id){ element in
+                    createView(element: element, viewModel: viewModel).onTapGesture {
+                        print("Hanno toccato \(element.item.name ?? "Errore nel tocco")") //Funzionaaaaa associa il tocco ad ogni elemento
+                    }
+                }
+
+            }
+        }
     }
 }
 
@@ -112,7 +153,16 @@ struct BottomBar: View{
 }
 
 // Struttura realizzata ad hoc per contenere i risultati dell'interrogazione al database
-struct UndiscoveredPlace: Identifiable{
+struct UndiscoveredPlace: Identifiable , Hashable {
+    
+    static func == (lhs: UndiscoveredPlace, rhs: UndiscoveredPlace) -> Bool {
+        return lhs.id == rhs.id
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    
     
     let id : UUID
     let location: CLLocationCoordinate2D
@@ -128,18 +178,24 @@ struct UndiscoveredPlace: Identifiable{
 
 struct MapView: View {
     @Environment(\.colorScheme) var colorScheme
-    @StateObject private var viewModel = MapViewModel()
+    
+    @ObservedObject private var viewModel : MapViewModel
+    
     @State private var willMoveToInventory: Bool = false
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     @State private var showingSheet : Bool = false
     
-    @State var annotations: [UndiscoveredPlace]
+    @Binding var annotations: [UndiscoveredPlace]
+    
     let context : NSManagedObjectContext
+    
     @State var placeDiscovered : UndiscoveredPlace?
     
-    init(annotations:[UndiscoveredPlace] , context: NSManagedObjectContext){
+    init(annotations:Binding<[UndiscoveredPlace]> , context: NSManagedObjectContext , mapViewModel: MapViewModel){
         self.context = context
-        _annotations = State(initialValue: annotations)
+        self._annotations = annotations
+        viewModel = mapViewModel
+        
     }
     
     var body: some View {
@@ -150,11 +206,11 @@ struct MapView: View {
                     .frame(width: 30, height: 30, alignment: .center)
                     .foregroundColor(Color.blue)
                     .frame(width: 50, height: 50)
-                    .background(colorScheme == .dark ? Color.init(white: 0.1) : Color.init(white: 0.9))
-                    .clipShape(Circle())
-                    .overlay(Circle().stroke())
+                    //.background(colorScheme == .dark ? Color.init(white: 0.1) : Color.init(white: 0.9))
+                    //.clipShape(Circle())
+                    //.overlay(Circle().stroke())
             }
-        }
+    }
             .onAppear{
                 viewModel.checkIfLocationManagerIsEnabled()
             }
@@ -163,13 +219,16 @@ struct MapView: View {
                     if returned > -1 {
                       placeDiscovered = annotations.remove(at: returned)
                       showingSheet.toggle()
-                    print("Ho Raccolto un oggetto")
+
+//                        print("Ho Raccolto un oggetto \(placeDiscovered?.item.name)")
+                    }
                     
-                }
             }
-            .sheet(isPresented: $showingSheet){
-                SheetView(elementoScoperto: placeDiscovered!)
+            .alert(isPresented: $showingSheet) {
+                Alert(title: Text("\(placeDiscovered!.item.name  ?? "Unknown item")"), message: Text("Clicca sul tuo inventario per ottenere maggiori informazioni"), dismissButton: Alert.Button.default(Text("Ok")))
             }
+            
+            
     }
 }
 
@@ -177,9 +236,9 @@ struct MapView: View {
 
 struct SheetView: View{
     
-    let element : UndiscoveredPlace
+    let element : CollectableItem?
     
-    init(elementoScoperto: UndiscoveredPlace){
+    init(elementoScoperto: CollectableItem){
         self.element = elementoScoperto
     }
     
@@ -187,12 +246,15 @@ struct SheetView: View{
         VStack{
         Text("Hai sbloccato un nuovo item!!!")
 //            Image(uiImage: UIImage(data: element.item.previewImage!)!).frame(width: 30, height: 30, alignment: .center)
-            Text("\(element.item.name ?? "Ogetto senza nome")")
+            Text("\(element!.name ?? "Ogetto senza nome")")
         }
         
         
     }
 }
+
+
+
 
 final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     
@@ -206,8 +268,6 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
             locationManager = CLLocationManager()
             locationManager!.delegate = self
             locationManager!.desiredAccuracy = kCLLocationAccuracyBest
-            locationManager!.allowsBackgroundLocationUpdates = true
-            locationManager!.showsBackgroundLocationIndicator = true
         }else{
             // alert to turn on location manager
         }
@@ -276,12 +336,8 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
         
     }
     
+    // Distance è il raggio in metri per lo sblocco dell'obbiettivo
     func isNearTheItem(location1: CLLocationCoordinate2D, location2: CLLocationCoordinate2D) -> Bool{
-        // cambiare epsilon in base alla precisione che si desidera
-        /*
-        let epsilon : CGFloat = 0.1
-        return (fabs(location1.latitude - location2.latitude) <= epsilon && fabs(location1.longitude - location2.longitude) <= epsilon)
-         */
         let distance = 50.0
         let tmp = MKMapPoint(location1)
         if ( tmp.distance(to: MKMapPoint(location2)) < distance) {
