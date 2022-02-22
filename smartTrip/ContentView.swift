@@ -11,7 +11,7 @@ import AVFAudio
 import BottomSheet
 import CoreData
 
-// Questa funzione richiede i risultati dell'interrogazione al database e restituisce un array di strutture UndiscoveredPlace  appositamente creare per contenere le informazioni necessarie a generare una annotazione sulla mappa e contenenti l'item recuperato dal database
+// Questa funzione richiede i risultati dell'interrogazione al database e restituisce un array di strutture UndiscoveredPlace appositamente creare per contenere le informazioni necessarie a generare una annotazione sulla mappa e contenenti l'item recuperato dal database
 
 func mapMarker()->[UndiscoveredPlace]{
     let context = PersistanceController.preview.container.viewContext
