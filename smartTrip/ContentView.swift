@@ -149,9 +149,23 @@ struct BottomBar: View{
     
     var body: some View{
         HStack{
-            NavigationLink(destination: CollectionView(), label: {Text("Collection").padding(10)})
+            NavigationLink(destination: CollectionView(), label: {
+                    VStack{
+                        Image(systemName: "folder.circle.fill")
+                            .resizable()
+                            .frame(width: 45, height: 45)
+                        Text("Collection")
+                    }
+                })
             Spacer()
-            NavigationLink(destination: AccountView(), label: {Text("Settings").padding(10)})
+            NavigationLink(destination: AccountView(), label: {
+                    VStack{
+                        Image(systemName: "gearshape.fill")
+                            .resizable()
+                            .frame(width: 45, height: 45)
+                        Text("Settings")
+                    }
+                })
         }
     }
     
