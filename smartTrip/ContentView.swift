@@ -268,8 +268,6 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
             locationManager = CLLocationManager()
             locationManager!.delegate = self
             locationManager!.desiredAccuracy = kCLLocationAccuracyBest
-            locationManager!.allowsBackgroundLocationUpdates = true
-            locationManager!.showsBackgroundLocationIndicator = true
         }else{
             // alert to turn on location manager
         }
