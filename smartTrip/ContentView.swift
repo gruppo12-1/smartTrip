@@ -221,11 +221,11 @@ struct MapView: View {
     var body: some View {
         Map(coordinateRegion: $viewModel.region, showsUserLocation: true, annotationItems: annotations){
             place in MapAnnotation(coordinate: place.location){
-                Image(systemName: "questionmark.circle")
-                    .resizable()
-                    .frame(width: 30, height: 30, alignment: .center)
-                    .foregroundColor(Color.blue)
-                    .frame(width: 50, height: 50)
+                AnnotationView()
+//                    .resizable()
+//                    .frame(width: 30, height: 30, alignment: .center)
+//                    .foregroundColor(Color.blue)
+//                    .frame(width: 50, height: 50)
                     //.background(colorScheme == .dark ? Color.init(white: 0.1) : Color.init(white: 0.9))
                     //.clipShape(Circle())
                     //.overlay(Circle().stroke())

@@ -30,6 +30,7 @@
 		A9F9FFE327BEEFDD00A45781 /* eiffel.png in Resources */ = {isa = PBXBuildFile; fileRef = A9F9FFE127BEEFDC00A45781 /* eiffel.png */; };
 		A9F9FFE427BEEFDD00A45781 /* big-ben.png in Resources */ = {isa = PBXBuildFile; fileRef = A9F9FFE227BEEFDD00A45781 /* big-ben.png */; };
 		E2A8979D27C0F03A00BCF177 /* BottomSheet in Frameworks */ = {isa = PBXBuildFile; productRef = E2A8979C27C0F03A00BCF177 /* BottomSheet */; };
+		F2FF6E7E27C5559B00FEEBB7 /* AnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2FF6E7D27C5559B00FEEBB7 /* AnnotationView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +76,7 @@
 		A9E7B06D27BD4E60008A6781 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		A9F9FFE127BEEFDC00A45781 /* eiffel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = eiffel.png; sourceTree = "<group>"; };
 		A9F9FFE227BEEFDD00A45781 /* big-ben.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "big-ben.png"; sourceTree = "<group>"; };
+		F2FF6E7D27C5559B00FEEBB7 /* AnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +135,7 @@
 				A9D4D90427BBF3930055AFBC /* TestView.swift */,
 				174E5FF527B7ABA300846E78 /* smartTripApp.swift */,
 				174E5FF727B7ABA300846E78 /* ContentView.swift */,
+				F2FF6E7D27C5559B00FEEBB7 /* AnnotationView.swift */,
 				174BAF8027B7AC6F00E34E55 /* DiscoverView.swift */,
 				174BAF8227B7AC8200E34E55 /* AccountView.swift */,
 				174BAF8427B7AC9000E34E55 /* CollectionView.swift */,
@@ -356,6 +359,7 @@
 				174BAF8527B7AC9000E34E55 /* CollectionView.swift in Sources */,
 				A9D4D90327BBBC2D0055AFBC /* SmartTripModel.xcdatamodeld in Sources */,
 				174E5FF827B7ABA300846E78 /* ContentView.swift in Sources */,
+				F2FF6E7E27C5559B00FEEBB7 /* AnnotationView.swift in Sources */,
 				A9D4D90527BBF3930055AFBC /* TestView.swift in Sources */,
 				174E5FF627B7ABA300846E78 /* smartTripApp.swift in Sources */,
 				174BAF8127B7AC7000E34E55 /* DiscoverView.swift in Sources */,
