@@ -50,17 +50,12 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView{
-            
             GeometryReader { geo in
-                let hz = geo.frame(in: .global).height
-                let vt = geo.frame(in: .global).width
+                let screenHeight = geo.frame(in: .global).height
+                let screenWidth = geo.frame(in: .global).width
                 ZStack {
-                
                     MapView(annotations: $annotations , context: viewContext, mapViewModel: viewModel).ignoresSafeArea()
-                    
-                    if hz < vt {
-                        
-                        
+                    if screenHeight < screenWidth { //layout orizzontale
                         HStack(alignment: .center, content: {
                                 Rectangle().opacity(0)
                                     .bottomSheet(
@@ -73,8 +68,7 @@ struct ContentView: View {
                             {BodyContent(annotations: $annotations, viewModel: viewModel)}
                                 Rectangle().opacity(0)
                         })
-                    } else {
-
+                    } else { //layout verticale
                         HStack(alignment: .center, content: {
                                 Rectangle().opacity(0)
                                     .bottomSheet(
@@ -94,10 +88,9 @@ struct ContentView: View {
         }
         .navigationViewStyle(.stack)
     }
-    
 }
 
-func createView(element: UndiscoveredPlace , viewModel: MapViewModel) -> some View {
+func createView(element: UndiscoveredPlace, viewModel: MapViewModel) -> some View {
     return VStack{
         Text("\(element.item.name ?? "Senza nome")")
             .font(.title3)

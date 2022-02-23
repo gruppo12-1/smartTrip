@@ -9,52 +9,47 @@ import SwiftUI
 
 struct CollectionView: View {
     @Environment(\.managedObjectContext) private var viewContext
-    @FetchRequest<CollectableItem>(entity: CollectableItem.entity(), sortDescriptors: []) var collectableItems: FetchedResults<CollectableItem>
+    //@FetchRequest<CollectableItem>(entity: CollectableItem.entity(), sortDescriptors: []) var collectableItems: FetchedResults<CollectableItem>
+    @FetchRequest<CollectedItem>(entity: CollectedItem.entity(), sortDescriptors: []) var collectedItems: FetchedResults<CollectedItem>
     @State var selectedItem: CollectableItem? = nil
     
     var body: some View {
-        
         let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())] // 3 colonne
         
         GeometryReader { geo in
-            let hz = geo.frame(in: .global).height
-            let vt = geo.frame(in: .global).width
+            let screenHeight = geo.frame(in: .global).height
+            let screenWidth = geo.frame(in: .global).width
             ZStack {
-                if hz > vt {
-      
+                if screenHeight > screenWidth { //layout verticale
                     VStack(alignment: .center, content: {
 
                         HeaderView(item: selectedItem)
 
                         ScrollView{
                             LazyVGrid(columns: columns){
-                                ForEach(collectableItems){ citem in
+                                ForEach(collectedItems){ citem in
                                     Button(action:{
                                         // Show tapped image in circle
-                                        selectedItem = citem
+                                        selectedItem = citem.item
                                     }){
-                                        ItemView(item: citem)
+                                        ItemView(item: citem.item!)
                                     }
                                     .buttonStyle(ItemButtonStyle(cornerRadius: 20))
                                 }
-                                
                             }.padding(.all)
                         }
                     })
-                } else {
-
+                } else { //layout verticale
                     HStack(alignment: .center, content: {
-                        
                         HeaderView(item: selectedItem)
-                        
                         ScrollView{
                             LazyVGrid(columns: columns){
-                                ForEach(collectableItems){ citem in
+                                ForEach(collectedItems){ citem in
                                     Button(action:{
                                         // Show tapped image in circle
-                                        selectedItem = citem
+                                        selectedItem = citem.item!
                                     }){
-                                        ItemView(item: citem)
+                                        ItemView(item: citem.item!)
                                     }
                                     .buttonStyle(ItemButtonStyle(cornerRadius: 20))
                                 }
@@ -66,12 +61,7 @@ struct CollectionView: View {
         }
         .navigationTitle("My Collection")
         .navigationBarTitleDisplayMode(.large)
-        
-        
     }
-    
-    
-    
 }
 
 struct ItemButtonStyle: ButtonStyle{
@@ -94,8 +84,6 @@ struct HeaderView: View{
     @State var showingDetailsView = false
     @State var showingARView = false
     
-    
-    
     var item: CollectableItem?
     var isSelectedItemNull: Binding<Bool>
     var hasSelectedItemModel: Binding<Bool>
@@ -116,7 +104,6 @@ struct HeaderView: View{
                     .overlay(Circle().stroke())
                 
             } else {
-                
                 Image(systemName: "questionmark")
                     .resizable()
                     .frame(width: 70, height: 120, alignment: .center)
@@ -125,12 +112,8 @@ struct HeaderView: View{
                     .background(colorScheme == .dark ? Color.init(white: 0.1) : Color.init(white: 0.9))
                     .clipShape(Circle())
                     .overlay(Circle().stroke())
-                
-                
             }
             HStack(spacing: 175.0){
-                
-                
                 if (item != nil && item?.p3Ddata != nil){
                     VStack{
                         NavigationLink(destination: ARTestView(p3DModel: self.item!.p3Ddata!), label: {
@@ -138,8 +121,6 @@ struct HeaderView: View{
                                 Image(systemName: "arkit")
                                     .resizable()
                                     .frame(width: 40, height: 45)
-                                
-                                
                             }
                             
                         } )

@@ -22,8 +22,6 @@ struct DetailsView: View {
     }
     
     var body: some View {
-      
-            
             GeometryReader { geo in
                 let hz = geo.frame(in: .global).height
                 let vt = geo.frame(in: .global).width
