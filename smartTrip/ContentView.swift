@@ -235,12 +235,12 @@ struct MapView: View {
     var body: some View {
         Map(coordinateRegion: $viewModel.region,interactionModes: MapInteractionModes.all, showsUserLocation: true, userTrackingMode: $userTrackingMode,annotationItems: annotations){
             place in MapAnnotation(coordinate: place.location){
+                Button(action: {
+                    
+                }){
                 AnnotationView()
                     .shadow(radius: 10)
-                    .onTapGesture {
-                        selectedPlace = place
-                        didTap.toggle()
-                    }
+                }
             }
             
     }
