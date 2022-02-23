@@ -254,7 +254,6 @@ struct MapView: View {
                       showingSheet.toggle()
 //                        print("Ho Raccolto un oggetto \(placeDiscovered?.item.name)")
                     }
-                    
             }
             .alert(isPresented: $showingSheet) {
                 Alert(title: Text("\(placeDiscovered!.item.name  ?? "Unknown item")"), message: Text("Clicca sul tuo inventario per ottenere maggiori informazioni"), dismissButton: Alert.Button.default(Text("Ok")))
@@ -364,7 +363,6 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
         req.predicate = NSPredicate(format: "id == %@", locationId as CVarArg)
         let res = try! context.fetch(req)
         return res.first
-        
     }
     
     // Distance è il raggio in metri per lo sblocco dell'obbiettivo
@@ -376,11 +374,7 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
         }
         return false
     }
-
-    
 }
-
-    
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {

@@ -49,6 +49,7 @@ struct PersistanceController{
         item.rarity = 0
         item.previewImage = UIImage(named: "colosseo.png")!.pngData()
         item.p3Ddata = Bundle.main.url(forResource: "colosseo", withExtension: "usdz")
+        item.city="Roma"
         
         let item2 = CollectableItem(context: context)
         item2.id = UUID()
@@ -59,6 +60,7 @@ struct PersistanceController{
         item2.type = 0
         item2.rarity = 0
         item2.previewImage = UIImage(named: "eiffel.png")!.pngData()
+        item2.city="Parigi"
         let item3 = CollectableItem(context: context)
         item3.id = UUID()
         item3.name = "Big Ben"
@@ -68,6 +70,7 @@ struct PersistanceController{
         item3.type = 0
         item3.rarity = 0
         item3.previewImage = UIImage(named: "big-ben.png")!.pngData()
+        item3.city="Londra"
         
         //Item di prova da eliminare
         let item4 = CollectableItem(context: context)
@@ -79,7 +82,7 @@ struct PersistanceController{
         item4.type = 0
         item4.rarity = 0
         item4.previewImage = UIImage(named: "big-ben.png")!.pngData()
-        
+        item4.city="Cava"
         // Item di prova per il test a cava
         
         let item5 = CollectableItem(context: context)
@@ -91,6 +94,7 @@ struct PersistanceController{
         item5.type = 0
         item5.rarity = 0
         item5.previewImage = UIImage(named: "big-ben.png")!.pngData()
+        item5.city="Cava"
         
         let item6 = CollectableItem(context: context)
         item6.id = UUID()
@@ -101,6 +105,7 @@ struct PersistanceController{
         item6.type = 0
         item6.rarity = 0
         item6.previewImage = UIImage(named: "big-ben.png")!.pngData()
+        item6.city="Milano"
         
         let item7 = CollectableItem(context: context)
         item7.id = UUID()
@@ -111,6 +116,7 @@ struct PersistanceController{
         item7.type = 0
         item7.rarity = 0
         item7.previewImage = UIImage(named: "big-ben.png")!.pngData()
+        item7.city="Cava"
         
         let item8 = CollectableItem(context: context)
         item8.id = UUID()
@@ -121,7 +127,7 @@ struct PersistanceController{
         item8.type = 0
         item8.rarity = 0
         item8.previewImage = UIImage(named: "big-ben.png")!.pngData()
-        
+        item8.city="Cava"
         let item9 = CollectableItem(context: context)
         item9.id = UUID()
         item9.name = "Bar di Ingegneria"
@@ -131,7 +137,7 @@ struct PersistanceController{
         item9.type = 0
         item9.rarity = 0
         item9.previewImage = UIImage(named: "big-ben.png")!.pngData()
-        
+        item9.city="Fisciano"
         let item10 = CollectableItem(context: context)
         item10.id = UUID()
         item10.name = "Fine dell' Edificio E"
@@ -141,7 +147,7 @@ struct PersistanceController{
         item10.type = 0
         item10.rarity = 0
         item10.previewImage = UIImage(named: "big-ben.png")!.pngData()
-        
+        item10.city="Fisciano"
         
         
         
