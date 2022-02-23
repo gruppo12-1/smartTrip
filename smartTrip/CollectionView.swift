@@ -69,8 +69,6 @@ struct HeaderView: View{
     @State var showingDetailsView = false
     @State var showingARView = false
     
-    
-    
     var item: CollectableItem?
     var isSelectedItemNull: Binding<Bool>
     var hasSelectedItemModel: Binding<Bool>
@@ -83,17 +81,12 @@ struct HeaderView: View{
     var body: some View{
         VStack{
             if item?.collectedItem != nil {
-                
                 Group{
                     if let p3Ddata=item!.p3Ddata {
                         try! SceneView(scene: SCNScene(url: p3Ddata) , options: [.autoenablesDefaultLighting, .allowsCameraControl])
-                        
                     } else {
                         Image(uiImage: UIImage(data: item!.previewImage!)!)
-                            .resizable()
-                           
-                        
-                    }
+                            .resizable()                    }
                 }
 //                .resizable()
                 .frame(width: 170, height: 170)
