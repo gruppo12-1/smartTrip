@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreData
+import SceneKit
 
 
 
@@ -30,12 +31,23 @@ struct DetailsView: View {
                     if hz > vt {
                         VStack(alignment: .center, content: {
                             if(unlocked){
-                                Image(uiImage: UIImage(data: item.previewImage!)!)
-                                    .resizable()
-                                    .frame(width: 170, height: 170, alignment: .center)
-                                    .clipShape(Circle())
-                                    .overlay(Circle().stroke())
-                                    .padding()
+                                
+                                Group{
+                                    if let p3Ddata=item.p3Ddata {
+                                        try! SceneView(scene: SCNScene(url: p3Ddata), options: [.autoenablesDefaultLighting,.allowsCameraControl])
+                                    
+                                    } else {
+                                        Image(uiImage: UIImage(data: item.previewImage!)!)
+                                            .resizable()
+                                            .scaledToFit()
+                                        
+                                        
+                                    }
+                                }
+                                .frame(height: 250, alignment: .center)
+                                .padding()
+                                
+                                
                             }else{
                                 
                             }
@@ -79,12 +91,24 @@ struct DetailsView: View {
                         HStack(alignment: .center, content: {
                             
                             if(unlocked){
-                                Image(uiImage: UIImage(data: item.previewImage!)!)
-                                    .resizable()
-                                    .frame(width: 170, height: 170, alignment: .center)
-                                    .clipShape(Circle())
-                                    .overlay(Circle().stroke())
-                                    .padding()
+                                
+                                
+                                Group{
+                                    if let p3Ddata=item.p3Ddata {
+                                        try! SceneView(scene: SCNScene(url: p3Ddata), options: [.autoenablesDefaultLighting,.allowsCameraControl])
+                                    } else {
+                                        Image(uiImage: UIImage(data: item.previewImage!)!)
+                                            .resizable()
+                                            .scaledToFit()
+                                        
+                                        
+                                    }
+                                }
+                                .frame(height: 250, alignment: .center)
+                                .padding()
+                                
+                                
+                                
                             }else{
                                 
                             }
