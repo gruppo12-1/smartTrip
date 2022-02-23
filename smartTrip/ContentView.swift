@@ -129,7 +129,7 @@ struct BodyContent: View {
     }
 
     var body: some View {
-        
+
         ScrollView(Axis.Set.horizontal, showsIndicators: true){
             HStack (spacing: 10){
                
@@ -138,6 +138,7 @@ struct BodyContent: View {
                         
                     }){
                         GeometryReader{ geometry in
+                            
                                 createView(element: element, viewModel: viewModel).onTapGesture {
                                     print("Hanno toccato \(element.item.name ?? "Errore nel tocco")") //Funzionaaaaa associa il tocco ad ogni elemento
                                     viewModel.region = MKCoordinateRegion(center: element.location, latitudinalMeters: 1000.0, longitudinalMeters: 1000.0) // Sposto la mappa sull'elemento desiderato
@@ -146,7 +147,7 @@ struct BodyContent: View {
                                 .background(Color.blue.opacity(0.2))
                                 .clipShape(RoundedRectangle(cornerRadius: 20))
                                 .overlay(RoundedRectangle(cornerRadius: 20).stroke(Color.blue).shadow(radius: 40))
-                                .rotation3DEffect(Angle(degrees: (Double(geometry.frame(in: .global).minX)) / -10), axis: (x:20.0, y:50.0, z:20.0))
+//                                .rotation3DEffect(Angle(degrees: (Double(geometry.frame(in: .global).minX)) / -10), axis: (x:0, y:10.0, z:0))
                         }
                         .frame(width: 150, height: 160)
                         .padding(10)
@@ -226,51 +227,46 @@ struct MapView: View {
     @State var placeDiscovered : UndiscoveredPlace?
 
     @State private var selectedPlace: UndiscoveredPlace?
-    
-    @State private var didTap: Bool = false
-    
+
     @State private var userTrackingMode: MapUserTrackingMode = .follow
     
     init(annotations:Binding<[UndiscoveredPlace]> , context: NSManagedObjectContext , mapViewModel: MapViewModel){
         self.context = context
         self._annotations = annotations
         viewModel = mapViewModel
-        
     }
     
     var body: some View {
         Map(coordinateRegion: $viewModel.region,interactionModes: MapInteractionModes.all, showsUserLocation: true, userTrackingMode: $userTrackingMode,annotationItems: annotations){
             place in MapAnnotation(coordinate: place.location){
                 Button(action: {
-                    
+                    selectedPlace = place
                 }){
-                AnnotationView()
+                    AnnotationView()
+                    .scaleEffect(selectedPlace == place ? 1.2 : 0.7)
                     .shadow(radius: 10)
                 }
             }
-            
-    }
-            .onAppear{
-                viewModel.checkIfLocationManagerIsEnabled()
-            }
-            .onReceive(timer){ _ in
-                let returned  = viewModel.checkLocation(locations: annotations , context: context)
-                    if returned > -1 {
-                      placeDiscovered = annotations.remove(at: returned)
-                      showingSheet.toggle()
+        }
+        .onAppear{
+            viewModel.checkIfLocationManagerIsEnabled()
+        }
+        .onReceive(timer){ _ in
+            let returned  = viewModel.checkLocation(locations: annotations , context: context)
+                if returned > -1 {
+                  placeDiscovered = annotations.remove(at: returned)
+                  showingSheet.toggle()
 //                        print("Ho Raccolto un oggetto \(placeDiscovered?.item.name)")
-                    }
-                    
-            }
-            .alert(isPresented: $showingSheet) {
-                Alert(title: Text("\(placeDiscovered!.item.name  ?? "Unknown item")"), message: Text("Clicca sul tuo inventario per ottenere maggiori informazioni"), dismissButton: Alert.Button.default(Text("Ok")))
-                    
-            }
+                }
+        }
+        .alert(isPresented: $showingSheet) {
+            Alert(title: Text("\(placeDiscovered!.item.name  ?? "Unknown item")"), message: Text("Clicca sul tuo inventario per ottenere maggiori informazioni"), dismissButton: Alert.Button.default(Text("Ok")))
+        }
         
-            
-            
     }
 }
+
+
 
 //SheetView che viene visualizzata all'atto dello sblocco
 

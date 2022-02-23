@@ -31,8 +31,6 @@ struct AnnotationView: View {
                 .offset(y: -3)
                 .padding(.bottom,40)
     }
-    
-    
 }
 
 struct AnnotationView_Previews: PreviewProvider {
