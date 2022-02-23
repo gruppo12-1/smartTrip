@@ -50,16 +50,12 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView{
-            
             GeometryReader { geo in
-                let hz = geo.frame(in: .global).height
-                let vt = geo.frame(in: .global).width
+                let screenHeight = geo.frame(in: .global).height
+                let screenWidth = geo.frame(in: .global).width
                 ZStack {
-                
                     MapView(annotations: $annotations , context: viewContext, mapViewModel: viewModel).ignoresSafeArea()
-                    
-                    if hz < vt {
-                        
+                    if screenHeight < screenWidth { //layout orizzontale
                         HStack(alignment: .center, content: {
                                 Rectangle().opacity(0)
                                     .bottomSheet(
@@ -72,8 +68,7 @@ struct ContentView: View {
                             {BodyContent(annotations: $annotations, viewModel: viewModel)}
                                 Rectangle().opacity(0)
                         })
-                    } else {
-
+                    } else { //layout verticale
                         HStack(alignment: .center, content: {
                                 Rectangle().opacity(0)
                                     .bottomSheet(
@@ -93,10 +88,33 @@ struct ContentView: View {
         }
         .navigationViewStyle(.stack)
     }
+}
+
+func createArrayofPlace(arrayOfPlaceUndiscovered: [UndiscoveredPlace], viewModel: MapViewModel) -> [UndiscoveredPlace]{
+    
+    var myArray: [(posto: UndiscoveredPlace,distanza: Double)] = []
+    
+    for element in arrayOfPlaceUndiscovered{
+        
+        let temp = MKMapPoint(viewModel.locationManager?.location!.coordinate ?? CLLocationCoordinate2D.init(latitude: 0, longitude: 0) ).distance(to: MKMapPoint(element.location))
+        
+        myArray.append((element, temp))
+    }
+    
+    myArray = myArray.sorted(by: {$0.distanza < $1.distanza})
+    
+    var newArray: [UndiscoveredPlace] = []
+    
+    for element in myArray{
+        print("\(element.distanza)")
+        newArray.append(element.posto)
+    }
+    return newArray
     
 }
 
-func createView(element: UndiscoveredPlace , viewModel: MapViewModel) -> some View {
+
+func createView(element: UndiscoveredPlace, viewModel: MapViewModel) -> some View {
     return VStack{
         Text("\(element.item.name ?? "Senza nome")")
             .font(.title3)
@@ -122,18 +140,26 @@ struct BodyContent: View {
     
     @State var tap = false
     
+    
+    
+     
+    
     init(annotations: Binding<[UndiscoveredPlace]>, viewModel : MapViewModel){
         
         self._annotations = annotations
         self.viewModel = viewModel
+        
+        
     }
 
     var body: some View {
 
         ScrollView(Axis.Set.horizontal, showsIndicators: true){
             HStack (spacing: 10){
-               
-                ForEach(annotations , id: \.id){ element in
+                
+                
+                
+                ForEach(createArrayofPlace(arrayOfPlaceUndiscovered: annotations, viewModel: viewModel) , id: \.id){ element in
                     Button(action:{
                         
                     }){
@@ -152,10 +178,11 @@ struct BodyContent: View {
                         .frame(width: 150, height: 160)
                         .padding(10)
                     }
+                    .padding(.vertical, 30.0)
 
                 }
             }
-        }.padding(20)
+        }.padding(0.1)
     }
 }
 
@@ -366,7 +393,6 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
         req.predicate = NSPredicate(format: "id == %@", locationId as CVarArg)
         let res = try! context.fetch(req)
         return res.first
-        
     }
     
     // Distance è il raggio in metri per lo sblocco dell'obbiettivo
@@ -378,11 +404,7 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
         }
         return false
     }
-
-    
 }
-
-    
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {

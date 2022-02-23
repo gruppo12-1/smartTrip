@@ -6,55 +6,54 @@
 //
 
 import SwiftUI
+import SceneKit
 
 struct CollectionView: View {
     @Environment(\.managedObjectContext) private var viewContext
-    @FetchRequest<CollectableItem>(entity: CollectableItem.entity(), sortDescriptors: []) var collectableItems: FetchedResults<CollectableItem>
+    //@FetchRequest<CollectableItem>(entity: CollectableItem.entity(), sortDescriptors: []) var collectableItems: FetchedResults<CollectableItem>
+    @FetchRequest<CollectedItem>(entity: CollectedItem.entity(), sortDescriptors: []) var collectedItems: FetchedResults<CollectedItem>
     @State var selectedItem: CollectableItem? = nil
     
     var body: some View {
-        
         let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())] // 3 colonne
         
         GeometryReader { geo in
-            let hz = geo.frame(in: .global).height
-            let vt = geo.frame(in: .global).width
+            let screenHeight = geo.frame(in: .global).height
+            let screenWidth = geo.frame(in: .global).width
             ZStack {
-                if hz > vt {
-      
+                if screenHeight > screenWidth { //layout verticale
                     VStack(alignment: .center, content: {
 
                         HeaderView(item: selectedItem)
-
+                        
+                        FilterBar()
+                            .padding(.horizontal)
+                        
                         ScrollView{
                             LazyVGrid(columns: columns){
-                                ForEach(collectableItems){ citem in
+                                ForEach(collectedItems){ citem in
                                     Button(action:{
                                         // Show tapped image in circle
-                                        selectedItem = citem
+                                        selectedItem = citem.item
                                     }){
-                                        ItemView(item: citem)
+                                        ItemView(item: citem.item!)
                                     }
                                     .buttonStyle(ItemButtonStyle(cornerRadius: 20))
                                 }
-                                
                             }.padding(.all)
                         }
                     })
-                } else {
-
+                } else { //layout verticale
                     HStack(alignment: .center, content: {
-                        
                         HeaderView(item: selectedItem)
-                        
                         ScrollView{
                             LazyVGrid(columns: columns){
-                                ForEach(collectableItems){ citem in
+                                ForEach(collectedItems){ citem in
                                     Button(action:{
                                         // Show tapped image in circle
-                                        selectedItem = citem
+                                        selectedItem = citem.item!
                                     }){
-                                        ItemView(item: citem)
+                                        ItemView(item: citem.item!)
                                     }
                                     .buttonStyle(ItemButtonStyle(cornerRadius: 20))
                                 }
@@ -66,12 +65,7 @@ struct CollectionView: View {
         }
         .navigationTitle("My Collection")
         .navigationBarTitleDisplayMode(.large)
-        
-        
     }
-    
-    
-    
 }
 
 struct ItemButtonStyle: ButtonStyle{
@@ -108,15 +102,33 @@ struct HeaderView: View{
     var body: some View{
         VStack{
             if item?.collectedItem != nil {
-                Image(uiImage: UIImage(data: item!.previewImage!)!)
-                    .resizable()
-                    .frame(width: 170, height: 170)
-                    .background(colorScheme == .dark ? Color.init(white: 0.1) : Color.init(white: 0.9))
-                    .clipShape(Circle())
-                    .overlay(Circle().stroke())
+                
+                Group{
+                    if let p3Ddata=item!.p3Ddata {
+                        try! SceneView(scene: SCNScene(url: p3Ddata) , options: [.autoenablesDefaultLighting, .allowsCameraControl])
+                        
+                    } else {
+                        Image(uiImage: UIImage(data: item!.previewImage!)!)
+                            .resizable()
+                           
+                        
+                    }
+                }
+//                .resizable()
+                .frame(width: 170, height: 170)
+                .clipShape(Circle())
+                .overlay(Circle().stroke())
+                .padding()
+                
+                
+//                Image(uiImage: UIImage(data: item!.previewImage!)!)
+//                    .resizable()
+//                    .frame(width: 170, height: 170)
+//                    .background(colorScheme == .dark ? Color.init(white: 0.1) : Color.init(white: 0.9))
+//                    .clipShape(Circle())
+//                    .overlay(Circle().stroke())
                 
             } else {
-                
                 Image(systemName: "questionmark")
                     .resizable()
                     .frame(width: 70, height: 120, alignment: .center)
@@ -125,12 +137,8 @@ struct HeaderView: View{
                     .background(colorScheme == .dark ? Color.init(white: 0.1) : Color.init(white: 0.9))
                     .clipShape(Circle())
                     .overlay(Circle().stroke())
-                
-                
             }
             HStack(spacing: 175.0){
-                
-                
                 if (item != nil && item?.p3Ddata != nil){
                     VStack{
                         NavigationLink(destination: ARTestView(p3DModel: self.item!.p3Ddata!), label: {
@@ -138,8 +146,6 @@ struct HeaderView: View{
                                 Image(systemName: "arkit")
                                     .resizable()
                                     .frame(width: 40, height: 45)
-                                
-                                
                             }
                             
                         } )
@@ -201,6 +207,27 @@ struct HeaderView: View{
         .frame(maxWidth: .infinity)
     }
 }
+
+struct FilterBar: View{
+    
+    @Environment(\.managedObjectContext) private var viewContext
+    
+    var body: some View{
+        
+        
+        Menu{
+            Text("Prova")
+            
+            
+            
+            
+            
+        }label: {
+            Text("Trey")
+        }
+    }
+}
+
 
 struct ItemView: View {
     @Environment(\.colorScheme) var colorScheme
