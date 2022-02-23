@@ -130,16 +130,18 @@ struct BodyContent: View {
         self.viewModel = viewModel
     }
     
+   
  
     var body: some View {
         
         ScrollView(Axis.Set.horizontal, showsIndicators: true){
-           
             HStack (spacing: 10){
+               
                 ForEach(annotations , id: \.id){ element in
                     GeometryReader{ geometry in
                             createView(element: element, viewModel: viewModel).onTapGesture {
                                 print("Hanno toccato \(element.item.name ?? "Errore nel tocco")") //Funzionaaaaa associa il tocco ad ogni elemento
+                                viewModel.region = MKCoordinateRegion(center: element.location, latitudinalMeters: 1000.0, longitudinalMeters: 1000.0) // Sposto la mappa sull'elemento desiderato
                             }
                             .frame(width:geometry.size.width, height: geometry.size.height)
                             .background(Color.blue.opacity(0.2))
@@ -226,6 +228,8 @@ struct MapView: View {
     
     @State private var didTap: Bool = false
     
+    @State private var userTrackingMode: MapUserTrackingMode = .follow
+    
     init(annotations:Binding<[UndiscoveredPlace]> , context: NSManagedObjectContext , mapViewModel: MapViewModel){
         self.context = context
         self._annotations = annotations
@@ -234,7 +238,7 @@ struct MapView: View {
     }
     
     var body: some View {
-        Map(coordinateRegion: $viewModel.region, showsUserLocation: true, annotationItems: annotations){
+        Map(coordinateRegion: $viewModel.region,interactionModes: MapInteractionModes.all, showsUserLocation: true, userTrackingMode: $userTrackingMode,annotationItems: annotations){
             place in MapAnnotation(coordinate: place.location){
                 AnnotationView()
                     .shadow(radius: 10)
@@ -289,13 +293,14 @@ struct SheetView: View{
 }
 
 
+/*
 struct Location: Identifiable, Codable, Equatable {
     let id: UUID
     var name: String
     var description: String
     let latitude: Double
     let longitude: Double
-}
+}*/
 
 final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     
