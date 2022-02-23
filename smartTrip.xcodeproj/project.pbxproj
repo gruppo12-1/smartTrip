@@ -522,6 +522,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"smartTrip/Preview Content\"";
@@ -529,6 +530,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = smartTrip/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Explore;
 				INFOPLIST_KEY_NSCameraUsageDescription = "smartTrip camera use";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Per tracciare la posizione dell'utente.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Per tracciare la posizione dell'utente.";
@@ -556,6 +558,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"smartTrip/Preview Content\"";
@@ -563,6 +566,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = smartTrip/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Explore;
 				INFOPLIST_KEY_NSCameraUsageDescription = "smartTrip camera use";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Per tracciare la posizione dell'utente.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Per tracciare la posizione dell'utente.";
