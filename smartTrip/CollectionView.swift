@@ -24,7 +24,10 @@ struct CollectionView: View {
                     VStack(alignment: .center, content: {
 
                         HeaderView(item: selectedItem)
-
+                        
+                        FilterBar()
+                            .padding(.horizontal)
+                        
                         ScrollView{
                             LazyVGrid(columns: columns){
                                 ForEach(collectedItems){ citem in
@@ -182,6 +185,28 @@ struct HeaderView: View{
         .frame(maxWidth: .infinity)
     }
 }
+
+struct FilterBar: View{
+    
+    @Environment(\.managedObjectContext) private var viewContext
+    
+    var body: some View{
+        
+        var selectedFilter = ""
+        
+        Menu{
+            Text("Prova")
+            
+            
+            
+            
+            
+        }label: {
+            Text(selectedFilter)
+        }
+    }
+}
+
 
 struct ItemView: View {
     @Environment(\.colorScheme) var colorScheme
