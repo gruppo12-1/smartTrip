@@ -9,7 +9,9 @@ import SwiftUI
 
 struct AnnotationView: View {
     
+    
     var body: some View {
+        
         VStack(spacing:0){
             Image(systemName: "questionmark.circle.fill")
                 .resizable()
@@ -28,7 +30,6 @@ struct AnnotationView: View {
                 .rotationEffect(Angle(degrees: 180))
                 .offset(y: -3)
                 .padding(.bottom,40)
-        }
     }
     
     
@@ -41,4 +42,7 @@ struct AnnotationView_Previews: PreviewProvider {
             AnnotationView()
         }
     }
+}
+    
+    
 }
