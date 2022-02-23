@@ -138,6 +138,7 @@ struct PersistanceController{
         item9.rarity = 0
         item9.previewImage = UIImage(named: "big-ben.png")!.pngData()
         item9.city="Fisciano"
+        
         let item10 = CollectableItem(context: context)
         item10.id = UUID()
         item10.name = "Fine dell' Edificio E"
@@ -149,6 +150,20 @@ struct PersistanceController{
         item10.previewImage = UIImage(named: "big-ben.png")!.pngData()
         item10.city="Fisciano"
         
+        
+        
+        
+        
+        let item11 = CollectableItem(context: context)
+        item11.id = UUID()
+        item11.name = "Passiano"
+        item11.desc = "Test di unlock"
+        item11.latitude = 40.70342907718749
+        item11.longitude = 14.69354161470204
+        item11.type = 0
+        item11.rarity = 0
+        item11.previewImage = UIImage(named: "big-ben.png")!.pngData()
+        item11.city="Cava de' Tirreni"
         
         
         // Altre cose
