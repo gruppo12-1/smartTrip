@@ -12,9 +12,6 @@ struct CollectionView: View {
     @FetchRequest<CollectableItem>(entity: CollectableItem.entity(), sortDescriptors: []) var collectableItems: FetchedResults<CollectableItem>
     @State var selectedItem: CollectableItem? = nil
     
-    
-    
-    
     var body: some View {
         
         let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())] // 3 colonne
@@ -24,16 +21,11 @@ struct CollectionView: View {
             let vt = geo.frame(in: .global).width
             ZStack {
                 if hz > vt {
-                    
-                    
+      
                     VStack(alignment: .center, content: {
-                        
-                        
+
                         HeaderView(item: selectedItem)
-                        
-                        
-                        
-                        
+
                         ScrollView{
                             LazyVGrid(columns: columns){
                                 ForEach(collectableItems){ citem in
@@ -50,8 +42,7 @@ struct CollectionView: View {
                         }
                     })
                 } else {
-                    
-                    
+
                     HStack(alignment: .center, content: {
                         
                         HeaderView(item: selectedItem)

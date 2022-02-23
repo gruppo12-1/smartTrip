@@ -74,8 +74,7 @@ struct ContentView: View {
                                 Rectangle().opacity(0)
                         })
                     } else {
-                        
-                        
+
                         HStack(alignment: .center, content: {
                                 Rectangle().opacity(0)
                                     .bottomSheet(
@@ -92,9 +91,8 @@ struct ContentView: View {
             }
             .navigationTitle("Map")
             .navigationBarHidden(true)
-        }.navigationViewStyle(.stack)
-//            .statusBar(hidden: true)
-        
+        }
+        .navigationViewStyle(.stack)
     }
     
 }
@@ -123,34 +121,38 @@ struct BodyContent: View {
     
     @Binding var annotations : [UndiscoveredPlace]
     
+    @State var tap = false
     
     init(annotations: Binding<[UndiscoveredPlace]>, viewModel : MapViewModel){
         
         self._annotations = annotations
         self.viewModel = viewModel
     }
-    
-   
- 
+
     var body: some View {
         
         ScrollView(Axis.Set.horizontal, showsIndicators: true){
             HStack (spacing: 10){
                
                 ForEach(annotations , id: \.id){ element in
-                    GeometryReader{ geometry in
-                            createView(element: element, viewModel: viewModel).onTapGesture {
-                                print("Hanno toccato \(element.item.name ?? "Errore nel tocco")") //Funzionaaaaa associa il tocco ad ogni elemento
-                                viewModel.region = MKCoordinateRegion(center: element.location, latitudinalMeters: 1000.0, longitudinalMeters: 1000.0) // Sposto la mappa sull'elemento desiderato
-                            }
-                            .frame(width:geometry.size.width, height: geometry.size.height)
-                            .background(Color.blue.opacity(0.2))
-                            .clipShape(RoundedRectangle(cornerRadius: 20))
-                            .overlay(RoundedRectangle(cornerRadius: 20).stroke(Color.blue).shadow(radius: 40))
-                            .rotation3DEffect(Angle(degrees: (Double(geometry.frame(in: .global).minX)) / -10), axis: (x:20.0, y:50.0, z:20.0))
+                    Button(action:{
+                        
+                    }){
+                        GeometryReader{ geometry in
+                                createView(element: element, viewModel: viewModel).onTapGesture {
+                                    print("Hanno toccato \(element.item.name ?? "Errore nel tocco")") //Funzionaaaaa associa il tocco ad ogni elemento
+                                    viewModel.region = MKCoordinateRegion(center: element.location, latitudinalMeters: 1000.0, longitudinalMeters: 1000.0) // Sposto la mappa sull'elemento desiderato
+                                }
+                                .frame(width:geometry.size.width, height: geometry.size.height)
+                                .background(Color.blue.opacity(0.2))
+                                .clipShape(RoundedRectangle(cornerRadius: 20))
+                                .overlay(RoundedRectangle(cornerRadius: 20).stroke(Color.blue).shadow(radius: 40))
+                                .rotation3DEffect(Angle(degrees: (Double(geometry.frame(in: .global).minX)) / -10), axis: (x:20.0, y:50.0, z:20.0))
+                        }
+                        .frame(width: 150, height: 160)
+                        .padding(10)
                     }
-                    .frame(width: 150, height: 160)
-                    .padding(20)
+
                 }
             }
         }.padding(20)
@@ -291,16 +293,6 @@ struct SheetView: View{
         
     }
 }
-
-
-/*
-struct Location: Identifiable, Codable, Equatable {
-    let id: UUID
-    var name: String
-    var description: String
-    let latitude: Double
-    let longitude: Double
-}*/
 
 final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     
