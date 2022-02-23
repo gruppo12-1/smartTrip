@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SceneKit
 
 struct CollectionView: View {
     @Environment(\.managedObjectContext) private var viewContext
@@ -87,6 +88,8 @@ struct HeaderView: View{
     @State var showingDetailsView = false
     @State var showingARView = false
     
+    
+    
     var item: CollectableItem?
     var isSelectedItemNull: Binding<Bool>
     var hasSelectedItemModel: Binding<Bool>
@@ -99,12 +102,31 @@ struct HeaderView: View{
     var body: some View{
         VStack{
             if item?.collectedItem != nil {
-                Image(uiImage: UIImage(data: item!.previewImage!)!)
-                    .resizable()
-                    .frame(width: 170, height: 170)
-                    .background(colorScheme == .dark ? Color.init(white: 0.1) : Color.init(white: 0.9))
-                    .clipShape(Circle())
-                    .overlay(Circle().stroke())
+                
+                Group{
+                    if let p3Ddata=item!.p3Ddata {
+                        try! SceneView(scene: SCNScene(url: p3Ddata) , options: [.autoenablesDefaultLighting, .allowsCameraControl])
+                        
+                    } else {
+                        Image(uiImage: UIImage(data: item!.previewImage!)!)
+                            .resizable()
+                           
+                        
+                    }
+                }
+//                .resizable()
+                .frame(width: 170, height: 170)
+                .clipShape(Circle())
+                .overlay(Circle().stroke())
+                .padding()
+                
+                
+//                Image(uiImage: UIImage(data: item!.previewImage!)!)
+//                    .resizable()
+//                    .frame(width: 170, height: 170)
+//                    .background(colorScheme == .dark ? Color.init(white: 0.1) : Color.init(white: 0.9))
+//                    .clipShape(Circle())
+//                    .overlay(Circle().stroke())
                 
             } else {
                 Image(systemName: "questionmark")
@@ -192,7 +214,6 @@ struct FilterBar: View{
     
     var body: some View{
         
-        var selectedFilter = ""
         
         Menu{
             Text("Prova")
@@ -202,7 +223,7 @@ struct FilterBar: View{
             
             
         }label: {
-            Text(selectedFilter)
+            Text("Trey")
         }
     }
 }
