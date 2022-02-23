@@ -28,10 +28,7 @@ struct DetailsView: View {
                 ZStack {
                     
                     if hz > vt {
-                        
-                        
                         VStack(alignment: .center, content: {
-                            
                             if(unlocked){
                                 Image(uiImage: UIImage(data: item.previewImage!)!)
                                     .resizable()
@@ -42,7 +39,6 @@ struct DetailsView: View {
                             }else{
                                 
                             }
-                            
                             VStack(alignment: .leading){
                                 
                                 if(unlocked){
