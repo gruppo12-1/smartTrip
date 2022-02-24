@@ -18,7 +18,6 @@
 		174E600727B7ABA400846E78 /* smartTripTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174E600627B7ABA400846E78 /* smartTripTests.swift */; };
 		174E601127B7ABA400846E78 /* smartTripUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174E601027B7ABA400846E78 /* smartTripUITests.swift */; };
 		174E601327B7ABA400846E78 /* smartTripUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174E601227B7ABA400846E78 /* smartTripUITestsLaunchTests.swift */; };
-		A96B44B627C7D17400F92281 /* luoghiSmartTrip.csv in Resources */ = {isa = PBXBuildFile; fileRef = A96B44B527C7D17400F92281 /* luoghiSmartTrip.csv */; };
 		A96B44B927C7D28A00F92281 /* SwiftCSV in Frameworks */ = {isa = PBXBuildFile; productRef = A96B44B827C7D28A00F92281 /* SwiftCSV */; };
 		A96B44C527C7D72000F92281 /* Municipio di Cava.png in Resources */ = {isa = PBXBuildFile; fileRef = A96B44BA27C7D71F00F92281 /* Municipio di Cava.png */; };
 		A96B44C827C7D72000F92281 /* Istituto Filangieri.png in Resources */ = {isa = PBXBuildFile; fileRef = A96B44BD27C7D71F00F92281 /* Istituto Filangieri.png */; };
@@ -33,6 +32,7 @@
 		A96B44D327C7D8DC00F92281 /* Panchina per i diritti delle donne.png in Resources */ = {isa = PBXBuildFile; fileRef = A96B44D227C7D8DC00F92281 /* Panchina per i diritti delle donne.png */; };
 		A96B44D527C7F55E00F92281 /* Abbazia della Santissima Trinità.png in Resources */ = {isa = PBXBuildFile; fileRef = A96B44D427C7F55E00F92281 /* Abbazia della Santissima Trinità.png */; };
 		A96B44D727C7F57300F92281 /* Biblioteca Cava.png in Resources */ = {isa = PBXBuildFile; fileRef = A96B44D627C7F57300F92281 /* Biblioteca Cava.png */; };
+		A96B44E127C8029000F92281 /* luoghiSmartTrip.csv in Resources */ = {isa = PBXBuildFile; fileRef = A96B44E027C8029000F92281 /* luoghiSmartTrip.csv */; };
 		A9C38F9327C19BD0007937AA /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = A9C38F9227C19BD0007937AA /* Algorithms */; };
 		A9D4D90327BBBC2D0055AFBC /* SmartTripModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A9D4D90127BBBC2D0055AFBC /* SmartTripModel.xcdatamodeld */; };
 		A9D4D90527BBF3930055AFBC /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D4D90427BBF3930055AFBC /* TestView.swift */; };
@@ -77,7 +77,6 @@
 		174E600C27B7ABA400846E78 /* smartTripUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = smartTripUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		174E601027B7ABA400846E78 /* smartTripUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = smartTripUITests.swift; sourceTree = "<group>"; };
 		174E601227B7ABA400846E78 /* smartTripUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = smartTripUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		A96B44B527C7D17400F92281 /* luoghiSmartTrip.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = luoghiSmartTrip.csv; sourceTree = "<group>"; };
 		A96B44BA27C7D71F00F92281 /* Municipio di Cava.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Municipio di Cava.png"; sourceTree = "<group>"; };
 		A96B44BD27C7D71F00F92281 /* Istituto Filangieri.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Istituto Filangieri.png"; sourceTree = "<group>"; };
 		A96B44BE27C7D71F00F92281 /* Provincia di Salerno.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Provincia di Salerno.png"; sourceTree = "<group>"; };
@@ -91,6 +90,7 @@
 		A96B44D227C7D8DC00F92281 /* Panchina per i diritti delle donne.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Panchina per i diritti delle donne.png"; sourceTree = "<group>"; };
 		A96B44D427C7F55E00F92281 /* Abbazia della Santissima Trinità.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Abbazia della Santissima Trinità.png"; sourceTree = "<group>"; };
 		A96B44D627C7F57300F92281 /* Biblioteca Cava.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Biblioteca Cava.png"; sourceTree = "<group>"; };
+		A96B44E027C8029000F92281 /* luoghiSmartTrip.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = luoghiSmartTrip.csv; path = ../../../luoghiSmartTrip.csv; sourceTree = "<group>"; };
 		A9D4D90227BBBC2D0055AFBC /* SmartTripModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SmartTripModel.xcdatamodel; sourceTree = "<group>"; };
 		A9D4D90427BBF3930055AFBC /* TestView.swift */ = {isa = PBXFileReference; indentWidth = 1; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; tabWidth = 1; };
 		A9D4D90627BBF9DE0055AFBC /* PersistanceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistanceController.swift; sourceTree = "<group>"; };
@@ -153,7 +153,7 @@
 		174E5FF427B7ABA300846E78 /* smartTrip */ = {
 			isa = PBXGroup;
 			children = (
-				A96B44B527C7D17400F92281 /* luoghiSmartTrip.csv */,
+				A96B44E027C8029000F92281 /* luoghiSmartTrip.csv */,
 				A9E7B06D27BD4E60008A6781 /* Info.plist */,
 				A9D4D90827BC07F60055AFBC /* assets */,
 				A9E7B06B27BD46A2008A6781 /* ARTestView.swift */,
@@ -354,7 +354,6 @@
 				A9F9FFE327BEEFDD00A45781 /* unknown.png in Resources */,
 				174E5FFD27B7ABA400846E78 /* Preview Assets.xcassets in Resources */,
 				174E5FFA27B7ABA400846E78 /* Assets.xcassets in Resources */,
-				A96B44B627C7D17400F92281 /* luoghiSmartTrip.csv in Resources */,
 				A96B44D127C7D8AB00F92281 /* Castello di Sant'Adiutore.png in Resources */,
 				A9D4D90B27BC08180055AFBC /* colosseo.png in Resources */,
 				A96B44CF27C7D72000F92281 /* Duomo di Cava.png in Resources */,
@@ -363,6 +362,7 @@
 				A96B44CC27C7D72000F92281 /* Santuario di Maria Santissima Avvocata.png in Resources */,
 				A9F9FFE427BEEFDD00A45781 /* big-ben.png in Resources */,
 				A96B44CB27C7D72000F92281 /* Cittadella di giustizia.png in Resources */,
+				A96B44E127C8029000F92281 /* luoghiSmartTrip.csv in Resources */,
 				A96B44CE27C7D72000F92281 /* Chiesa del Purgatorio.png in Resources */,
 				A96B44D327C7D8DC00F92281 /* Panchina per i diritti delle donne.png in Resources */,
 				A96B44CA27C7D72000F92281 /* Piazza San Francesco.png in Resources */,
