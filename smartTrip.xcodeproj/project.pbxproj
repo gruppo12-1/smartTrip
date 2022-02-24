@@ -18,13 +18,28 @@
 		174E600727B7ABA400846E78 /* smartTripTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174E600627B7ABA400846E78 /* smartTripTests.swift */; };
 		174E601127B7ABA400846E78 /* smartTripUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174E601027B7ABA400846E78 /* smartTripUITests.swift */; };
 		174E601327B7ABA400846E78 /* smartTripUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174E601227B7ABA400846E78 /* smartTripUITestsLaunchTests.swift */; };
+		A96B44B627C7D17400F92281 /* luoghiSmartTrip.csv in Resources */ = {isa = PBXBuildFile; fileRef = A96B44B527C7D17400F92281 /* luoghiSmartTrip.csv */; };
+		A96B44B927C7D28A00F92281 /* SwiftCSV in Frameworks */ = {isa = PBXBuildFile; productRef = A96B44B827C7D28A00F92281 /* SwiftCSV */; };
+		A96B44C527C7D72000F92281 /* Municipio di Cava.png in Resources */ = {isa = PBXBuildFile; fileRef = A96B44BA27C7D71F00F92281 /* Municipio di Cava.png */; };
+		A96B44C627C7D72000F92281 /* Biblioteca Cava.png in Resources */ = {isa = PBXBuildFile; fileRef = A96B44BB27C7D71F00F92281 /* Biblioteca Cava.png */; };
+		A96B44C727C7D72000F92281 /* Abbazia della Santissima Trinità.png in Resources */ = {isa = PBXBuildFile; fileRef = A96B44BC27C7D71F00F92281 /* Abbazia della Santissima Trinità.png */; };
+		A96B44C827C7D72000F92281 /* Istituto Filangieri.png in Resources */ = {isa = PBXBuildFile; fileRef = A96B44BD27C7D71F00F92281 /* Istituto Filangieri.png */; };
+		A96B44C927C7D72000F92281 /* Provincia di Salerno.png in Resources */ = {isa = PBXBuildFile; fileRef = A96B44BE27C7D71F00F92281 /* Provincia di Salerno.png */; };
+		A96B44CA27C7D72000F92281 /* Piazza San Francesco.png in Resources */ = {isa = PBXBuildFile; fileRef = A96B44BF27C7D71F00F92281 /* Piazza San Francesco.png */; };
+		A96B44CB27C7D72000F92281 /* Cittadella di giustizia.png in Resources */ = {isa = PBXBuildFile; fileRef = A96B44C027C7D71F00F92281 /* Cittadella di giustizia.png */; };
+		A96B44CC27C7D72000F92281 /* Santuario di Maria Santissima Avvocata.png in Resources */ = {isa = PBXBuildFile; fileRef = A96B44C127C7D71F00F92281 /* Santuario di Maria Santissima Avvocata.png */; };
+		A96B44CD27C7D72000F92281 /* Stadio Comunale Simonetta Lamberti.png in Resources */ = {isa = PBXBuildFile; fileRef = A96B44C227C7D71F00F92281 /* Stadio Comunale Simonetta Lamberti.png */; };
+		A96B44CE27C7D72000F92281 /* Chiesa del Purgatorio.png in Resources */ = {isa = PBXBuildFile; fileRef = A96B44C327C7D71F00F92281 /* Chiesa del Purgatorio.png */; };
+		A96B44CF27C7D72000F92281 /* Duomo di Cava.png in Resources */ = {isa = PBXBuildFile; fileRef = A96B44C427C7D71F00F92281 /* Duomo di Cava.png */; };
+		A96B44D127C7D8AB00F92281 /* Castello di Sant'Adiutore.png in Resources */ = {isa = PBXBuildFile; fileRef = A96B44D027C7D8AB00F92281 /* Castello di Sant'Adiutore.png */; };
+		A96B44D327C7D8DC00F92281 /* Panchina per i diritti delle donne.png in Resources */ = {isa = PBXBuildFile; fileRef = A96B44D227C7D8DC00F92281 /* Panchina per i diritti delle donne.png */; };
 		A9C38F9327C19BD0007937AA /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = A9C38F9227C19BD0007937AA /* Algorithms */; };
 		A9D4D90327BBBC2D0055AFBC /* SmartTripModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A9D4D90127BBBC2D0055AFBC /* SmartTripModel.xcdatamodeld */; };
 		A9D4D90527BBF3930055AFBC /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D4D90427BBF3930055AFBC /* TestView.swift */; };
 		A9D4D90727BBF9DE0055AFBC /* PersistanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D4D90627BBF9DE0055AFBC /* PersistanceController.swift */; };
 		A9D4D90B27BC08180055AFBC /* colosseo.png in Resources */ = {isa = PBXBuildFile; fileRef = A9D4D90A27BC08180055AFBC /* colosseo.png */; };
 		A9E7B06C27BD46A2008A6781 /* ARTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E7B06B27BD46A2008A6781 /* ARTestView.swift */; };
-		A9F9FFE327BEEFDD00A45781 /* eiffel.png in Resources */ = {isa = PBXBuildFile; fileRef = A9F9FFE127BEEFDC00A45781 /* eiffel.png */; };
+		A9F9FFE327BEEFDD00A45781 /* unknown.png in Resources */ = {isa = PBXBuildFile; fileRef = A9F9FFE127BEEFDC00A45781 /* unknown.png */; };
 		A9F9FFE427BEEFDD00A45781 /* big-ben.png in Resources */ = {isa = PBXBuildFile; fileRef = A9F9FFE227BEEFDD00A45781 /* big-ben.png */; };
 		E2A8979D27C0F03A00BCF177 /* BottomSheet in Frameworks */ = {isa = PBXBuildFile; productRef = E2A8979C27C0F03A00BCF177 /* BottomSheet */; };
 		F2FF6E7E27C5559B00FEEBB7 /* AnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2FF6E7D27C5559B00FEEBB7 /* AnnotationView.swift */; };
@@ -62,13 +77,27 @@
 		174E600C27B7ABA400846E78 /* smartTripUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = smartTripUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		174E601027B7ABA400846E78 /* smartTripUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = smartTripUITests.swift; sourceTree = "<group>"; };
 		174E601227B7ABA400846E78 /* smartTripUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = smartTripUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		A96B44B527C7D17400F92281 /* luoghiSmartTrip.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = luoghiSmartTrip.csv; sourceTree = "<group>"; };
+		A96B44BA27C7D71F00F92281 /* Municipio di Cava.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Municipio di Cava.png"; sourceTree = "<group>"; };
+		A96B44BB27C7D71F00F92281 /* Biblioteca Cava.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Biblioteca Cava.png"; sourceTree = "<group>"; };
+		A96B44BC27C7D71F00F92281 /* Abbazia della Santissima Trinità.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Abbazia della Santissima Trinità.png"; sourceTree = "<group>"; };
+		A96B44BD27C7D71F00F92281 /* Istituto Filangieri.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Istituto Filangieri.png"; sourceTree = "<group>"; };
+		A96B44BE27C7D71F00F92281 /* Provincia di Salerno.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Provincia di Salerno.png"; sourceTree = "<group>"; };
+		A96B44BF27C7D71F00F92281 /* Piazza San Francesco.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Piazza San Francesco.png"; sourceTree = "<group>"; };
+		A96B44C027C7D71F00F92281 /* Cittadella di giustizia.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Cittadella di giustizia.png"; sourceTree = "<group>"; };
+		A96B44C127C7D71F00F92281 /* Santuario di Maria Santissima Avvocata.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Santuario di Maria Santissima Avvocata.png"; sourceTree = "<group>"; };
+		A96B44C227C7D71F00F92281 /* Stadio Comunale Simonetta Lamberti.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Stadio Comunale Simonetta Lamberti.png"; sourceTree = "<group>"; };
+		A96B44C327C7D71F00F92281 /* Chiesa del Purgatorio.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Chiesa del Purgatorio.png"; sourceTree = "<group>"; };
+		A96B44C427C7D71F00F92281 /* Duomo di Cava.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Duomo di Cava.png"; sourceTree = "<group>"; };
+		A96B44D027C7D8AB00F92281 /* Castello di Sant'Adiutore.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Castello di Sant'Adiutore.png"; sourceTree = "<group>"; };
+		A96B44D227C7D8DC00F92281 /* Panchina per i diritti delle donne.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Panchina per i diritti delle donne.png"; sourceTree = "<group>"; };
 		A9D4D90227BBBC2D0055AFBC /* SmartTripModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SmartTripModel.xcdatamodel; sourceTree = "<group>"; };
 		A9D4D90427BBF3930055AFBC /* TestView.swift */ = {isa = PBXFileReference; indentWidth = 1; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; tabWidth = 1; };
 		A9D4D90627BBF9DE0055AFBC /* PersistanceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistanceController.swift; sourceTree = "<group>"; };
 		A9D4D90A27BC08180055AFBC /* colosseo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = colosseo.png; sourceTree = "<group>"; };
 		A9E7B06B27BD46A2008A6781 /* ARTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARTestView.swift; sourceTree = "<group>"; };
 		A9E7B06D27BD4E60008A6781 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		A9F9FFE127BEEFDC00A45781 /* eiffel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = eiffel.png; sourceTree = "<group>"; };
+		A9F9FFE127BEEFDC00A45781 /* unknown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unknown.png; sourceTree = "<group>"; };
 		A9F9FFE227BEEFDD00A45781 /* big-ben.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "big-ben.png"; sourceTree = "<group>"; };
 		F2FF6E7D27C5559B00FEEBB7 /* AnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -78,6 +107,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A96B44B927C7D28A00F92281 /* SwiftCSV in Frameworks */,
 				A9C38F9327C19BD0007937AA /* Algorithms in Frameworks */,
 				E2A8979D27C0F03A00BCF177 /* BottomSheet in Frameworks */,
 			);
@@ -123,6 +153,7 @@
 		174E5FF427B7ABA300846E78 /* smartTrip */ = {
 			isa = PBXGroup;
 			children = (
+				A96B44B527C7D17400F92281 /* luoghiSmartTrip.csv */,
 				A9E7B06D27BD4E60008A6781 /* Info.plist */,
 				A9D4D90827BC07F60055AFBC /* assets */,
 				A9E7B06B27BD46A2008A6781 /* ARTestView.swift */,
@@ -186,8 +217,21 @@
 		A9D4D90927BC08040055AFBC /* images */ = {
 			isa = PBXGroup;
 			children = (
+				A96B44D227C7D8DC00F92281 /* Panchina per i diritti delle donne.png */,
+				A96B44D027C7D8AB00F92281 /* Castello di Sant'Adiutore.png */,
+				A96B44BC27C7D71F00F92281 /* Abbazia della Santissima Trinità.png */,
+				A96B44BB27C7D71F00F92281 /* Biblioteca Cava.png */,
+				A96B44C327C7D71F00F92281 /* Chiesa del Purgatorio.png */,
+				A96B44C027C7D71F00F92281 /* Cittadella di giustizia.png */,
+				A96B44C427C7D71F00F92281 /* Duomo di Cava.png */,
+				A96B44BD27C7D71F00F92281 /* Istituto Filangieri.png */,
+				A96B44BA27C7D71F00F92281 /* Municipio di Cava.png */,
+				A96B44BF27C7D71F00F92281 /* Piazza San Francesco.png */,
+				A96B44BE27C7D71F00F92281 /* Provincia di Salerno.png */,
+				A96B44C127C7D71F00F92281 /* Santuario di Maria Santissima Avvocata.png */,
+				A96B44C227C7D71F00F92281 /* Stadio Comunale Simonetta Lamberti.png */,
 				A9F9FFE227BEEFDD00A45781 /* big-ben.png */,
-				A9F9FFE127BEEFDC00A45781 /* eiffel.png */,
+				A9F9FFE127BEEFDC00A45781 /* unknown.png */,
 				A9D4D90A27BC08180055AFBC /* colosseo.png */,
 			);
 			path = images;
@@ -212,6 +256,7 @@
 			packageProductDependencies = (
 				E2A8979C27C0F03A00BCF177 /* BottomSheet */,
 				A9C38F9227C19BD0007937AA /* Algorithms */,
+				A96B44B827C7D28A00F92281 /* SwiftCSV */,
 			);
 			productName = smartTrip;
 			productReference = 174E5FF227B7ABA300846E78 /* smartTrip.app */;
@@ -288,6 +333,7 @@
 			packageReferences = (
 				E2A8979B27C0F03A00BCF177 /* XCRemoteSwiftPackageReference "BottomSheet" */,
 				A9C38F9127C19BD0007937AA /* XCRemoteSwiftPackageReference "swift-algorithms" */,
+				A96B44B727C7D28A00F92281 /* XCRemoteSwiftPackageReference "SwiftCSV" */,
 			);
 			productRefGroup = 174E5FF327B7ABA300846E78 /* Products */;
 			projectDirPath = "";
@@ -305,11 +351,25 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A9F9FFE327BEEFDD00A45781 /* eiffel.png in Resources */,
+				A9F9FFE327BEEFDD00A45781 /* unknown.png in Resources */,
 				174E5FFD27B7ABA400846E78 /* Preview Assets.xcassets in Resources */,
 				174E5FFA27B7ABA400846E78 /* Assets.xcassets in Resources */,
+				A96B44B627C7D17400F92281 /* luoghiSmartTrip.csv in Resources */,
+				A96B44D127C7D8AB00F92281 /* Castello di Sant'Adiutore.png in Resources */,
 				A9D4D90B27BC08180055AFBC /* colosseo.png in Resources */,
+				A96B44CF27C7D72000F92281 /* Duomo di Cava.png in Resources */,
+				A96B44C927C7D72000F92281 /* Provincia di Salerno.png in Resources */,
+				A96B44C527C7D72000F92281 /* Municipio di Cava.png in Resources */,
+				A96B44CC27C7D72000F92281 /* Santuario di Maria Santissima Avvocata.png in Resources */,
 				A9F9FFE427BEEFDD00A45781 /* big-ben.png in Resources */,
+				A96B44CB27C7D72000F92281 /* Cittadella di giustizia.png in Resources */,
+				A96B44CE27C7D72000F92281 /* Chiesa del Purgatorio.png in Resources */,
+				A96B44D327C7D8DC00F92281 /* Panchina per i diritti delle donne.png in Resources */,
+				A96B44CA27C7D72000F92281 /* Piazza San Francesco.png in Resources */,
+				A96B44C827C7D72000F92281 /* Istituto Filangieri.png in Resources */,
+				A96B44CD27C7D72000F92281 /* Stadio Comunale Simonetta Lamberti.png in Resources */,
+				A96B44C627C7D72000F92281 /* Biblioteca Cava.png in Resources */,
+				A96B44C727C7D72000F92281 /* Abbazia della Santissima Trinità.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -506,7 +566,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"smartTrip/Preview Content\"";
-				DEVELOPMENT_TEAM = K8WJKQA676;
+				DEVELOPMENT_TEAM = MQT646MU2N;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = smartTrip/Info.plist;
@@ -525,7 +585,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = it.unisa.applefoundationprogram.12.1.explore;
+				PRODUCT_BUNDLE_IDENTIFIER = it.unisa.applefoundationprogram.12.1.antonio;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -542,7 +602,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"smartTrip/Preview Content\"";
-				DEVELOPMENT_TEAM = K8WJKQA676;
+				DEVELOPMENT_TEAM = MQT646MU2N;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = smartTrip/Info.plist;
@@ -561,7 +621,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = it.unisa.applefoundationprogram.12.1.explore;
+				PRODUCT_BUNDLE_IDENTIFIER = it.unisa.applefoundationprogram.12.1.antonio;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -687,6 +747,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		A96B44B727C7D28A00F92281 /* XCRemoteSwiftPackageReference "SwiftCSV" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/swiftcsv/SwiftCSV.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		A9C38F9127C19BD0007937AA /* XCRemoteSwiftPackageReference "swift-algorithms" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apple/swift-algorithms.git";
@@ -706,6 +774,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		A96B44B827C7D28A00F92281 /* SwiftCSV */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A96B44B727C7D28A00F92281 /* XCRemoteSwiftPackageReference "SwiftCSV" */;
+			productName = SwiftCSV;
+		};
 		A9C38F9227C19BD0007937AA /* Algorithms */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = A9C38F9127C19BD0007937AA /* XCRemoteSwiftPackageReference "swift-algorithms" */;
