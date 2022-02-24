@@ -193,8 +193,11 @@ struct PersistanceController{
             item.type = 0
             item.rarity = 0
             item.previewImage = UIImage(named: "\(row["Nome"]!).png")?.pngData() ?? UIImage(named: "unknown.png")?.pngData()
-            item.p3Ddata = Bundle.main.url(forResource: "colosseo", withExtension: "usdz")
-            item.city=row["Citta"]!
+            item.city = row["Citta"]!
+            item.category = "Chiesa"
+            if let p3Ddata = Bundle.main.url(forResource: "\(row["Nome"]!)", withExtension: "usdz") {
+                item.p3Ddata = p3Ddata
+            }
             
             let collected = CollectedItem(context: context)
             collected.id = UUID()
