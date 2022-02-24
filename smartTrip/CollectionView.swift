@@ -6,14 +6,13 @@
 //
 
 import SwiftUI
+import CoreData
 import SceneKit
 
 struct CollectionView: View {
     @Environment(\.managedObjectContext) private var viewContext
-    //@FetchRequest<CollectableItem>(entity: CollectableItem.entity(), sortDescriptors: []) var collectableItems: FetchedResults<CollectableItem>
-    @FetchRequest<CollectedItem>(entity: CollectedItem.entity(), sortDescriptors: []) var collectedItems: FetchedResults<CollectedItem>
     @State var selectedItem: CollectableItem? = nil
-    
+    @State var selectedFilter: FilteringMethod = FilteringMethod.DEFAULT
     var body: some View {
         let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())] // 3 colonne
         
@@ -23,23 +22,13 @@ struct CollectionView: View {
             ZStack {
                 if screenHeight > screenWidth { //layout verticale
                     VStack(alignment: .center, content: {
-
                         HeaderView(item: selectedItem)
-                        
-                        FilterBar()
+                        FilterBar(selectedFilter:$selectedFilter)
                             .padding(.horizontal)
                         
                         ScrollView{
                             LazyVGrid(columns: columns){
-                                ForEach(collectedItems){ citem in
-                                    Button(action:{
-                                        // Show tapped image in circle
-                                        selectedItem = citem.item
-                                    }){
-                                        ItemView(item: citem.item!)
-                                    }
-                                    .buttonStyle(ItemButtonStyle(cornerRadius: 20))
-                                }
+                                FilteredItems(filter: selectedFilter.predicate, selectedItem: $selectedItem)
                             }.padding(.all)
                         }
                     })
@@ -48,15 +37,7 @@ struct CollectionView: View {
                         HeaderView(item: selectedItem)
                         ScrollView{
                             LazyVGrid(columns: columns){
-                                ForEach(collectedItems){ citem in
-                                    Button(action:{
-                                        // Show tapped image in circle
-                                        selectedItem = citem.item!
-                                    }){
-                                        ItemView(item: citem.item!)
-                                    }
-                                    .buttonStyle(ItemButtonStyle(cornerRadius: 20))
-                                }
+                                FilteredItems(filter: selectedFilter.predicate, selectedItem: $selectedItem)
                             }.padding(.all)
                         }
                     })
@@ -88,8 +69,6 @@ struct HeaderView: View{
     @State var showingDetailsView = false
     @State var showingARView = false
     
-    
-    
     var item: CollectableItem?
     var isSelectedItemNull: Binding<Bool>
     var hasSelectedItemModel: Binding<Bool>
@@ -102,17 +81,12 @@ struct HeaderView: View{
     var body: some View{
         VStack{
             if item?.collectedItem != nil {
-                
                 Group{
                     if let p3Ddata=item!.p3Ddata {
                         try! SceneView(scene: SCNScene(url: p3Ddata) , options: [.autoenablesDefaultLighting, .allowsCameraControl])
-                        
                     } else {
                         Image(uiImage: UIImage(data: item!.previewImage!)!)
-                            .resizable()
-                           
-                        
-                    }
+                            .resizable()                    }
                 }
 //                .resizable()
                 .frame(width: 170, height: 170)
@@ -165,12 +139,6 @@ struct HeaderView: View{
                         Text("AR View")
                     }
                 }
-                
-                
-                
-                
-                
-                
                 if (item != nil){
                     VStack{
                         NavigationLink(destination: DetailsView(item: self.item!), label: {
@@ -199,8 +167,6 @@ struct HeaderView: View{
                         Text("Info")
                     }
                 }
-                
-                
             }
         }
         .frame(height:280)
@@ -209,25 +175,78 @@ struct HeaderView: View{
 }
 
 struct FilterBar: View{
-    
     @Environment(\.managedObjectContext) private var viewContext
+    @Binding var selectedFilter: FilteringMethod
+    
+     var filteringMethods: [FilteringMethod] {
+        FilteringMethod.generateFilteringMethods(context: viewContext)
+     }
     
     var body: some View{
-        
-        
-        Menu{
-            Text("Prova")
-            
-            
-            
-            
-            
-        }label: {
-            Text("Trey")
+        Menu(){
+            let methods = filteringMethods
+            ForEach(methods){ method in
+                Button(action: {
+                    selectedFilter = methods[method.id]
+                }, label: {Text("\(method.name)")})
+            }
+        } label: {
+            Text(selectedFilter.name)
         }
     }
 }
 
+struct FilteringMethod: Identifiable{
+    let id: Int
+    let name: String
+    let predicate: NSPredicate?
+    
+    static let DEFAULT = FilteringMethod(id: 0,name:"Nessun Filtro",predicate: nil)
+    
+    static func generateFilteringMethods(context: NSManagedObjectContext) -> [FilteringMethod]{
+        var methods: [FilteringMethod] = [self.DEFAULT]
+        let req = NSFetchRequest<CollectedItem>(entityName: "CollectedItem")
+        //req.predicate = NSPredicate(format: "collectedItem != nil")
+        //req.propertiesToFetch = [NSArray arrayWithObjects:@"item.city", nil]
+        req.returnsDistinctResults = true
+        let cities = try! context.fetch(req).map({$0.item!.city!})
+        var i = 1
+        for city in cities {
+            methods.append(
+                FilteringMethod(id: i,
+                                name: city,
+                                predicate: NSPredicate(format: "item.city == %@",city))
+            )
+            i = i + 1
+        }
+        return methods
+    }
+}
+
+struct FilteredItems: View {
+    @FetchRequest var fetchedItems: FetchedResults<CollectedItem>
+    @Binding var selectedItem: CollectableItem?
+    
+    init(filter: NSPredicate?, selectedItem: Binding<CollectableItem?>){
+        _fetchedItems = FetchRequest<CollectedItem>(
+            entity: CollectedItem.entity(),
+            sortDescriptors: [],
+            predicate:filter
+        )
+        self._selectedItem = selectedItem
+    }
+    var body: some View {
+        ForEach(fetchedItems){ citem in
+            Button(action:{
+                // Show tapped image in circle
+                selectedItem = citem.item
+            }){
+                ItemView(item: citem.item!)
+            }
+            .buttonStyle(ItemButtonStyle(cornerRadius: 20))
+        }
+    }
+}
 
 struct ItemView: View {
     @Environment(\.colorScheme) var colorScheme

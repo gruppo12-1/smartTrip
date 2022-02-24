@@ -96,9 +96,9 @@ func createArrayofPlace(arrayOfPlaceUndiscovered: [UndiscoveredPlace], viewModel
     
     for element in arrayOfPlaceUndiscovered{
         
-        let temp = MKMapPoint(viewModel.locationManager?.location!.coordinate ?? CLLocationCoordinate2D.init(latitude: 0, longitude: 0) ).distance(to: MKMapPoint(element.location))
+        let tempDistance = MKMapPoint(viewModel.locationManager?.location!.coordinate ?? CLLocationCoordinate2D.init(latitude: 0, longitude: 0) ).distance(to: MKMapPoint(element.location))
         
-        myArray.append((element, temp))
+        myArray.append((element, tempDistance))
     }
     
     myArray = myArray.sorted(by: {$0.distanza < $1.distanza})
@@ -106,7 +106,7 @@ func createArrayofPlace(arrayOfPlaceUndiscovered: [UndiscoveredPlace], viewModel
     var newArray: [UndiscoveredPlace] = []
     
     for element in myArray{
-        print("\(element.distanza)")
+//        print("\(element.distanza)")
         newArray.append(element.posto)
     }
     return newArray
@@ -115,6 +115,10 @@ func createArrayofPlace(arrayOfPlaceUndiscovered: [UndiscoveredPlace], viewModel
 
 
 func createView(element: UndiscoveredPlace, viewModel: MapViewModel) -> some View {
+    
+    let tempDistance = MKMapPoint(viewModel.locationManager?.location!.coordinate ?? CLLocationCoordinate2D.init(latitude: 0, longitude: 0) ).distance(to: MKMapPoint(element.location))
+    
+    
     return VStack{
         Text("\(element.item.name ?? "Senza nome")")
             .font(.title3)
@@ -123,7 +127,13 @@ func createView(element: UndiscoveredPlace, viewModel: MapViewModel) -> some Vie
         .resizable()
         .aspectRatio(contentMode: .fit)
         .frame(width: 70, height: 70, alignment:  .center)
-        Text("\(Double(( MKMapPoint(viewModel.locationManager?.location!.coordinate ?? CLLocationCoordinate2D.init(latitude: 0, longitude: 0) ).distance(to: MKMapPoint(element.location)))/1000), specifier: "%.2f") Km")
+        if tempDistance < 1000{
+            Text("\(Double(tempDistance), specifier: "%.0f") m")
+        }else{
+            Text("\(Double(tempDistance/1000), specifier: "%.2f") Km")
+        }
+        
+        
         /*
          La riga sopra sembra funzionare ma è da tenere d'occhio, in teoria non uscità mai la CLLocation(0,0) perchè l'elemento viene computato ma poi eliminato dalla view immediatamente
          */
@@ -153,24 +163,27 @@ struct BodyContent: View {
     }
 
     var body: some View {
-
+        
+        
+    
         ScrollView(Axis.Set.horizontal, showsIndicators: true){
             HStack (spacing: 10){
+                
+                
+                
                 ForEach(createArrayofPlace(arrayOfPlaceUndiscovered: annotations, viewModel: viewModel) , id: \.id){ element in
                     Button(action:{
+                        viewModel.region = MKCoordinateRegion(center: element.location, latitudinalMeters: 1000.0, longitudinalMeters: 1000.0)
                         
                     }){
                         GeometryReader{ geometry in
+                            createView(element: element, viewModel: viewModel)
                             
-                                createView(element: element, viewModel: viewModel).onTapGesture {
-                                    print("Hanno toccato \(element.item.name ?? "Errore nel tocco")") //Funzionaaaaa associa il tocco ad ogni elemento
-                                    viewModel.region = MKCoordinateRegion(center: element.location, latitudinalMeters: 1000.0, longitudinalMeters: 1000.0) // Sposto la mappa sull'elemento desiderato
-                                }
                                 .frame(width:geometry.size.width, height: geometry.size.height)
                                 .background(Color.blue.opacity(0.2))
                                 .clipShape(RoundedRectangle(cornerRadius: 20))
                                 .overlay(RoundedRectangle(cornerRadius: 20).stroke(Color.blue).shadow(radius: 40))
-                                .rotation3DEffect( Angle(degrees: Double ((geometry.frame (in: .global).minX - 20) / -20)), axis: (x: 0, y: 3, z: 0), anchor: .center , anchorZ: 0.0, perspective: 1.0)
+                                .rotation3DEffect(Angle(degrees: (Double(geometry.frame(in: .global).minX)) / -10), axis: (x:20.0, y:50.0, z:20.0))
                         }
                         .frame(width: 150, height: 160)
                         .padding(10)

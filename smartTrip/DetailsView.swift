@@ -9,8 +9,6 @@ import SwiftUI
 import CoreData
 import SceneKit
 
-
-
 struct DetailsView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
@@ -24,37 +22,28 @@ struct DetailsView: View {
     
     var body: some View {
             GeometryReader { geo in
-                let hz = geo.frame(in: .global).height
-                let vt = geo.frame(in: .global).width
+                let screenHeight = geo.frame(in: .global).height
+                let screenWidth = geo.frame(in: .global).width
                 ZStack {
                     
-                    if hz > vt {
-                        
-                        
+                    if screenHeight > screenWidth {
                         VStack(alignment: .center, content: {
-                            
                             if(unlocked){
                                 
                                 Group{
                                     if let p3Ddata=item.p3Ddata {
                                         try! SceneView(scene: SCNScene(url: p3Ddata), options: [.autoenablesDefaultLighting,.allowsCameraControl])
-                                    
                                     } else {
                                         Image(uiImage: UIImage(data: item.previewImage!)!)
                                             .resizable()
                                             .scaledToFit()
-                                        
-                                        
                                     }
                                 }
                                 .frame(height: 250, alignment: .center)
                                 .padding()
-                                
-                                
                             }else{
                                 
                             }
-                            
                             VStack(alignment: .leading){
                                 
                                 if(unlocked){
@@ -77,7 +66,6 @@ struct DetailsView: View {
                                     .padding(.top, -10.0)
                                     
                                 }else{
-                                    
                                     Text("Non hai ancora sbloccato questo contenuto.\n\nTorna sulla mappa e cerca l'obiettivo più vicino a te! 💪")
                                         .font(.title2)
                                         .foregroundColor(Color.blue)
@@ -155,15 +143,9 @@ struct DetailsView: View {
                     }
                 }
             }
-            
-            
             .navigationTitle("Info")
-        
         .navigationViewStyle(.stack)
     }
-    
-    
-    
 }
 
 
