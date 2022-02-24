@@ -167,10 +167,8 @@ struct BodyContent: View {
         
     
         ScrollView(Axis.Set.horizontal, showsIndicators: true){
-            HStack (spacing: 10){
-                
-                
-                
+            HStack (spacing: 5){
+
                 ForEach(createArrayofPlace(arrayOfPlaceUndiscovered: annotations, viewModel: viewModel) , id: \.id){ element in
                     Button(action:{
                         viewModel.region = MKCoordinateRegion(center: element.location, latitudinalMeters: 1000.0, longitudinalMeters: 1000.0)
@@ -183,7 +181,7 @@ struct BodyContent: View {
                                 .background(Color.blue.opacity(0.2))
                                 .clipShape(RoundedRectangle(cornerRadius: 20))
                                 .overlay(RoundedRectangle(cornerRadius: 20).stroke(Color.blue).shadow(radius: 40))
-                                .rotation3DEffect(Angle(degrees: (Double(geometry.frame(in: .global).minX)) / -10), axis: (x:20.0, y:50.0, z:20.0))
+                                .rotation3DEffect(Angle(degrees: (Double(geometry.frame(in: .global).minX)) / -10), axis: (x:0, y:10.0, z:0))
                         }
                         .frame(width: 150, height: 160)
                         .padding(10)
