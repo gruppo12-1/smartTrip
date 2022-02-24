@@ -83,7 +83,13 @@ struct HeaderView: View{
             if item?.collectedItem != nil {
                 Group{
                     if let p3Ddata=item!.p3Ddata {
-                        try! SceneView(scene: SCNScene(url: p3Ddata) , options: [.autoenablesDefaultLighting, .allowsCameraControl])
+                        SceneView(
+                            scene: {
+                                let scene = try! SCNScene(url: p3Ddata)
+                                scene.background.contents = UIColor.systemBackground
+                                return scene
+                            }(),
+                            options: [.autoenablesDefaultLighting,.allowsCameraControl])
                     } else {
                         Image(uiImage: UIImage(data: item!.previewImage!)!)
                             .resizable()                    }

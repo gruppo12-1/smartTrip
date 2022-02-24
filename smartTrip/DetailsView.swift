@@ -32,7 +32,13 @@ struct DetailsView: View {
                                 
                                 Group{
                                     if let p3Ddata=item.p3Ddata {
-                                        try! SceneView(scene: SCNScene(url: p3Ddata), options: [.autoenablesDefaultLighting,.allowsCameraControl])
+                                        SceneView(
+                                            scene: {
+                                                let scene = try! SCNScene(url: p3Ddata)
+                                                scene.background.contents = UIColor.systemBackground 
+                                                return scene
+                                            }(),
+                                            options: [.autoenablesDefaultLighting,.allowsCameraControl])
                                     } else {
                                         Image(uiImage: UIImage(data: item.previewImage!)!)
                                             .resizable()
@@ -155,7 +161,7 @@ struct DetailsView_Previews: PreviewProvider {
     static var item = { () -> CollectableItem in
         let context = PersistanceController.preview.container.viewContext
         let req = NSFetchRequest<CollectableItem>(entityName: "CollectableItem") //nota
-        req.predicate = NSPredicate(format:"name LIKE %@","Torre Eiffel")
+        req.predicate = NSPredicate(format:"name LIKE %@","Colosseo")
         let res = try! context.fetch(req)
         return res.first!
     }()
@@ -163,6 +169,7 @@ struct DetailsView_Previews: PreviewProvider {
     static var previews: some View {
         
         DetailsView(item: item)
+            .preferredColorScheme(.dark)
             .previewInterfaceOrientation(.portrait)
     }
 }
