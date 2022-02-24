@@ -83,10 +83,10 @@ struct HeaderView: View{
             if item?.collectedItem != nil {
                 Image(uiImage: UIImage(data: item!.previewImage!)!)
                     .resizable()
-                .frame(width: 170, height: 170)
-                .clipShape(Circle())
-                .overlay(Circle().stroke())
-                .padding()
+                    .frame(width: 170, height: 170)
+                    .clipShape(Circle())
+                    .overlay(Circle().stroke())
+                    .padding()
 //                Image(uiImage: UIImage(data: item!.previewImage!)!)
 //                    .resizable()
 //                    .frame(width: 170, height: 170)
@@ -138,14 +138,11 @@ struct HeaderView: View{
                                 Image(systemName: "info.circle")
                                     .resizable()
                                     .frame(width: 40, height: 40)
-                                
-                                
                             }
-                            
                         } )
                         Text("Info")
                     }
-                }else{
+                } else {
                     VStack{
                         Button(action: {
                             // Show Info
@@ -202,16 +199,18 @@ struct FilteringMethod: Identifiable{
         //req.propertiesToFetch = [NSArray arrayWithObjects:@"item.city", nil]
         req.propertiesToFetch = ["item"]
         req.returnsDistinctResults = true
-        let cities = try! context.fetch(req).map({$0.item!.city!})
-        var i = 1
-        for city in Set(cities) {
-            methods.append(
-                FilteringMethod(id: i,
-                                name: city,
-                                predicate: NSPredicate(format: "item.city == %@",city))
-            )
-            i = i + 1
-        }
+        do{
+            let cities = try context.fetch(req).map({$0.item!.city!})
+            var i = 1
+            for city in Set(cities) {
+                methods.append(
+                    FilteringMethod(id: i,
+                                    name: city,
+                                    predicate: NSPredicate(format: "item.city == %@",city))
+                )
+                i = i + 1
+            }
+        } catch{}
         return methods
     }
 }

@@ -183,6 +183,7 @@ struct PersistanceController{
     private static func readFromCSV(context: NSManagedObjectContext, path: URL){
         let csv = try! CSV(url: path,delimiter: ";")
         print(csv.header)
+        var i = 0
         for row in csv.namedRows {
             let item = CollectableItem(context: context)
             item.id = UUID()
@@ -198,11 +199,13 @@ struct PersistanceController{
             if let p3Ddata = Bundle.main.url(forResource: "\(row["Nome"]!)", withExtension: "usdz") {
                 item.p3Ddata = p3Ddata
             }
-            
-            let collected = CollectedItem(context: context)
-            collected.id = UUID()
-            collected.dateCollected = Date()
-            collected.item = item
+            if i%2 == 0 {
+                let collected = CollectedItem(context: context)
+                collected.id = UUID()
+                collected.dateCollected = Date()
+                collected.item = item
+            }
+            i = i + 1
         }
     }
 }
