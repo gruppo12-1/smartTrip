@@ -161,7 +161,7 @@ struct DetailsView_Previews: PreviewProvider {
     static var item = { () -> CollectableItem in
         let context = PersistanceController.preview.container.viewContext
         let req = NSFetchRequest<CollectableItem>(entityName: "CollectableItem") //nota
-        req.predicate = NSPredicate(format:"name LIKE %@","Colosseo")
+        req.predicate = NSPredicate(format:"name LIKE %@","Provincia di Salerno")
         let res = try! context.fetch(req)
         return res.first!
     }()
