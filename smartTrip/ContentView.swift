@@ -64,7 +64,7 @@ struct ContentView: View {
                                             .dragIndicatorColor(Color.red),
                                             .cornerRadius(25),
                                         ],
-                                        headerContent:{BottomBar()})
+                                        headerContent:{BottomBar(viewModel: viewModel)})
                             {BodyContent(annotations: $annotations, viewModel: viewModel)}
                                 Rectangle().opacity(0)
                         })
@@ -77,7 +77,7 @@ struct ContentView: View {
                                             .dragIndicatorColor(Color.red),
                                             .cornerRadius(25),
                                         ],
-                                        headerContent:{BottomBar()})
+                                        headerContent:{BottomBar(viewModel: viewModel)})
                             {BodyContent(annotations: $annotations, viewModel: viewModel)}
                         })
                     }
@@ -196,7 +196,16 @@ struct BodyContent: View {
 
 struct BottomBar: View{
     
+    
+    
+    @ObservedObject private var viewModel: MapViewModel
+    
     @State var showSheet: Bool = false
+    
+    
+    init (viewModel: MapViewModel) {
+        self.viewModel = viewModel
+    }
     
     var body: some View{
         HStack{
@@ -207,16 +216,20 @@ struct BottomBar: View{
                             .frame(width: 45, height: 45)
                         Text("Collezione")
                     }
-                })
+            })
+                .padding(.leading, 50.0)
             Spacer()
-            NavigationLink(destination: AccountView(), label: {
-                    VStack{
-                        Image(systemName: "gearshape.fill")
-                            .resizable()
-                            .frame(width: 45, height: 45)
-                        Text("Impostazioni")
-                    }
-                })
+            Button(action: {
+                viewModel.region = MKCoordinateRegion(center: viewModel.locationManager!.location!.coordinate, latitudinalMeters: 1000.0, longitudinalMeters: 1000.0)
+            }, label: {
+                VStack{
+                    Image(systemName: "location.circle.fill")
+                        .resizable()
+                        .frame(width: 45, height: 45)
+                    Text("Centra Mappa")
+                }
+            })
+                .padding(.trailing, 50.0)
         }
     }
     
