@@ -6,6 +6,7 @@
 //
 import CoreData
 import SwiftUI
+import SwiftCSV
 
 struct PersistanceController{
     static let shared = PersistanceController() //Singleton. Sto costruendo la classe stessa!!!
@@ -28,7 +29,7 @@ struct PersistanceController{
     static var preview: PersistanceController = { //Parte extra per gestire le preview.
         let result = PersistanceController(inMemory: true) //Inizializza un contenitore volatile con elementi fittizzi
         let viewContext = result.container.viewContext
-        generateDummyContent(context: viewContext)
+        readFromCSV(context: viewContext,path: Bundle.main.url(forResource: "luoghiSmartTrip", withExtension: "csv")!)
         do{
             try viewContext.save()
         } catch {
@@ -177,5 +178,28 @@ struct PersistanceController{
         collected2.id = UUID()
         collected2.dateCollected = Date()
         collected2.item = item2
+    }
+    
+    private static func readFromCSV(context: NSManagedObjectContext, path: URL){
+        let csv = try! CSV(url: path,delimiter: ";")
+        print(csv.header)
+        for row in csv.namedRows {
+            let item = CollectableItem(context: context)
+            item.id = UUID()
+            item.name = row["Nome"]!
+            item.desc = row["Descrizione"]!
+            item.latitude = Float(row["Latitudine"]!)!
+            item.longitude = Float(row["Longitudine"]!)!
+            item.type = 0
+            item.rarity = 0
+            item.previewImage = UIImage(named: "\(row["Nome"]!).png")?.pngData() ?? UIImage(named: "unknown.png")?.pngData()
+            item.p3Ddata = Bundle.main.url(forResource: "colosseo", withExtension: "usdz")
+            item.city=row["Citta"]!
+            
+            let collected = CollectedItem(context: context)
+            collected.id = UUID()
+            collected.dateCollected = Date()
+            collected.item = item
+        }
     }
 }
