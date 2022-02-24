@@ -83,7 +83,7 @@ struct ContentView: View {
                     }
                 }
             }
-            .navigationTitle("Map")
+            .navigationTitle("Mappa")
             .navigationBarHidden(true)
         }
         .navigationViewStyle(.stack)
@@ -205,7 +205,7 @@ struct BottomBar: View{
                         Image(systemName: "folder.circle.fill")
                             .resizable()
                             .frame(width: 45, height: 45)
-                        Text("Collection")
+                        Text("Collezione")
                     }
                 })
             Spacer()
@@ -214,7 +214,7 @@ struct BottomBar: View{
                         Image(systemName: "gearshape.fill")
                             .resizable()
                             .frame(width: 45, height: 45)
-                        Text("Settings")
+                        Text("Impostazioni")
                     }
                 })
         }

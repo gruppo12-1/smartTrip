@@ -44,7 +44,7 @@ struct CollectionView: View {
                 }
             }
         }
-        .navigationTitle("My Collection")
+        .navigationTitle("La mia collezione")
         .navigationBarTitleDisplayMode(.large)
     }
 }
@@ -129,7 +129,7 @@ struct HeaderView: View{
                             }
                             
                         } )
-                        Text("AR View")
+                        Text("Vista AR")
                     }
                 }else{
                     VStack{
@@ -142,7 +142,7 @@ struct HeaderView: View{
                                 .frame(width: 40, height: 45)
                         })
                             .disabled(true)
-                        Text("AR View")
+                        Text("Vista AR")
                     }
                 }
                 if (item != nil){
