@@ -57,19 +57,26 @@ struct ContentView: View {
                     MapView(annotations: $annotations , context: viewContext, mapViewModel: viewModel).ignoresSafeArea()
                     if screenHeight < screenWidth { //layout orizzontale
                         HStack(alignment: .center, content: {
-                                Rectangle().opacity(0)
-                                    .bottomSheet(
-                                        bottomSheetPosition: $bottomSheetPositionH,
-                                        options: [
-                                            .dragIndicatorColor(Color.red),
-                                            .cornerRadius(25),
-                                        ],
-                                        headerContent:{BottomBar(viewModel: viewModel)})
+                            
+                            Rectangle().opacity(0)
+                                .bottomSheet(
+                                    bottomSheetPosition: $bottomSheetPositionH,
+                                    options: [
+                                        .dragIndicatorColor(Color.red),
+                                        .cornerRadius(25),
+                                    ],
+                                    headerContent:{BottomBar(viewModel: viewModel)})
                             {BodyContent(annotations: $annotations, viewModel: viewModel)}
+                            
+                            ZStack{
                                 Rectangle().opacity(0)
+//                                avvisoOverlay(opacita: 0.0).body
+                            }
+                            
                         })
                     } else { //layout verticale
-                        HStack(alignment: .center, content: {
+                        ZStack{
+                            HStack(alignment: .center, content: {
                                 Rectangle().opacity(0)
                                     .bottomSheet(
                                         bottomSheetPosition: $bottomSheetPosition,
@@ -78,9 +85,12 @@ struct ContentView: View {
                                             .cornerRadius(25),
                                         ],
                                         headerContent:{BottomBar(viewModel: viewModel)})
-                            {BodyContent(annotations: $annotations, viewModel: viewModel)}
-                        })
+                                {BodyContent(annotations: $annotations, viewModel: viewModel)}
+                            })
+//                            avvisoOverlay(opacita: 0.0).body
+                        }
                     }
+                    
                 }
             }
             .navigationTitle("Mappa")
@@ -88,6 +98,49 @@ struct ContentView: View {
         }
         .navigationViewStyle(.stack)
     }
+}
+
+
+struct avvisoOverlay{
+    
+    
+    @State private var opacity = 1.0
+    
+    
+    init(opacita: Double){
+        self.opacity=opacita
+    }
+    
+    var body: some View{
+        
+        
+
+            VStack{
+                Rectangle()
+                    .fill(Color.white)
+                    .shadow(color: Color.black, radius: 10)
+                    .frame(height: 75)
+                    .cornerRadius(10)
+                    .overlay(
+                        HStack{
+                            Image(systemName: "globe.europe.africa.fill")
+                                .resizable()
+                                .frame(width: 45, height: 45)
+                                .padding(.trailing)
+                            Text("Usa il menù ed esplora la città!")
+                        }
+                            .padding()
+                    )
+                    .padding([.top, .leading, .trailing])
+                
+                Spacer()
+            }.opacity(opacity)
+            
+        
+        
+       
+    }
+   
 }
 
 func createArrayofPlace(arrayOfPlaceUndiscovered: [UndiscoveredPlace], viewModel: MapViewModel) -> [UndiscoveredPlace]{
@@ -106,7 +159,7 @@ func createArrayofPlace(arrayOfPlaceUndiscovered: [UndiscoveredPlace], viewModel
     var newArray: [UndiscoveredPlace] = []
     
     for element in myArray{
-//        print("\(element.distanza)")
+        //        print("\(element.distanza)")
         newArray.append(element.posto)
     }
     return newArray
@@ -124,9 +177,9 @@ func createView(element: UndiscoveredPlace, viewModel: MapViewModel) -> some Vie
             .font(.title3)
             .scaledToFit()
         Image(systemName: "questionmark")
-        .resizable()
-        .aspectRatio(contentMode: .fit)
-        .frame(width: 70, height: 70, alignment:  .center)
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .frame(width: 70, height: 70, alignment:  .center)
         if tempDistance < 1000{
             Text("\(Double(tempDistance), specifier: "%.0f") m")
         }else{
@@ -152,7 +205,7 @@ struct BodyContent: View {
     
     
     
-     
+    
     
     init(annotations: Binding<[UndiscoveredPlace]>, viewModel : MapViewModel){
         
@@ -161,14 +214,14 @@ struct BodyContent: View {
         
         
     }
-
+    
     var body: some View {
         
         
-    
+        
         ScrollView(Axis.Set.horizontal, showsIndicators: true){
             HStack (spacing: 5){
-
+                
                 ForEach(createArrayofPlace(arrayOfPlaceUndiscovered: annotations, viewModel: viewModel) , id: \.id){ element in
                     Button(action:{
                         viewModel.region = MKCoordinateRegion(center: element.location, latitudinalMeters: 1000.0, longitudinalMeters: 1000.0)
@@ -187,7 +240,7 @@ struct BodyContent: View {
                         .padding(10)
                     }
                     .padding(.vertical, 30.0)
-
+                    
                 }
             }
         }.padding(0.1)
@@ -210,15 +263,17 @@ struct BottomBar: View{
     var body: some View{
         HStack{
             NavigationLink(destination: CollectionView(), label: {
-                    VStack{
-                        Image(systemName: "folder.circle.fill")
-                            .resizable()
-                            .frame(width: 45, height: 45)
-                        Text("Collezione")
-                    }
+                VStack{
+                    Image(systemName: "folder.circle.fill")
+                        .resizable()
+                        .frame(width: 45, height: 45)
+                    Text("Collezione")
+                }
             })
                 .padding(.leading, 50.0)
             Spacer()
+            
+            
             Button(action: {
                 viewModel.region = MKCoordinateRegion(center: viewModel.locationManager!.location!.coordinate, latitudinalMeters: 1000.0, longitudinalMeters: 1000.0)
             }, label: {
@@ -273,9 +328,9 @@ struct MapView: View {
     let context : NSManagedObjectContext
     
     @State var placeDiscovered : UndiscoveredPlace?
-
+    
     @State private var selectedPlace: UndiscoveredPlace?
-
+    
     @State private var userTrackingMode: MapUserTrackingMode = .follow
     
     init(annotations:Binding<[UndiscoveredPlace]> , context: NSManagedObjectContext , mapViewModel: MapViewModel){
@@ -291,8 +346,8 @@ struct MapView: View {
                     selectedPlace = place
                 }){
                     AnnotationView()
-                    .scaleEffect(selectedPlace == place ? 1.2 : 0.7)
-                    .shadow(radius: 10)
+                        .scaleEffect(selectedPlace == place ? 1.2 : 0.7)
+                        .shadow(radius: 10)
                 }
             }
         }
@@ -301,11 +356,11 @@ struct MapView: View {
         }
         .onReceive(timer){ _ in
             let returned  = viewModel.checkLocation(locations: annotations , context: context)
-                if returned > -1 {
-                  placeDiscovered = annotations.remove(at: returned)
-                  showingSheet.toggle()
-//                        print("Ho Raccolto un oggetto \(placeDiscovered?.item.name)")
-                }
+            if returned > -1 {
+                placeDiscovered = annotations.remove(at: returned)
+                showingSheet.toggle()
+                //                        print("Ho Raccolto un oggetto \(placeDiscovered?.item.name)")
+            }
         }
         .alert(isPresented: $showingSheet) {
             Alert(title: Text("\(placeDiscovered!.item.name  ?? "Unknown item")"), message: Text("Clicca sul tuo inventario per ottenere maggiori informazioni"), dismissButton: Alert.Button.default(Text("Ok")))
@@ -328,8 +383,8 @@ struct SheetView: View{
     
     var body : some View{
         VStack{
-        Text("Hai sbloccato un nuovo item!!!")
-//            Image(uiImage: UIImage(data: element.item.previewImage!)!).frame(width: 30, height: 30, alignment: .center)
+            Text("Hai sbloccato un nuovo item!!!")
+            //            Image(uiImage: UIImage(data: element.item.previewImage!)!).frame(width: 30, height: 30, alignment: .center)
             Text("\(element!.name ?? "Ogetto senza nome")")
         }
         
@@ -379,7 +434,7 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-//        print(locations)
+        //        print(locations)
     }
     
     func checkLocation(locations: [UndiscoveredPlace] , context: NSManagedObjectContext)-> Int{
@@ -399,7 +454,7 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
                     } catch {
                         print(error.localizedDescription)
                     }
-                 return i
+                    return i
                 }
                 i = i+1
             }
@@ -407,7 +462,7 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
         return -1
     }
     
- 
+    
     
     func queryForId( locationId: UUID, context: NSManagedObjectContext)-> CollectableItem?{
         let req = NSFetchRequest<CollectableItem>(entityName: "CollectableItem") //Richiedo items al database
