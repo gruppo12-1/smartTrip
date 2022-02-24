@@ -16,6 +16,8 @@ import CoreData
 func mapMarker()->[UndiscoveredPlace]{
     let context = PersistanceController.preview.container.viewContext
     let req = NSFetchRequest<CollectableItem>(entityName: "CollectableItem") //Richiedo items al database
+    req.predicate = NSPredicate(format: "collectedItem == nil")
+    
     let res = try! context.fetch(req)
     
     var locationArray = [UndiscoveredPlace]()
@@ -173,7 +175,7 @@ func createView(element: UndiscoveredPlace, viewModel: MapViewModel) -> some Vie
     
     
     return VStack{
-        Text("\(element.item.name ?? "Senza nome")")
+        Text("\(element.item.category ?? "Categoria Sconosciuta")")
             .font(.title3)
             .scaledToFit()
         Image(systemName: "questionmark")
