@@ -81,26 +81,12 @@ struct HeaderView: View{
     var body: some View{
         VStack{
             if item?.collectedItem != nil {
-                Group{
-                    if let p3Ddata=item!.p3Ddata {
-                        SceneView(
-                            scene: {
-                                let scene = try! SCNScene(url: p3Ddata)
-                                scene.background.contents = UIColor.systemBackground
-                                return scene
-                            }(),
-                            options: [.autoenablesDefaultLighting,.allowsCameraControl])
-                    } else {
-                        Image(uiImage: UIImage(data: item!.previewImage!)!)
-                            .resizable()                    }
-                }
-//                .resizable()
+                Image(uiImage: UIImage(data: item!.previewImage!)!)
+                    .resizable()
                 .frame(width: 170, height: 170)
                 .clipShape(Circle())
                 .overlay(Circle().stroke())
                 .padding()
-                
-                
 //                Image(uiImage: UIImage(data: item!.previewImage!)!)
 //                    .resizable()
 //                    .frame(width: 170, height: 170)
@@ -214,10 +200,11 @@ struct FilteringMethod: Identifiable{
         let req = NSFetchRequest<CollectedItem>(entityName: "CollectedItem")
         //req.predicate = NSPredicate(format: "collectedItem != nil")
         //req.propertiesToFetch = [NSArray arrayWithObjects:@"item.city", nil]
+        req.propertiesToFetch = ["item"]
         req.returnsDistinctResults = true
         let cities = try! context.fetch(req).map({$0.item!.city!})
         var i = 1
-        for city in cities {
+        for city in Set(cities) {
             methods.append(
                 FilteringMethod(id: i,
                                 name: city,
@@ -272,10 +259,10 @@ struct ItemView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(height:80)
-                    Text(item.name!)
+                    /*Text(item.name!)
                         .font(.subheadline)
                         .fontWeight(.semibold)
-                        .foregroundColor(colorScheme == .dark ? Color.white.opacity(0.9) : Color.black.opacity(0.9))
+                        .foregroundColor(colorScheme == .dark ? Color.white.opacity(0.9) : Color.black.opacity(0.9))*/
                 }else{
                     Image(systemName: "questionmark")
                         .resizable()
